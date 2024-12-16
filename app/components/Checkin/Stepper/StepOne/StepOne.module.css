@@ -1,0 +1,301 @@
+.stepContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  background-color: #f5f5f5;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 15px 0;
+}
+
+.stepOneTitle {
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin: 1rem 0 1rem 0;
+}
+
+.stepOneDescription {
+  font-size: 1rem;
+  font-weight: 300;
+  margin: 0 0 1rem 0;
+}
+
+.stepOneFeatures {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+  margin: 0 0 1.5rem 0;
+}
+
+.stepOneFeatures div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepOneIcon {
+  font-size: 1.3rem;
+  margin: 0 0.5rem 0 0;
+  color: #00b215;
+}
+
+.stepOneFeatures div p {
+  font-size: 0.9rem;
+  font-weight: 300;
+}
+
+.stepOneForm {
+  width: 100%;
+  margin: 0 0 2rem 0;
+}
+
+.stepOneFormInputs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+  column-gap: 20px;
+}
+
+.stepOneFormInputs div {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
+}
+
+.stepOneFormInputs div input {
+  padding: 1rem 0 1rem 0.5rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ccc;
+  border-radius: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.stepOneFormInputs div input::placeholder {
+  color: #ccc;
+}
+
+.stepOneFormInputs div input:focus {
+  outline: none;
+  border: 1px solid #00b215;
+}
+
+.stepOneFormInputs div label {
+  font-size: 0.8rem;
+  font-weight: 300;
+}
+
+.stepOneFormButtons {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0 0 0;
+  gap: 1rem;
+}
+
+.stepOneFormButtons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem; /* Adjust the gap between the icon and text as needed */
+  padding: 0.6rem 3rem;
+  border: none;
+  border-radius: 0.3rem;
+  font-size: 1rem;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.googleButtonIcon {
+  font-size: 1.2rem;
+}
+
+.stepOneFormButtons .withoutLoginButton {
+  background-color: #fefefe;
+  color: #f4511e;
+  border: 1px solid #e53611;
+}
+
+.stepOneFormButtons .withoutLoginButton:hover {
+  background-color: #e53611;
+  color: #fefefe;
+}
+
+.stepOneFormButtons .googleLoginButton {
+  background-color: #fefefe;
+  color: #545454;
+  border: 0.3px solid #afafaf;
+}
+
+.stepOneFormButtons .googleLoginButton:hover {
+  background-color: #afafaf;
+  color: #fefefe;
+}
+
+.stepOneFormButtons .createAccountButton {
+  background-color: #f4511e;
+  color: #fff;
+}
+
+.stepOneFormButtons .createAccountButton:hover {
+  background-color: #d63e1a;
+  color: #fff;
+}
+
+@media screen and (max-width: 1288px) {
+  .stepOneFormInputs div {
+    display: flex;
+    flex-direction: column;
+    padding: 0 0.5rem;
+  }
+
+  .stepOneFormInputs div input {
+    padding: 0.9rem 0 0.9rem 0.5rem;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+  }
+
+  .stepOneFormInputs div input::placeholder {
+    font-size: 0.9rem;
+  }
+
+  .stepOneFormInputs div label {
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .stepOneFeatures {
+    width: 80%;
+  }
+
+  .stepOneFormInputs {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stepOneFormInputs div {
+    padding: 0 0.5rem;
+  }
+
+  .stepOneIcon {
+    font-size: 1.2rem;
+  }
+
+  .stepOneFeatures div p {
+    font-size: 0.8rem;
+  }
+
+  .stepOneFormInputs div label {
+    font-size: 0.8rem;
+  }
+
+  .stepOneFormInputs div input {
+    padding: 0.9rem 0 0.9rem 0.5rem;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+  }
+
+  .stepOneFormInputs div input::placeholder {
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .stepOneFeatures {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 930px) {
+  .stepOneFormButtons button {
+    padding: 0.5rem 1.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .stepOneFormButtons {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+
+  .stepOneFormButtons button {
+    padding: 0.5rem 1.5rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .stepOneTitle {
+    font-size: 1.4rem;
+  }
+
+  .stepOneDescription {
+    font-size: 0.9rem;
+  }
+
+  .stepOneIcon {
+    font-size: 1.1rem;
+  }
+
+  .stepOneFeatures div p {
+    font-size: 0.7rem;
+  }
+
+  .stepOneFormInputs div label {
+    font-size: 0.7rem;
+  }
+
+  .stepOneFormInputs div input {
+    padding: 0.8rem 0 0.8rem 0.5rem;
+    margin: 0.5rem 0;
+    font-size: 0.8rem;
+  }
+
+  .stepOneFormInputs div input::placeholder {
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .stepOneTitle {
+    font-size: 1.2rem;
+  }
+
+  .stepOneDescription {
+    font-size: 0.8rem;
+  }
+
+  .stepOneFeatures {
+    grid-template-columns: 1fr;
+  }
+
+  .stepOneFormInputs {
+    grid-template-columns: 1fr;
+  }
+
+  .stepOneFormInputs div {
+    padding: 0.5rem;
+  }
+
+  .stepOneIcon {
+    font-size: 1rem;
+  }
+
+  .stepOneFeatures div p {
+    font-size: 0.7rem;
+  }
+
+  .stepOneFormInputs div label {
+    font-size: 0.7rem;
+  }
+
+  .stepOneFormInputs div input {
+    padding: 0.8rem 0 0.8rem 0.5rem;
+    margin: 0.5rem 0;
+    font-size: 0.8rem;
+  }
+
+  .stepOneFormInputs div input::placeholder {
+    font-size: 0.8rem;
+  }
+}

@@ -1,0 +1,226 @@
+.stepContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepTitle {
+  font-size: 1.6rem;
+  font-weight: 400;
+  text-align: center;
+  margin: 0 0 0.5rem 0;
+}
+
+.stepLegendTitle {
+  font-size: 1.6rem;
+  font-weight: 400;
+  text-align: center;
+}
+
+.stepDescription {
+  font-size: 1rem;
+  font-weight: 300;
+  margin: 0.2rem 0 1.4rem 0;
+  text-align: center;
+}
+
+.stepFormContainer {
+  width: 100%;
+  margin: 2rem 0 0 0;
+}
+
+.stepFormContainer fieldset {
+  border: none;
+  margin: 0 0 1.2rem 0;
+}
+
+.stepAgeRange {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.2rem 0;
+  gap: 6rem;
+}
+
+.stepAgeRange div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.stepAgeRange input[type='checkbox'] {
+  margin-right: 0.5rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.stepAgeRange label {
+  font-size: 0.9rem;
+  font-weight: 300;
+}
+
+.stepFormInputs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+}
+
+.stepFormInputs div {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 1rem;
+}
+
+.stepFormInputs div input,
+.stepFormInputs div select {
+  padding: 1rem 0 1rem 0.5rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ccc;
+  border-radius: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.stepFormInputs div select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000000'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E")
+    no-repeat;
+  background-position: right 0.7em top 50%, 0 0;
+  background-size: 1.5em auto, 100%;
+}
+
+.stepFormInputs div select::-ms-expand {
+  display: none;
+}
+
+.stepFormInputs div label {
+  font-size: 0.8rem;
+  font-weight: 300;
+}
+
+.stepCards {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4rem;
+  padding: 15px 0;
+  width: 100%;
+}
+
+.stepCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  border-radius: 0.5rem;
+  background-color: #f5f5f5;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
+
+.stepCard h3 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin: 0;
+  text-align: center;
+}
+
+.stepCard button {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #f4511e;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.figureImage {
+  width: 180px;
+  height: 220px;
+  position: relative;
+  margin: 0;
+}
+
+.figureImage img {
+  width: 100%;
+  height: 100%;
+}
+
+.stepUsersContainer {
+  background-color: #f6f6f6;
+  max-width: 75rem;
+  min-width: 30rem;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.stepUserRegister {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.stepUserRegister div {
+  display: flex;
+  align-items: center;
+}
+
+.iconButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.iconButton svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #343330; /* Adjust the color as needed */
+}
+
+.iconAddPerson svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #343330;
+}
+
+.userName {
+  font-size: 1rem;
+  font-weight: 300;
+  margin-left: 0.5rem;
+}
+
+.registerButton {
+  background-color: #fefefe;
+  color: #f4511e;
+  border: 1px solid #e53611;
+  padding: 0.5rem 5rem;
+  border-radius: 0.3rem;
+  font-size: 1rem;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.registerButton:hover {
+  background-color: #f4511e;
+  color: #fefefe;
+}
+
+.nextStepButton {
+  background-color: #f4511e;
+  color: #fefefe;
+  border: none;
+  padding: 0.5rem 5rem;
+  border-radius: 0.3rem;
+  font-size: 1rem;
+  font-weight: 300;
+  cursor: pointer;
+  margin: 2rem 0 4rem 0;
+}
