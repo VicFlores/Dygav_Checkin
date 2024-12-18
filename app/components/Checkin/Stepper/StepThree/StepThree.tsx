@@ -150,16 +150,7 @@ export const StepThree = ({ validate }: StepProps) => {
             </div>
 
             <div>
-              <label htmlFor='country'>País</label>
-              <input
-                id='country'
-                type='text'
-                placeholder='Número de soporte del documento'
-              />
-            </div>
-
-            <div>
-              <label htmlFor='countrySelect'>Selecciona tu País</label>
+              <label htmlFor='countrySelect'>País</label>
               <select id='countrySelect'>
                 <option value=''>Selecciona tu País</option>
                 <option value='ES'>España</option>
