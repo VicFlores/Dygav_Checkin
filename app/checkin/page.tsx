@@ -1,12 +1,8 @@
+import { Checkin } from '@/app/components';
 import React from 'react';
-import { Checkin } from '../components';
 
 const CheckinPage = () => {
-  return (
-    <>
-      <Checkin />
-    </>
-  );
+  return <Checkin />;
 };
 
 export default CheckinPage;

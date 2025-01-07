@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { PiUserCheck } from 'react-icons/pi';
 import { BsSpeedometer2 } from 'react-icons/bs';
@@ -53,7 +55,7 @@ export const Home = () => {
               placeholder='Ingresa tu codigo unico de reserva'
             />
 
-            <button>Buscar Reserva</button>
+            <button type='submit'>Buscar Reserva</button>
           </form>
         </div>
       </div>

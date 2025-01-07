@@ -25,6 +25,20 @@
   text-align: center;
 }
 
+.error {
+  color: #ff4d4f;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 0.5rem 0 1rem 0;
+  text-align: center;
+  display: block;
+}
+
+.error::before {
+  content: '⚠ ';
+  margin-right: 0.25rem;
+}
+
 .stepFormContainer {
   width: 100%;
   margin: 2rem 0 0 0;
@@ -33,6 +47,7 @@
 .stepFormContainer fieldset {
   border: none;
   margin: 0 0 1.2rem 0;
+  text-align: center;
 }
 
 .stepAgeRange {
@@ -49,7 +64,7 @@
   margin-bottom: 0.5rem;
 }
 
-.stepAgeRange input[type='checkbox'] {
+.stepAgeRange input[type='radio'] {
   margin-right: 0.5rem;
   width: 1rem;
   height: 1rem;
@@ -82,6 +97,17 @@
   font-size: 0.9rem;
 }
 
+.disabled {
+  background-color: #f0f0f0;
+  color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+select:disabled {
+  background-color: #f0f0f0;
+  color: #a0a0a0;
+}
+
 .stepFormInputs div select {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -99,59 +125,6 @@
 .stepFormInputs div label {
   font-size: 0.8rem;
   font-weight: 300;
-}
-
-.stepCards {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  padding: 15px 0;
-  width: 100%;
-}
-
-.stepCard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 15px;
-  border-radius: 0.5rem;
-  background-color: #f5f5f5;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-width: 300px;
-  min-width: 250px;
-}
-
-.stepCard h3 {
-  font-size: 1.5rem;
-  font-weight: 400;
-  margin: 0;
-  text-align: center;
-}
-
-.stepCard button {
-  margin-top: 1rem;
-  width: 100%;
-  padding: 0.6rem;
-  border: none;
-  border-radius: 4px;
-  background-color: #f4511e;
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: 400;
-  cursor: pointer;
-}
-
-.figureImage {
-  width: 180px;
-  height: 220px;
-  position: relative;
-  margin: 0;
-}
-
-.figureImage img {
-  width: 100%;
-  height: 100%;
 }
 
 .stepUsersContainer {
@@ -283,10 +256,6 @@
 
   .stepLegendTitle {
     font-size: 1.4rem;
-  }
-
-  .stepDescription {
-    font-size: 0.9rem;
   }
 
   .stepDescription {

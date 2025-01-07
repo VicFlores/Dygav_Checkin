@@ -179,3 +179,10 @@
     font-size: 12px;
   }
 }
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin: 0;
+  text-align: center;
+}
