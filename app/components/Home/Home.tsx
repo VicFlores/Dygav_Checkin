@@ -15,7 +15,11 @@ interface FormValues {
 }
 
 export const Home: React.FC = () => {
-  const { register, handleSubmit } = useForm<FormValues>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
@@ -93,15 +97,23 @@ export const Home: React.FC = () => {
             <input
               type='text'
               placeholder='Ingresa tu codigo unico de reserva'
-              {...register('reservationCode')}
+              {...register('reservationCode', {
+                required: 'Reservation code is required',
+              })}
             />
+
+            {errors.reservationCode && (
+              <p className={styles.error}>{errors.reservationCode.message}</p>
+            )}
 
             <button type='submit' disabled={loading}>
               {loading ? 'Buscando...' : 'Buscar Reserva'}
             </button>
           </form>
 
-          {message && <p>{message}</p>}
+          {message && (
+            <p className={styles.reservationCodeMessage}>{message}</p>
+          )}
         </div>
       </div>
     </section>

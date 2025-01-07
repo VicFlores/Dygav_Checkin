@@ -115,10 +115,11 @@
   }
 }
 
-.reservationCode p {
-  font-size: 14px;
+.reservationCodeMessage {
+  font-size: 15px;
   font-weight: 400;
-  margin: 0;
+  margin: 10px 0;
+  text-align: center;
 
   @media screen and (max-width: 768px) {
     font-size: 12px;
@@ -182,7 +183,7 @@
 
 .error {
   color: red;
-  font-size: 14px;
-  margin: 0;
+  font-size: 15px;
+  margin-bottom: 12px;
   text-align: center;
 }
