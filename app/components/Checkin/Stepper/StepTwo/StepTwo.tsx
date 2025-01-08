@@ -5,11 +5,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './StepTwo.module.css';
 import Image from 'next/image';
-import {
-  facialRecognition,
-  findReservationById,
-  insertGuest,
-} from '@/utils/helpers';
+import { findReservationById, insertGuest } from '@/utils/helpers';
 import { AxiosError } from 'axios';
 import { useSearchParams } from 'next/navigation';
 
@@ -28,12 +24,12 @@ export const StepTwo = ({ validate }: StepProps) => {
   const [isMatch, setIsMatch] = useState<boolean | null>(null);
   const searchParams = useSearchParams();
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async () => {
     setErrorMessage(null);
     setIsMatch(null);
 
     try {
-      await facialRecognition(data.idCard[0], data.profilePic[0]);
+      // await facialRecognition(data.idCard[0], data.profilePic[0]);
 
       const reservationInfo = await findReservationById(
         searchParams.get('reservationCode') as string
