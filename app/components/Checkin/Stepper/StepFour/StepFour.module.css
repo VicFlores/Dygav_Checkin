@@ -1,9 +1,38 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.stepFieldset {
+  border: none;
+  padding: 0;
+  margin: 1rem 0 0 0;
+}
+
+.nextStepButton {
+  background-color: #f4511e;
+  color: #fefefe;
+  border: none;
+  padding: 0.5rem 5rem;
+  border-radius: 0.3rem;
+  font-size: 1rem;
+  font-weight: 300;
+  cursor: pointer;
+  margin: 2rem 0 4rem 0;
+  align-self: center;
+  justify-self: center;
+}
+
 .stepLegendTitle {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin: 0;
+  text-align: center;
 }
 
 .stepDescription {
-  font-size: 0.9rem;
+  font-size: 1rem;
+  text-align: center;
 }
 
 .stepCards {
@@ -57,4 +86,50 @@
 .figureImage img {
   width: 100%;
   height: 100%;
+}
+
+@media (max-width: 768px) {
+  .stepCards {
+    flex-direction: column;
+  }
+
+  .stepCard {
+    margin: 1rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .stepCard {
+    min-width: 200px;
+  }
+
+  .stepCard h3 {
+    font-size: 1.1rem;
+  }
+
+  .stepCard button {
+    font-size: 0.9rem;
+  }
+
+  .stepLegendTitle {
+    font-size: 1.4rem;
+  }
+
+  .stepDescription {
+    font-size: 0.9rem;
+  }
+
+  .nextStepButton {
+    padding: 0.5rem 3rem;
+    font-size: 0.9rem;
+  }
+
+  .stepCard p {
+    font-size: 0.9rem;
+  }
+
+  .figureImage {
+    width: 150px;
+    height: 180px;
+  }
 }

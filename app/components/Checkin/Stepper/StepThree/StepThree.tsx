@@ -107,11 +107,14 @@ export const StepThree = ({ validate }: StepProps) => {
 
       setTravellersByGuest(travellers.data);
 
-      validate(false);
       reset();
     } catch (error) {
       console.log('Error inserting traveller:', error);
     }
+  };
+
+  const handleValidation = () => {
+    validate(true);
   };
 
   return (
@@ -404,7 +407,11 @@ export const StepThree = ({ validate }: StepProps) => {
         </div>
       </form>
 
-      <button type='submit' className={styles.nextStepButton}>
+      <button
+        type='submit'
+        onClick={handleValidation}
+        className={styles.nextStepButton}
+      >
         Siguiente paso
       </button>
 

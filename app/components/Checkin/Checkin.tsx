@@ -31,7 +31,7 @@ const steps: CheckinStepper[] = [
   },
   {
     title: 'Paso 4',
-    subtitle: 'Pago de fianza',
+    subtitle: 'Firma electronica',
     content: (validate) => <StepFour validate={validate} />,
     completed: false,
   },

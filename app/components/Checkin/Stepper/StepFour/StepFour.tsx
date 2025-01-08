@@ -22,7 +22,7 @@ export const StepFour = ({ validate }: StepProps) => {
   const handleValidation = () => {
     // Perform validation logic here
 
-    const isValid = true; // Replace with actual validation logic
+    const isValid = false; // Replace with actual validation logic
 
     validate(isValid);
   };
@@ -49,13 +49,13 @@ export const StepFour = ({ validate }: StepProps) => {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <form>
-        <fieldset>
+        <fieldset className={styles.stepFieldset}>
           <legend className={styles.stepLegendTitle}>Firma del viajero</legend>
 
           <p className={styles.stepDescription}>
-            El viajero a ingresar debe de insertar su firma electronica
+            Cada uno de los viajeros debe ingresar su firma electronica
           </p>
 
           <div className={styles.stepCards}>
@@ -133,7 +133,9 @@ export const StepFour = ({ validate }: StepProps) => {
         </fieldset>
       </form>
 
-      <button onClick={handleValidation}>Validate Step One</button>
+      <button className={styles.nextStepButton} onClick={handleValidation}>
+        Continuar
+      </button>
     </div>
   );
 };
