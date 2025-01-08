@@ -301,6 +301,10 @@
     font-size: 1rem;
   }
 
+  .stepFormInputs div input[type='date'] {
+    width: 100%;
+  }
+
   .stepFormContainer fieldset {
     padding: 0;
   }
