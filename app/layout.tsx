@@ -8,18 +8,17 @@ export const metadata: Metadata = {
 };
 
 const oswald = Oswald({
-  weight: ['400', '700'],
-  display: 'swap',
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
 });
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en' className={oswald.className}>
-      <body>{children}</body>
+    <html lang='en'>
+      <body className={oswald.className}>{children}</body>
     </html>
   );
 }
