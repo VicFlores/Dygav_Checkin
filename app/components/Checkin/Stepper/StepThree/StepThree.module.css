@@ -288,7 +288,9 @@
 
 @media screen and (max-width: 480px) {
   .stepFormInputs {
-    grid-template-columns: repeat(1, 1fr);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .stepFormInputs div {
@@ -328,6 +330,7 @@
 
   .stepFormInputs div label {
     font-size: 0.6rem;
+    text-align: start;
   }
 
   .stepLegendTitle {
