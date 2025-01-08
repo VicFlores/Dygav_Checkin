@@ -48,6 +48,10 @@ export const StepFour = ({ validate }: StepProps) => {
     setValue('signature', id);
   };
 
+  const handleShareLink = () => {
+    // Share link logic here
+  };
+
   return (
     <div className={styles.container}>
       <form>
@@ -127,7 +131,9 @@ export const StepFour = ({ validate }: StepProps) => {
                 su firma electronica
               </p>
 
-              <button>Compartir link unico</button>
+              <button type='button' onClick={handleShareLink}>
+                Compartir link unico
+              </button>
             </div>
           </div>
         </fieldset>
