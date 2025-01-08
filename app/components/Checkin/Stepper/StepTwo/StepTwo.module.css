@@ -15,11 +15,6 @@
 }
 
 /* StepTwo.module.css */
-.errorMessage {
-  color: red;
-  font-weight: bold;
-  font-size: 0.5rem;
-}
 
 .stepCard {
   display: flex;
@@ -31,6 +26,26 @@
   background-color: #f5f5f5;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 350px;
+}
+
+.stepCard.error {
+  border: 2px solid red;
+  background-color: #ffe6e6;
+}
+
+.stepCard.success {
+  border: 2px solid rgb(17, 191, 17);
+  background-color: #edfded;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 1.1rem;
+}
+
+.successMessage {
+  color: rgb(16, 171, 16);
+  font-size: 1.1rem;
 }
 
 .stepCard h3 {
