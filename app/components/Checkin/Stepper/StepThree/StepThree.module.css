@@ -39,6 +39,11 @@
   margin-right: 0.25rem;
 }
 
+.centerButtonContainer {
+  display: flex;
+  justify-content: center;
+}
+
 .stepFormContainer {
   width: 100%;
   margin: 2rem 0 0 0;
