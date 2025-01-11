@@ -22,6 +22,8 @@ export const StepTwo = ({ validate }: StepProps) => {
   } = useForm<FormData>();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isMatch, setIsMatch] = useState<boolean | null>(null);
+  const [idCardUploaded, setIdCardUploaded] = useState<boolean>(false);
+  const [profilePicUploaded, setProfilePicUploaded] = useState<boolean>(false);
   const searchParams = useSearchParams();
 
   const onSubmit = async () => {
@@ -86,9 +88,14 @@ export const StepTwo = ({ validate }: StepProps) => {
 
             <label className={styles.customFileUpload}>
               Subir foto
-              <input type='file' {...register('idCard', { required: true })} />
+              <input
+                type='file'
+                {...register('idCard', { required: true })}
+                onChange={() => setIdCardUploaded(true)}
+              />
             </label>
 
+            {idCardUploaded && <span className={styles.checkmark}>✔</span>}
             {errors.idCard && <span>Este campo es obligatorio</span>}
           </div>
 
@@ -118,9 +125,11 @@ export const StepTwo = ({ validate }: StepProps) => {
               <input
                 type='file'
                 {...register('profilePic', { required: true })}
+                onChange={() => setProfilePicUploaded(true)}
               />
             </label>
 
+            {profilePicUploaded && <span className={styles.checkmark}>✔</span>}
             {errors.profilePic && <span>Este campo es obligatorio</span>}
           </div>
         </div>
