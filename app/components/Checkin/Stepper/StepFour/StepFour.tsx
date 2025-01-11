@@ -1,25 +1,61 @@
 'use client';
 
 import { StepProps } from '@/interfaces';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ModalSignature } from './ModalSignature/ModalSignature';
 import { QRSignature } from './QRSignature/QRSignature';
-import { v4 as uuidv4 } from 'uuid';
 import styles from './StepFour.module.css';
 import { SignatureCards } from './SignatureCards/SignatureCards';
+import { useSearchParams } from 'next/navigation';
+import {
+  findGuestByReservation,
+  findTravellersByGuestId,
+} from '@/utils/helpers';
 
 type Inputs = {
   signature: string;
 };
 
+interface Traveller {
+  idtraveller: number;
+  names: string;
+  lastnames: string;
+}
+
 export const StepFour = ({ validate }: StepProps) => {
+  const [travellersByGuest, setTravellersByGuest] = useState<Traveller[]>([]);
+  const [selectedTraveller, setSelectedTraveller] = useState<Traveller | null>(
+    null
+  );
   const [modalState, setModalState] = useState({
     showSignatureModal: false,
     qrCodeUrl: '',
   });
-
+  const searchParams = useSearchParams();
   const { setValue } = useForm<Inputs & { ageRange: string }>();
+
+  useEffect(() => {
+    if (searchParams.has('reservationCode')) {
+      const fetchGuestByReservation = async () => {
+        try {
+          const getGuestByReservation = await findGuestByReservation(
+            searchParams.get('reservationCode') as string
+          );
+
+          const travellers = await findTravellersByGuestId(
+            getGuestByReservation.data[0].idguest
+          );
+
+          setTravellersByGuest(travellers.data);
+        } catch (error) {
+          console.log('Error fetching guest by reservation:', error);
+        }
+      };
+
+      fetchGuestByReservation();
+    }
+  }, [searchParams]);
 
   const handleValidation = () => {
     const isValid = false; // Replace with actual validation logic
@@ -27,21 +63,37 @@ export const StepFour = ({ validate }: StepProps) => {
   };
 
   const handleSaveSignature = (dataURL: string) => {
+    if (!selectedTraveller) {
+      alert('Please select a traveler first.');
+      return;
+    }
+
     setValue('signature', dataURL);
-    console.log(dataURL); // You can save this data URL to your server or state
+
+    console.log('Traveller Info:', selectedTraveller);
+    console.log('Signature Data URL:', dataURL);
+
+    // Integrate your service to upload the signature image here
+    // Example:
+    // uploadSignature(dataURL, selectedTraveller);
   };
 
   const handleButtonClick = (type: string) => {
+    if (!selectedTraveller) {
+      alert('Please select a traveler first.');
+      return;
+    }
+
+    console.log('Selected Traveller:', selectedTraveller);
+
     if (type === 'signature') {
       setModalState({ ...modalState, showSignatureModal: true });
     } else if (type === 'qrCode') {
-      const id = uuidv4();
+      const url = `http://localhost:3000/checkin/qr-code?travelerId=${selectedTraveller.idtraveller}`;
 
-      const url = `http://localhost:3000/checkin/qr-code?travelerId=${id}`; // Replace with your actual URL
+      console.log('QR Code URL:', url);
 
       setModalState({ ...modalState, qrCodeUrl: url });
-
-      setValue('signature', id);
     } else if (type === 'shareLink') {
       // Share link logic here
     }
@@ -49,6 +101,13 @@ export const StepFour = ({ validate }: StepProps) => {
 
   const handleCloseSignaturePad = () => {
     setModalState({ ...modalState, showSignatureModal: false });
+  };
+
+  const handleTravellerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const traveller = travellersByGuest.find(
+      (t) => t.idtraveller === parseInt(e.target.value)
+    );
+    setSelectedTraveller(traveller || null);
   };
 
   return (
@@ -59,6 +118,24 @@ export const StepFour = ({ validate }: StepProps) => {
           <p className={styles.stepDescription}>
             Cada uno de los viajeros debe ingresar su firma electronica
           </p>
+
+          <div className={styles.travellerList}>
+            <h3>Selecciona un viajero:</h3>
+            <select
+              className={styles.travellerSelect}
+              onChange={handleTravellerChange}
+            >
+              <option value=''>Seleccione un viajero</option>
+              {travellersByGuest.map((traveller) => (
+                <option
+                  key={traveller.idtraveller}
+                  value={traveller.idtraveller}
+                >
+                  {traveller.names} {traveller.lastnames}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <div className={styles.stepCards}>
             <SignatureCards
