@@ -87,7 +87,7 @@ export const StepFour = ({ validate }: StepProps) => {
     if (type === 'signature') {
       setModalState({ ...modalState, showSignatureModal: true });
     } else if (type === 'qrCode') {
-      const url = `/checkin/signature?travelerId=${selectedTraveller.traveller_id}`;
+      const url = `https://dygav-checkin.vercel.app/checkin/signature?travelerId=${selectedTraveller.traveller_id}`;
 
       console.log('QR Code URL:', url);
 
