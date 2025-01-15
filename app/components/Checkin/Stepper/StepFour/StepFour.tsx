@@ -31,6 +31,7 @@ export const StepFour = ({ validate }: StepProps) => {
     showSignatureModal: false,
     qrCodeUrl: '',
   });
+  const [copied, setCopied] = useState(false);
   const searchParams = useSearchParams();
   const { setValue } = useForm<Inputs & { ageRange: string }>();
 
@@ -83,18 +84,20 @@ export const StepFour = ({ validate }: StepProps) => {
       return;
     }
 
-    console.log('Selected Traveller:', selectedTraveller);
-
     if (type === 'signature') {
       setModalState({ ...modalState, showSignatureModal: true });
     } else if (type === 'qrCode') {
-      const url = `http://localhost:3000/checkin/signature?travelerId=${selectedTraveller.traveller_id}`;
+      const url = `/checkin/signature?travelerId=${selectedTraveller.traveller_id}`;
 
       console.log('QR Code URL:', url);
 
       setModalState({ ...modalState, qrCodeUrl: url });
     } else if (type === 'shareLink') {
-      // Share link logic here
+      const url = `/checkin/signature?travelerId=${selectedTraveller.traveller_id}`;
+      navigator.clipboard.writeText(url).then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 4000);
+      });
     }
   };
 
@@ -172,7 +175,9 @@ export const StepFour = ({ validate }: StepProps) => {
               description='Si el viajero que se ha registrado se encuentra en una ubicacion diferente genera un link y comparteselo para que pueda realizar su firma electronica'
               buttonText='Compartir link unico'
               onClick={() => handleButtonClick('shareLink')}
-            />
+            >
+              {copied && <p className={styles.copiedMessage}>Link copiado!</p>}
+            </SignatureCards>
           </div>
         </fieldset>
       </form>

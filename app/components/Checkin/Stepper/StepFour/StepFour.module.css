@@ -90,6 +90,28 @@
   margin-top: 20px;
 }
 
+.copiedMessage {
+  color: #f4511e;
+  font-size: 1rem;
+  text-align: center;
+  opacity: 0;
+  animation: fadeInOut 4s forwards;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 @media (max-width: 768px) {
   .stepCards {
     flex-direction: column;
