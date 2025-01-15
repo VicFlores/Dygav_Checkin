@@ -8,13 +8,14 @@ interface TravellerData {
   document_number: string | null;
   document_number_support: string | null;
   document_type: string | null;
-  id_guest: number;
+  guest_id: number;
   kinship: string | null;
   lastnames: string;
   municipality: string;
   municipality_code: string;
   names: string;
-  phone_email: string;
+  phone: string;
+  email: string;
   zip_code: string;
 }
 

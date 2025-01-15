@@ -18,7 +18,7 @@ type Inputs = {
 };
 
 interface Traveller {
-  idtraveller: number;
+  traveller_id: number;
   names: string;
   lastnames: string;
 }
@@ -44,7 +44,7 @@ export const StepFour = ({ validate }: StepProps) => {
           );
 
           const travellers = await findTravellersByGuestId(
-            getGuestByReservation.data[0].idguest
+            getGuestByReservation.data[0].guest_id
           );
 
           setTravellersByGuest(travellers.data);
@@ -89,7 +89,7 @@ export const StepFour = ({ validate }: StepProps) => {
     if (type === 'signature') {
       setModalState({ ...modalState, showSignatureModal: true });
     } else if (type === 'qrCode') {
-      const url = `http://localhost:3000/checkin/qr-code?travelerId=${selectedTraveller.idtraveller}`;
+      const url = `http://localhost:3000/checkin/qr-code?travelerId=${selectedTraveller.traveller_id}`;
 
       console.log('QR Code URL:', url);
 
@@ -105,7 +105,7 @@ export const StepFour = ({ validate }: StepProps) => {
 
   const handleTravellerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const traveller = travellersByGuest.find(
-      (t) => t.idtraveller === parseInt(e.target.value)
+      (t) => t.traveller_id === parseInt(e.target.value)
     );
     setSelectedTraveller(traveller || null);
   };
@@ -128,8 +128,8 @@ export const StepFour = ({ validate }: StepProps) => {
               <option value=''>Seleccione un viajero</option>
               {travellersByGuest.map((traveller) => (
                 <option
-                  key={traveller.idtraveller}
-                  value={traveller.idtraveller}
+                  key={traveller.traveller_id}
+                  value={traveller.traveller_id}
                 >
                   {traveller.names} {traveller.lastnames}
                 </option>

@@ -23,6 +23,7 @@ interface FormData {
   documentSupport?: string | null;
   birthDate: string;
   email: string;
+  phone: string;
   kinship: string | null;
   address: string;
   cityCode: string;
@@ -32,11 +33,11 @@ interface FormData {
 }
 
 interface GuestInfo {
-  idguest: number;
+  guest_id: number;
 }
 
 interface Traveller {
-  idtraveller: number;
+  traveller_id: number;
   names: string;
   lastnames: string;
 }
@@ -45,7 +46,7 @@ export const StepThree = ({ validate }: StepProps) => {
   const searchParams = useSearchParams();
   const [travellersByGuest, setTravellersByGuest] = useState<Traveller[]>([]);
   const [guestInfo, setGuestInfo] = useState<GuestInfo>({
-    idguest: 0,
+    guest_id: 0,
   });
   const {
     register,
@@ -68,7 +69,7 @@ export const StepThree = ({ validate }: StepProps) => {
           setGuestInfo(getGuestByReservation.data[0]);
 
           const travellers = await findTravellersByGuestId(
-            getGuestByReservation.data[0].idguest
+            getGuestByReservation.data[0].guest_id
           );
 
           setTravellersByGuest(travellers.data);
@@ -91,18 +92,19 @@ export const StepThree = ({ validate }: StepProps) => {
         document_number: data.documentNumber || null,
         document_number_support: data.documentSupport || null,
         document_type: data.documentType || null,
-        id_guest: guestInfo.idguest,
+        guest_id: guestInfo.guest_id,
         kinship: data.kinship || null,
         lastnames: data.lastName,
         municipality: data.city,
         municipality_code: data.cityCode,
         names: data.firstName,
-        phone_email: data.email,
+        phone: data.phone,
+        email: data.email,
         zip_code: data.postalCode,
       });
 
       const travellers = await findTravellersByGuestId(
-        String(guestInfo.idguest)
+        String(guestInfo.guest_id)
       );
 
       setTravellersByGuest(travellers.data);
@@ -281,17 +283,32 @@ export const StepThree = ({ validate }: StepProps) => {
             </div>
 
             <div>
-              <label htmlFor='email'>Correo Electronico o Telefono</label>
+              <label htmlFor='email'>Correo Electronico</label>
               <input
                 id='email'
                 type='text'
-                placeholder='Escribe tu correo electronico o telefono'
+                placeholder='Escribe tu correo electronico'
                 {...register('email', {
-                  required: 'Correo Electronico o Telefono es requerido',
+                  required: 'Correo Electronico es requerido',
                 })}
               />
               {errors.email && (
                 <p className={styles.error}>{errors.email.message}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor='phone'>Telefono</label>
+              <input
+                id='phone'
+                type='text'
+                placeholder='Escribe tu telefono'
+                {...register('phone', {
+                  required: 'Telefono es requerido',
+                })}
+              />
+              {errors.phone && (
+                <p className={styles.error}>{errors.phone.message}</p>
               )}
             </div>
 
@@ -425,7 +442,7 @@ export const StepThree = ({ validate }: StepProps) => {
         {travellersByGuest.length > 0 ? (
           travellersByGuest.map((traveller) => (
             <div
-              key={traveller.idtraveller}
+              key={traveller.traveller_id}
               className={styles.stepUserRegister}
             >
               <div>
