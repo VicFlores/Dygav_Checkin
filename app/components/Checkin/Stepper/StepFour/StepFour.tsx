@@ -3,8 +3,6 @@
 import { StepProps } from '@/interfaces';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ModalSignature } from './ModalSignature/ModalSignature';
-import { QRSignature } from './QRSignature/QRSignature';
 import styles from './StepFour.module.css';
 import { SignatureCards } from './SignatureCards/SignatureCards';
 import { useSearchParams } from 'next/navigation';
@@ -12,6 +10,8 @@ import {
   findGuestByReservation,
   findTravellersByGuestId,
 } from '@/utils/helpers';
+import { ModalSignature } from '@/app/components/shared';
+import { QRCodeSVG } from 'qrcode.react';
 
 type Inputs = {
   signature: string;
@@ -160,7 +160,10 @@ export const StepFour = ({ validate }: StepProps) => {
               onClick={() => handleButtonClick('qrCode')}
             >
               {modalState.qrCodeUrl && (
-                <QRSignature url={modalState.qrCodeUrl} />
+                <QRCodeSVG
+                  className={styles.QRCode}
+                  value={modalState.qrCodeUrl}
+                />
               )}
             </SignatureCards>
 
