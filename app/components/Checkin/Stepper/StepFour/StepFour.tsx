@@ -93,7 +93,7 @@ export const StepFour = ({ validate }: StepProps) => {
 
       setModalState({ ...modalState, qrCodeUrl: url });
     } else if (type === 'shareLink') {
-      const url = `/checkin/signature?travelerId=${selectedTraveller.traveller_id}`;
+      const url = `https://dygav-checkin.vercel.app/checkin/signature?travelerId=${selectedTraveller.traveller_id}`;
       navigator.clipboard.writeText(url).then(() => {
         setCopied(true);
         setTimeout(() => setCopied(false), 4000);
