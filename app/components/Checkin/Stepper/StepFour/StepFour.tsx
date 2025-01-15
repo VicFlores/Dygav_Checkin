@@ -4,13 +4,12 @@ import { StepProps } from '@/interfaces';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './StepFour.module.css';
-import { SignatureCards } from './SignatureCards/SignatureCards';
 import { useSearchParams } from 'next/navigation';
 import {
   findGuestByReservation,
   findTravellersByGuestId,
 } from '@/utils/helpers';
-import { ModalSignature } from '@/app/components/shared';
+import { ModalSignature, SignatureCards } from '@/app/components/shared';
 import { QRCodeSVG } from 'qrcode.react';
 
 type Inputs = {
