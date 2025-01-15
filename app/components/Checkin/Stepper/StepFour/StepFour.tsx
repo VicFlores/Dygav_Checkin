@@ -89,7 +89,7 @@ export const StepFour = ({ validate }: StepProps) => {
     if (type === 'signature') {
       setModalState({ ...modalState, showSignatureModal: true });
     } else if (type === 'qrCode') {
-      const url = `http://localhost:3000/checkin/qr-code?travelerId=${selectedTraveller.traveller_id}`;
+      const url = `http://localhost:3000/checkin/signature?travelerId=${selectedTraveller.traveller_id}`;
 
       console.log('QR Code URL:', url);
 
