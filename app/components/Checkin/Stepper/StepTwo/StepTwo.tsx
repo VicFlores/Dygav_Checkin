@@ -68,7 +68,9 @@ export const StepTwo = ({ validate }: StepProps) => {
       validate(true);
     } catch (error) {
       if (error instanceof AxiosError && error.response?.status === 404) {
-        setErrorMessage('Las fotos no coinciden. Por favor, intenta de nuevo.');
+        setErrorMessage(
+          'Las fotos no coinciden o no se encontraron rostros. Por favor, intenta con otras fotos.'
+        );
       } else {
         setErrorMessage('An unexpected error occurred. Please try again.');
       }
