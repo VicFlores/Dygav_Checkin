@@ -286,10 +286,14 @@ export const StepThree = ({ validate }: StepProps) => {
               <label htmlFor='email'>Correo Electronico</label>
               <input
                 id='email'
-                type='text'
+                type='email'
                 placeholder='Escribe tu correo electronico'
                 {...register('email', {
                   required: 'Correo Electronico es requerido',
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                    message: 'Formato de correo electronico no valido',
+                  },
                 })}
               />
               {errors.email && (
@@ -305,6 +309,10 @@ export const StepThree = ({ validate }: StepProps) => {
                 placeholder='Escribe tu telefono'
                 {...register('phone', {
                   required: 'Telefono es requerido',
+                  pattern: {
+                    value: /^[0-9]+$/,
+                    message: 'Solo se permiten números',
+                  },
                 })}
               />
               {errors.phone && (
