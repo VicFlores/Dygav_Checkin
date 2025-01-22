@@ -57,6 +57,7 @@ export const StepThree = ({ validate }: StepProps) => {
   } = useForm<FormData>();
 
   const ageRange = watch('ageRange');
+  const documentType = watch('documentType');
 
   useEffect(() => {
     if (searchParams.has('reservationCode')) {
@@ -244,6 +245,13 @@ export const StepThree = ({ validate }: StepProps) => {
                     ageRange === 'child'
                       ? false
                       : 'Numero de documento es requerido',
+                  pattern:
+                    documentType === 'DNI'
+                      ? {
+                          value: /^[0-9]{8}[A-Z]$/,
+                          message: 'Formato de DNI no valido',
+                        }
+                      : undefined,
                 })}
                 disabled={ageRange === 'child'}
                 className={ageRange === 'child' ? styles.disabled : ''}
