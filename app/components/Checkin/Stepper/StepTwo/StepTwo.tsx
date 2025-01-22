@@ -1,11 +1,15 @@
 'use client';
 
 import { StepProps } from '@/interfaces';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './StepTwo.module.css';
 import Image from 'next/image';
-import { findReservationById, insertGuest } from '@/utils/helpers';
+import {
+  facialRecognition,
+  findReservationById,
+  insertGuest,
+} from '@/utils/helpers';
 import { AxiosError } from 'axios';
 import { useSearchParams } from 'next/navigation';
 
@@ -18,6 +22,7 @@ export const StepTwo = ({ validate }: StepProps) => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<FormData>();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -26,12 +31,23 @@ export const StepTwo = ({ validate }: StepProps) => {
   const [profilePicUploaded, setProfilePicUploaded] = useState<boolean>(false);
   const searchParams = useSearchParams();
 
-  const onSubmit = async () => {
+  const idCard = watch('idCard');
+  const profilePic = watch('profilePic');
+
+  useEffect(() => {
+    setIdCardUploaded(idCard && idCard.length > 0);
+  }, [idCard]);
+
+  useEffect(() => {
+    setProfilePicUploaded(profilePic && profilePic.length > 0);
+  }, [profilePic]);
+
+  const onSubmit = async (data: FormData) => {
     setErrorMessage(null);
     setIsMatch(null);
 
     try {
-      // await facialRecognition(data.idCard[0], data.profilePic[0]);
+      await facialRecognition(data.idCard[0], data.profilePic[0]);
 
       const reservationInfo = await findReservationById(
         searchParams.get('reservationCode') as string
@@ -89,11 +105,7 @@ export const StepTwo = ({ validate }: StepProps) => {
 
             <label className={styles.customFileUpload}>
               Subir foto
-              <input
-                type='file'
-                {...register('idCard', { required: true })}
-                onChange={() => setIdCardUploaded(true)}
-              />
+              <input type='file' {...register('idCard', { required: true })} />
             </label>
 
             {idCardUploaded && <span className={styles.checkmark}>✔</span>}
@@ -126,7 +138,6 @@ export const StepTwo = ({ validate }: StepProps) => {
               <input
                 type='file'
                 {...register('profilePic', { required: true })}
-                onChange={() => setProfilePicUploaded(true)}
               />
             </label>
 
