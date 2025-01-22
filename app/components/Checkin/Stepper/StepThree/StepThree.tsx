@@ -66,13 +66,13 @@ export const StepThree = ({ validate }: StepProps) => {
             searchParams.get('reservationCode') as string
           );
 
-          setGuestInfo(getGuestByReservation.data[0]);
+          setGuestInfo(getGuestByReservation);
 
           const travellers = await findTravellersByGuestId(
-            getGuestByReservation.data[0].guest_id
+            getGuestByReservation.guest_id
           );
 
-          setTravellersByGuest(travellers.data);
+          setTravellersByGuest(travellers);
         } catch (error) {
           console.log('Error fetching guest by reservation:', error);
         }

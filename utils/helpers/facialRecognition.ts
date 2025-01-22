@@ -3,10 +3,10 @@ import checkinAPI from '../config/axiosConfig';
 export const facialRecognition = async (image1: File, image2: File) => {
   try {
     const formData = new FormData();
-    formData.append('image1', image1);
-    formData.append('image2', image2);
+    formData.append('source_image ', image1);
+    formData.append('target_image ', image2);
 
-    const response = await checkinAPI.post('/facial/recognition', formData, {
+    const response = await checkinAPI.post('/face-recognition', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

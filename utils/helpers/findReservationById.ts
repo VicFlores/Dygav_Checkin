@@ -3,7 +3,7 @@ import checkinAPI from '../config/axiosConfig';
 export const findReservationById = async (id: string) => {
   try {
     const getReservation = await checkinAPI.get(
-      `/reservation?idReservation=${id}`
+      `/guests/reservation?reservation_id =${id}`
     );
     return getReservation.data;
   } catch (error) {

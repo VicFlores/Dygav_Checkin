@@ -39,12 +39,12 @@ export const StepTwo = ({ validate }: StepProps) => {
 
       await insertGuest({
         facial_photo: 'facial_photo',
-        reservation_id: reservationInfo.data.reservationId,
+        reservation_id: reservationInfo.id,
         identify_document_photo: 'identify_document_photo',
-        lastnames: reservationInfo.data.lastnames,
-        names: reservationInfo.data.firstnames,
-        email: reservationInfo.data.travellerEmail,
-        phone: reservationInfo.data.phone || '0000000000',
+        names: reservationInfo.names,
+        lastnames: reservationInfo.lastnames,
+        email: reservationInfo.travellerEmail,
+        phone: reservationInfo.phone || '0000000000',
       });
 
       setErrorMessage('Validacion exitosa');

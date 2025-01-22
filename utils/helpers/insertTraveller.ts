@@ -21,7 +21,7 @@ interface TravellerData {
 
 export const insertTraveller = async (travellerData: TravellerData) => {
   try {
-    const response = await checkinAPI.post('/traveller', travellerData);
+    const response = await checkinAPI.post('/travellers', travellerData);
     return response.data;
   } catch (error) {
     console.log('Error inserting traveller:', error);

@@ -10,7 +10,7 @@ export const insertGuest = async (guestData: {
   email: string;
 }) => {
   try {
-    const response = await checkinAPI.post('/guest', guestData);
+    const response = await checkinAPI.post('/guests', guestData);
 
     return response.data;
   } catch (error) {
