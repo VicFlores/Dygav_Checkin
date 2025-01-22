@@ -35,7 +35,7 @@ export const Home: React.FC = () => {
 
       setTimeout(() => {
         setMessage('Redirigiendo a la pagina de check-in...');
-        router.push(`/checkin?reservationCode=${res.data.reservationId}`);
+        router.push(`/checkin?reservationCode=${res.id}`);
       }, 1000);
     } catch (error) {
       if (error instanceof AxiosError && error.response?.status === 404) {
