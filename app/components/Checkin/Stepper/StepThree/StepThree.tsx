@@ -107,7 +107,7 @@ export const StepThree = ({ validate }: StepProps) => {
         String(guestInfo.guest_id)
       );
 
-      setTravellersByGuest(travellers.data);
+      setTravellersByGuest(travellers);
 
       reset();
     } catch (error) {
