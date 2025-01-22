@@ -140,7 +140,7 @@ export const StepThree = ({ validate }: StepProps) => {
               <input
                 type='radio'
                 id='adult'
-                value='adult'
+                value='ADULT'
                 {...register('ageRange', { required: 'Selecciona una opción' })}
               />
               <label htmlFor='adult'>Adulto mayor de 18 años</label>
@@ -150,7 +150,7 @@ export const StepThree = ({ validate }: StepProps) => {
               <input
                 type='radio'
                 id='teen'
-                value='teen'
+                value='TEEN'
                 {...register('ageRange', { required: 'Selecciona una opción' })}
               />
               <label htmlFor='teen'>Niño entre 18 y 14 años</label>
@@ -160,7 +160,7 @@ export const StepThree = ({ validate }: StepProps) => {
               <input
                 type='radio'
                 id='child'
-                value='child'
+                value='CHILD'
                 {...register('ageRange', { required: 'Selecciona una opción' })}
               />
               <label htmlFor='child'>Niño menor de 14 años</label>

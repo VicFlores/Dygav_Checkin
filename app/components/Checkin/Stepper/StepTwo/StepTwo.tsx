@@ -44,7 +44,7 @@ export const StepTwo = ({ validate }: StepProps) => {
         names: reservationInfo.names,
         lastnames: reservationInfo.lastnames,
         email: reservationInfo.travellerEmail,
-        phone: reservationInfo.phone || '0000000000',
+        phone: reservationInfo.phone || '12345678',
       });
 
       setErrorMessage('Validacion exitosa');
