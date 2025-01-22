@@ -44,10 +44,10 @@ export const StepFour = ({ validate }: StepProps) => {
           );
 
           const travellers = await findTravellersByGuestId(
-            getGuestByReservation.data[0].guest_id
+            getGuestByReservation.guest_id
           );
 
-          setTravellersByGuest(travellers.data);
+          setTravellersByGuest(travellers);
         } catch (error) {
           console.log('Error fetching guest by reservation:', error);
         }
