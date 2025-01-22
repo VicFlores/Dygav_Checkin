@@ -67,12 +67,21 @@ export const StepTwo = ({ validate }: StepProps) => {
       setIsMatch(true);
       validate(true);
     } catch (error) {
-      if (error instanceof AxiosError && error.response?.status === 404) {
+      if (error instanceof AxiosError && error.response?.status === 400) {
         setErrorMessage(
-          'Las fotos no coinciden o no se encontraron rostros. Por favor, intenta con otras fotos.'
+          'Las fotos no coinciden. Por favor, intenta de nuevo con otras fotos.'
+        );
+      } else if (
+        error instanceof AxiosError &&
+        error.response?.status === 404
+      ) {
+        setErrorMessage(
+          'No se encontraron rostros en las fotos. Por favor, intenta de nuevo con otras fotos.'
         );
       } else {
-        setErrorMessage('An unexpected error occurred. Please try again.');
+        setErrorMessage(
+          'Ocurrio un error inesperado. Por favor, intenta de nuevo.'
+        );
       }
       setIsMatch(false);
       validate(false);
