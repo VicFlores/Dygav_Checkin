@@ -9,7 +9,6 @@ import { ContractStep } from './Stepper/ContractStep/ContractStep';
 import { ElectronicSignatureStep } from './Stepper/ElectronicSignatureStep/ElectronicSignatureStep';
 import { TravellersRegisterStep } from './Stepper/TravellersRegisterStep/TravellersRegisterStep';
 import { IdentifyVerificationStep } from './Stepper/IdentifyVerificationStep/IdentifyVerificationStep';
-import { GuestRegisterStep } from './Stepper/GuestRegisterStep/GuestRegisterStep';
 
 const steps: CheckinStepper[] = [
   {
@@ -26,24 +25,18 @@ const steps: CheckinStepper[] = [
   },
   {
     title: 'Paso 3',
-    subtitle: 'Registro de huesped principal',
-    content: (validate) => <GuestRegisterStep validate={validate} />,
-    completed: false,
-  },
-  {
-    title: 'Paso 4',
     subtitle: 'Registro de viajeros',
     content: (validate) => <TravellersRegisterStep validate={validate} />,
     completed: false,
   },
   {
-    title: 'Paso 5',
+    title: 'Paso 4',
     subtitle: 'Firma electronica',
     content: (validate) => <ElectronicSignatureStep validate={validate} />,
     completed: false,
   },
   {
-    title: 'Paso 6',
+    title: 'Paso 5',
     subtitle: 'Contrato',
     content: (validate) => <ContractStep validate={validate} />,
     completed: false,

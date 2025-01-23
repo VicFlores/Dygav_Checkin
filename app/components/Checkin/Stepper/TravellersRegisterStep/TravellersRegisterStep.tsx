@@ -128,12 +128,12 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
       >
         <fieldset>
           <legend className={styles.stepLegendTitle}>
-            Registra a tus acompañantes
+            Registro de huespedes
           </legend>
 
           <p className={styles.stepDescription}>
-            Debes registrar a todas las personas que te acompañen a esta gran
-            aventura
+            Debes registrarte a ti mismo y a tus acompañantes para poder
+            disfrutar de esta gran aventura
           </p>
 
           <div className={styles.stepAgeRange}>
@@ -178,8 +178,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
           </legend>
 
           <p className={styles.stepDescription}>
-            Debes ingresar la informacion personal que se te solicita de tu
-            acompañante
+            Debes ingresar la informacion personal que se te solicita
           </p>
 
           <div className={styles.stepFormInputs}>
@@ -354,7 +353,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
           </legend>
 
           <p className={styles.stepDescription}>
-            Debes ingresar la direccion de donde procede el viajero
+            Debes ingresar la dirección de procedencia del huesped
           </p>
 
           <div className={styles.stepFormInputs}>
