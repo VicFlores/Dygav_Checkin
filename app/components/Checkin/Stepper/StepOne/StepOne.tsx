@@ -83,6 +83,7 @@ export const StepOne = ({ validate }: StepProps) => {
 
         <div className={styles.stepOneFormButtons}>
           <button
+            type='button'
             onClick={handleValidation}
             className={styles.withoutLoginButton}
           >
@@ -90,6 +91,7 @@ export const StepOne = ({ validate }: StepProps) => {
           </button>
 
           <button
+            type='button'
             onClick={handleValidation}
             className={styles.googleLoginButton}
           >
@@ -98,6 +100,7 @@ export const StepOne = ({ validate }: StepProps) => {
           </button>
 
           <button
+            type='button'
             onClick={handleValidation}
             className={styles.createAccountButton}
           >
@@ -115,12 +118,17 @@ export const StepOne = ({ validate }: StepProps) => {
       </p>
 
       <div className={styles.stepOneFormButtons}>
-        <button onClick={handleValidation} className={styles.googleLoginButton}>
+        <button
+          type='button'
+          onClick={handleValidation}
+          className={styles.googleLoginButton}
+        >
           <FcGoogle className={styles.googleButtonIcon} /> Continuar y registrar
           con google
         </button>
 
         <button
+          type='button'
           onClick={handleValidation}
           className={styles.createAccountButton}
         >
