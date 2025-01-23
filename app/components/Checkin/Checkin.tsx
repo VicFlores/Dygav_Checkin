@@ -19,7 +19,7 @@ const steps: CheckinStepper[] = [
   },
   {
     title: 'Paso 2',
-    subtitle: 'Registrar informacion',
+    subtitle: 'Verificacion de identidad',
     content: (validate) => <StepTwo validate={validate} />,
     completed: false,
   },
