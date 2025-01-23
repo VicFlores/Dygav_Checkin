@@ -4,9 +4,9 @@ import React from 'react';
 import { StepProps } from '@/interfaces';
 import { FaRegCheckCircle } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
-import styles from './StepOne.module.css';
+import styles from './CreateAccountStep.module.css';
 
-export const StepOne = ({ validate }: StepProps) => {
+export const CreateAccountStep = ({ validate }: StepProps) => {
   const handleValidation = () => {
     // Perform validation logic here
 

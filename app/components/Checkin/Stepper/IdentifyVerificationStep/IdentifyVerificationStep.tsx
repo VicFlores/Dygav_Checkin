@@ -3,7 +3,7 @@
 import { StepProps } from '@/interfaces';
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import styles from './StepTwo.module.css';
+import styles from './IdentifyVerificationStep.module.css';
 import Image from 'next/image';
 import {
   facialRecognition,
@@ -18,7 +18,7 @@ interface FormData {
   profilePic: FileList;
 }
 
-export const StepTwo = ({ validate }: StepProps) => {
+export const IdentifyVerificationStep = ({ validate }: StepProps) => {
   const {
     register,
     handleSubmit,

@@ -3,7 +3,7 @@
 import { StepProps } from '@/interfaces';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import styles from './StepThree.module.css';
+import styles from './TravellersRegisterStep.module.css';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { GrEdit } from 'react-icons/gr';
 import { IoPersonAddOutline } from 'react-icons/io5';
@@ -42,7 +42,7 @@ interface Traveller {
   lastnames: string;
 }
 
-export const StepThree = ({ validate }: StepProps) => {
+export const TravellersRegisterStep = ({ validate }: StepProps) => {
   const searchParams = useSearchParams();
   const [travellersByGuest, setTravellersByGuest] = useState<Traveller[]>([]);
   const [guestInfo, setGuestInfo] = useState<GuestInfo>({

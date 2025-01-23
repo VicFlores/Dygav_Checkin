@@ -3,7 +3,7 @@
 import { StepProps } from '@/interfaces';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import styles from './StepFour.module.css';
+import styles from './ElectronicSignatureStep.module.css';
 import { useSearchParams } from 'next/navigation';
 import {
   findGuestByReservation,
@@ -22,7 +22,7 @@ interface Traveller {
   lastnames: string;
 }
 
-export const StepFour = ({ validate }: StepProps) => {
+export const ElectronicSignatureStep = ({ validate }: StepProps) => {
   const [travellersByGuest, setTravellersByGuest] = useState<Traveller[]>([]);
   const [selectedTraveller, setSelectedTraveller] = useState<Traveller | null>(
     null

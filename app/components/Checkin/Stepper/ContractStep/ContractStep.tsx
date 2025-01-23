@@ -1,7 +1,7 @@
 import { StepProps } from '@/interfaces';
 import React from 'react';
 
-export const StepFive = ({ validate }: StepProps) => {
+export const ContractStep = ({ validate }: StepProps) => {
   const handleValidation = () => {
     // Perform validation logic here
 

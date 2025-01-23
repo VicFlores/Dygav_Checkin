@@ -2,43 +2,43 @@
 
 import React, { useState } from 'react';
 import styles from './Checkin.module.css';
-import { StepOne } from './Stepper/StepOne/StepOne';
+import { CreateAccountStep } from './Stepper/CreateAccountStep/CreateAccountStep';
 import { CheckinStepper } from '@/interfaces/CheckinStepper';
 import { PiUserCheck } from 'react-icons/pi';
-import { StepFive } from './Stepper/StepFive/StepFive';
-import { StepFour } from './Stepper/StepFour/StepFour';
-import { StepThree } from './Stepper/StepThree/StepThree';
-import { StepTwo } from './Stepper/StepTwo/StepTwo';
+import { ContractStep } from './Stepper/ContractStep/ContractStep';
+import { ElectronicSignatureStep } from './Stepper/ElectronicSignatureStep/ElectronicSignatureStep';
+import { TravellersRegisterStep } from './Stepper/TravellersRegisterStep/TravellersRegisterStep';
+import { IdentifyVerificationStep } from './Stepper/IdentifyVerificationStep/IdentifyVerificationStep';
 
 const steps: CheckinStepper[] = [
   {
     title: 'Paso 1',
     subtitle: 'Crear cuenta Dygav',
-    content: (validate) => <StepOne validate={validate} />,
+    content: (validate) => <CreateAccountStep validate={validate} />,
     completed: false,
   },
   {
     title: 'Paso 2',
     subtitle: 'Verificacion de identidad',
-    content: (validate) => <StepTwo validate={validate} />,
+    content: (validate) => <IdentifyVerificationStep validate={validate} />,
     completed: false,
   },
   {
     title: 'Paso 3',
-    subtitle: 'Informacion de viajeros',
-    content: (validate) => <StepThree validate={validate} />,
+    subtitle: 'Registro de viajeros',
+    content: (validate) => <TravellersRegisterStep validate={validate} />,
     completed: false,
   },
   {
     title: 'Paso 4',
     subtitle: 'Firma electronica',
-    content: (validate) => <StepFour validate={validate} />,
+    content: (validate) => <ElectronicSignatureStep validate={validate} />,
     completed: false,
   },
   {
     title: 'Paso 5',
     subtitle: 'Contrato',
-    content: (validate) => <StepFive validate={validate} />,
+    content: (validate) => <ContractStep validate={validate} />,
     completed: false,
   },
 ];
