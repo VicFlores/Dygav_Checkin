@@ -5,12 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './IdentifyVerificationStep.module.css';
 import Image from 'next/image';
-import {
-  facialRecognition,
-  findReservationById,
-  insertGuest,
-} from '@/utils/helpers';
-import { AxiosError } from 'axios';
+import { facialRecognition, insertGuest } from '@/utils/helpers';
 import { useSearchParams } from 'next/navigation';
 
 interface FormData {
@@ -19,17 +14,18 @@ interface FormData {
 }
 
 export const IdentifyVerificationStep = ({ validate }: StepProps) => {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isMatch, setIsMatch] = useState<boolean | null>(null);
+  const [idCardUploaded, setIdCardUploaded] = useState<boolean>(false);
+  const [profilePicUploaded, setProfilePicUploaded] = useState<boolean>(false);
+  const searchParams = useSearchParams();
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm<FormData>();
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [isMatch, setIsMatch] = useState<boolean | null>(null);
-  const [idCardUploaded, setIdCardUploaded] = useState<boolean>(false);
-  const [profilePicUploaded, setProfilePicUploaded] = useState<boolean>(false);
-  const searchParams = useSearchParams();
 
   const idCard = watch('idCard');
   const profilePic = watch('profilePic');
@@ -49,41 +45,21 @@ export const IdentifyVerificationStep = ({ validate }: StepProps) => {
     try {
       await facialRecognition(data.idCard[0], data.profilePic[0]);
 
-      const reservationInfo = await findReservationById(
+      await insertGuest(
+        'facial_photo',
+        'identify_document_photo',
         searchParams.get('reservationCode') as string
       );
-
-      await insertGuest({
-        facial_photo: 'facial_photo',
-        reservation_id: reservationInfo.id,
-        identify_document_photo: 'identify_document_photo',
-        names: reservationInfo.names,
-        lastnames: reservationInfo.lastnames,
-        email: reservationInfo.travellerEmail,
-        phone: reservationInfo.phone || '12345678',
-      });
 
       setErrorMessage('Validacion exitosa');
       setIsMatch(true);
       validate(true);
     } catch (error) {
-      if (error instanceof AxiosError && error.response?.status === 400) {
-        setErrorMessage(
-          'Las fotos no coinciden. Por favor, intenta de nuevo con otras fotos.'
-        );
-      } else if (
-        error instanceof AxiosError &&
-        error.response?.status === 404
-      ) {
-        setErrorMessage(
-          'No se encontraron rostros en las fotos. Por favor, intenta de nuevo con otras fotos.'
-        );
-      } else {
-        setErrorMessage(
-          'Ocurrio un error inesperado. Por favor, intenta de nuevo.'
-        );
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+        setIsMatch(false);
       }
-      setIsMatch(false);
+
       validate(false);
     }
   };

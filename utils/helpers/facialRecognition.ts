@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import checkinAPI from '../config/axiosConfig';
 
 export const facialRecognition = async (
@@ -17,7 +18,18 @@ export const facialRecognition = async (
 
     return response.data;
   } catch (error) {
-    console.log('Error during facial recognition:', error);
-    throw error;
+    if (error instanceof AxiosError && error.response?.status === 400) {
+      throw new Error(
+        'Las fotos no coinciden. Por favor, intenta de nuevo con otras fotos.'
+      );
+    } else if (error instanceof AxiosError && error.response?.status === 404) {
+      throw new Error(
+        'No se encontraron rostros en las fotos. Por favor, intenta de nuevo con otras fotos.'
+      );
+    } else {
+      throw new Error(
+        'Ocurrio un error inesperado. Por favor, intenta de nuevo.'
+      );
+    }
   }
 };
