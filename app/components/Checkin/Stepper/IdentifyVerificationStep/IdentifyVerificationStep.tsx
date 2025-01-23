@@ -4,9 +4,10 @@ import { StepProps } from '@/interfaces';
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './IdentifyVerificationStep.module.css';
-import Image from 'next/image';
+
 import { facialRecognition, insertGuest } from '@/utils/helpers';
 import { useSearchParams } from 'next/navigation';
+import { IdentifyVerificationCard } from '../IdentifyVerificationCard/IdentifyVerificationCard';
 
 interface FormData {
   idCard: FileList;
@@ -52,6 +53,7 @@ export const IdentifyVerificationStep = ({ validate }: StepProps) => {
       );
 
       setErrorMessage('Validacion exitosa');
+
       setIsMatch(true);
       validate(true);
     } catch (error) {
@@ -59,7 +61,6 @@ export const IdentifyVerificationStep = ({ validate }: StepProps) => {
         setErrorMessage(error.message);
         setIsMatch(false);
       }
-
       validate(false);
     }
   };
@@ -68,69 +69,23 @@ export const IdentifyVerificationStep = ({ validate }: StepProps) => {
     <section>
       <form className={styles.stepContainer} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.stepCards}>
-          <div
-            className={`${styles.stepCard} ${
-              isMatch === false
-                ? styles.error
-                : isMatch === true
-                ? styles.success
-                : ''
-            }`}
-          >
-            <figure className={styles.figureImage}>
-              <Image
-                src='tempImages/ID Card-rafiki.svg'
-                alt='ID Card'
-                layout='fill'
-              />
-            </figure>
+          <IdentifyVerificationCard
+            title='Subir tu Documento unico de identidad'
+            imageSrc='tempImages/ID Card-rafiki.svg'
+            imageAlt='ID Card'
+            registerProps={register('idCard', { required: true })}
+            uploaded={idCardUploaded}
+            error={!!errors.idCard}
+          />
 
-            <h3>
-              Subir tu Documento unico de <br />
-              identidad
-            </h3>
-
-            <label className={styles.customFileUpload}>
-              Subir foto
-              <input type='file' {...register('idCard', { required: true })} />
-            </label>
-
-            {idCardUploaded && <span className={styles.checkmark}>✔</span>}
-            {errors.idCard && <span>Este campo es obligatorio</span>}
-          </div>
-
-          <div
-            className={`${styles.stepCard} ${
-              isMatch === false
-                ? styles.error
-                : isMatch === true
-                ? styles.success
-                : ''
-            }`}
-          >
-            <figure className={styles.figureImage}>
-              <Image
-                src='tempImages/Profile pic-rafiki.svg'
-                alt='Profile Pic'
-                layout='fill'
-              />
-            </figure>
-
-            <h3>
-              Sube una foto solamente de tu <br /> rostro
-            </h3>
-
-            <label className={styles.customFileUpload}>
-              Subir foto
-              <input
-                type='file'
-                {...register('profilePic', { required: true })}
-              />
-            </label>
-
-            {profilePicUploaded && <span className={styles.checkmark}>✔</span>}
-            {errors.profilePic && <span>Este campo es obligatorio</span>}
-          </div>
+          <IdentifyVerificationCard
+            title='Sube una foto solamente de tu rostro'
+            imageSrc='tempImages/Profile pic-rafiki.svg'
+            imageAlt='Profile Pic'
+            registerProps={register('profilePic', { required: true })}
+            uploaded={profilePicUploaded}
+            error={!!errors.profilePic}
+          />
         </div>
 
         {errorMessage && (
