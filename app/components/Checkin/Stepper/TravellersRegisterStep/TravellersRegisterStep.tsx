@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './TravellersRegisterStep.module.css';
 import { RiDeleteBinLine } from 'react-icons/ri';
-import { GrEdit } from 'react-icons/gr';
 import { IoPersonAddOutline } from 'react-icons/io5';
 import { useSearchParams } from 'next/navigation';
 import {
@@ -46,7 +45,9 @@ interface Traveller {
 export const TravellersRegisterStep = ({ validate }: StepProps) => {
   const searchParams = useSearchParams();
   const [travellersByGuest, setTravellersByGuest] = useState<Traveller[]>([]);
-  const [reservationInfo, setReservationInfo] = useState({});
+  const [reservationInfo, setReservationInfo] = useState({
+    numberOfguests: 0,
+  });
   const [guestInfo, setGuestInfo] = useState<GuestInfo>({
     guest_id: 0,
   });
@@ -90,8 +91,6 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
       fetchGuestByReservation();
     }
   }, [searchParams]);
-
-  console.log('reservationInfo:', reservationInfo);
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -488,7 +487,9 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
       </div>
 
       <div className={styles.stepUsersContainer}>
-        <h2>Cantidad de huespedes a registrar: 0</h2>
+        <h2>
+          Cantidad de huespedes a registrar: {reservationInfo.numberOfguests}
+        </h2>
 
         {travellersByGuest.length > 0 ? (
           travellersByGuest.map((traveller) => (
@@ -509,10 +510,6 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
               <div>
                 <button className={styles.iconButton}>
                   <RiDeleteBinLine />
-                </button>
-
-                <button className={styles.iconButton}>
-                  <GrEdit />
                 </button>
               </div>
             </div>
