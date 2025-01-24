@@ -12,6 +12,7 @@ import {
   findGuestByReservation,
   insertTraveller,
   findTravellersByGuestId,
+  findReservationById,
 } from '@/utils/helpers';
 
 interface FormData {
@@ -45,6 +46,7 @@ interface Traveller {
 export const TravellersRegisterStep = ({ validate }: StepProps) => {
   const searchParams = useSearchParams();
   const [travellersByGuest, setTravellersByGuest] = useState<Traveller[]>([]);
+  const [reservationInfo, setReservationInfo] = useState({});
   const [guestInfo, setGuestInfo] = useState<GuestInfo>({
     guest_id: 0,
   });
@@ -67,6 +69,12 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
             searchParams.get('reservationCode') as string
           );
 
+          const getReservationById = await findReservationById(
+            searchParams.get('reservationCode') as string
+          );
+
+          setReservationInfo(getReservationById);
+
           setGuestInfo(getGuestByReservation);
 
           const travellers = await findTravellersByGuestId(
@@ -82,6 +90,8 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
       fetchGuestByReservation();
     }
   }, [searchParams]);
+
+  console.log('reservationInfo:', reservationInfo);
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -453,7 +463,33 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
         Listado de todos los viajeros registrados
       </p>
 
+      <div className={styles.userToRegister}>
+        <div>
+          <p>
+            Si algun huesped ya no pudo acompañarte, debes eliminarlo del conteo
+            de huespedes a registrar
+          </p>
+
+          <button className={styles.iconButton}>
+            <RiDeleteBinLine />
+          </button>
+        </div>
+
+        <div>
+          <p>
+            Si has eliminado a un huesped por error, puedes volver a agregarlo
+            para el conteo de huespedes a registrar
+          </p>
+
+          <button className={styles.iconButton}>
+            <IoPersonAddOutline />
+          </button>
+        </div>
+      </div>
+
       <div className={styles.stepUsersContainer}>
+        <h2>Cantidad de huespedes a registrar: 0</h2>
+
         {travellersByGuest.length > 0 ? (
           travellersByGuest.map((traveller) => (
             <div
