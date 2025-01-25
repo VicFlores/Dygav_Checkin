@@ -1,22 +1,17 @@
 import checkinAPI from '../config/axiosConfig';
 import { findReservationById } from './findReservationById';
 
-export const insertGuest = async (
-  facial_photo: string,
-  identify_document_photo: string,
-  reservationCode: string
-) => {
+export const insertGuest = async (reservationCode: string) => {
   try {
     const reservationInfo = await findReservationById(reservationCode);
 
     const guestData = {
-      facial_photo,
-      identify_document_photo,
-      reservation_id: reservationInfo.id,
-      names: reservationInfo.names,
-      lastnames: reservationInfo.lastnames,
       email: reservationInfo.travellerEmail,
+      lastnames: reservationInfo.lastnames,
+      names: reservationInfo.names,
+      number_travellers_register: reservationInfo.numberOfguests,
       phone: reservationInfo.phone || '12345678',
+      reservation_id: reservationInfo.id,
     };
 
     const response = await checkinAPI.post('/guests', guestData);

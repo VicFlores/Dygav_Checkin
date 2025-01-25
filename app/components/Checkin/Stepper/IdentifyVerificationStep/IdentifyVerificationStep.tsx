@@ -5,8 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './IdentifyVerificationStep.module.css';
 
-import { facialRecognition, insertGuest } from '@/utils/helpers';
-import { useSearchParams } from 'next/navigation';
+import { facialRecognition } from '@/utils/helpers';
 import { IdentifyVerificationCard } from '../IdentifyVerificationCard/IdentifyVerificationCard';
 
 interface FormData {
@@ -19,7 +18,6 @@ export const IdentifyVerificationStep = ({ validate }: StepProps) => {
   const [isMatch, setIsMatch] = useState<boolean | null>(null);
   const [idCardUploaded, setIdCardUploaded] = useState<boolean>(false);
   const [profilePicUploaded, setProfilePicUploaded] = useState<boolean>(false);
-  const searchParams = useSearchParams();
 
   const {
     register,
@@ -45,12 +43,6 @@ export const IdentifyVerificationStep = ({ validate }: StepProps) => {
 
     try {
       await facialRecognition(data.idCard[0], data.profilePic[0]);
-
-      await insertGuest(
-        'facial_photo',
-        'identify_document_photo',
-        searchParams.get('reservationCode') as string
-      );
 
       setErrorMessage('Validacion exitosa');
 
