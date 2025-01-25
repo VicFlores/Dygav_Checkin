@@ -198,6 +198,13 @@
   color: #fefefe;
 }
 
+.registerButton:disabled {
+  background-color: #e0e0e0;
+  color: #a0a0a0;
+  border: 1px solid #ccc;
+  cursor: not-allowed;
+}
+
 .nextStepButton {
   background-color: #f4511e;
   color: #fefefe;

@@ -14,6 +14,8 @@ import {
   findReservationById,
 } from '@/utils/helpers';
 
+import checkinAPI from '@/utils/config/axiosConfig';
+
 interface FormData {
   ageRange: string;
   firstName: string;
@@ -44,9 +46,12 @@ interface Traveller {
 
 export const TravellersRegisterStep = ({ validate }: StepProps) => {
   const searchParams = useSearchParams();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [travellersByGuest, setTravellersByGuest] = useState<Traveller[]>([]);
   const [reservationInfo, setReservationInfo] = useState({
+    id: 0,
     numberOfguests: 0,
+    number_travellers_register: 0,
   });
   const [guestInfo, setGuestInfo] = useState<GuestInfo>({
     guest_id: 0,
@@ -74,7 +79,11 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
             searchParams.get('reservationCode') as string
           );
 
-          setReservationInfo(getReservationById);
+          setReservationInfo({
+            ...getReservationById,
+            number_travellers_register:
+              getGuestByReservation.number_travellers_register,
+          });
 
           setGuestInfo(getGuestByReservation);
 
@@ -127,6 +136,41 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
 
   const handleValidation = () => {
     validate(true);
+  };
+
+  const updateTravellersCount = async (newCount: number) => {
+    try {
+      await checkinAPI.put(`/guests?reservation_id=${reservationInfo.id}`, {
+        number_travellers_register: newCount,
+      });
+
+      setReservationInfo((prev) => ({
+        ...prev,
+        number_travellers_register: newCount,
+      }));
+    } catch (error) {
+      console.log('Error updating travellers count:', error);
+    }
+  };
+
+  const handleAddTraveller = () => {
+    if (
+      reservationInfo.number_travellers_register <
+      reservationInfo.numberOfguests
+    ) {
+      updateTravellersCount(reservationInfo.number_travellers_register + 1);
+      setErrorMessage(null); // Clear any previous error message
+    } else {
+      setErrorMessage(
+        'No puedes agregar más huéspedes. Has alcanzado el límite.'
+      );
+    }
+  };
+
+  const handleRemoveTraveller = () => {
+    if (reservationInfo.number_travellers_register > 0) {
+      updateTravellersCount(reservationInfo.number_travellers_register - 1);
+    }
   };
 
   return (
@@ -442,7 +486,14 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
         </fieldset>
 
         <div className={styles.centerButtonContainer}>
-          <button type='submit' className={styles.registerButton}>
+          <button
+            type='submit'
+            className={styles.registerButton}
+            disabled={
+              travellersByGuest.length >=
+              reservationInfo.number_travellers_register
+            }
+          >
             Registrar nuevo acompañante
           </button>
         </div>
@@ -469,7 +520,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
             de huespedes a registrar
           </p>
 
-          <button className={styles.iconButton}>
+          <button className={styles.iconButton} onClick={handleRemoveTraveller}>
             <RiDeleteBinLine />
           </button>
         </div>
@@ -480,15 +531,18 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
             para el conteo de huespedes a registrar
           </p>
 
-          <button className={styles.iconButton}>
+          <button className={styles.iconButton} onClick={handleAddTraveller}>
             <IoPersonAddOutline />
           </button>
         </div>
+
+        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
       </div>
 
       <div className={styles.stepUsersContainer}>
         <h2>
-          Cantidad de huespedes a registrar: {reservationInfo.numberOfguests}
+          Cantidad de huespedes a registrar:{' '}
+          {reservationInfo.number_travellers_register}
         </h2>
 
         {travellersByGuest.length > 0 ? (
