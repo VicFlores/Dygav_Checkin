@@ -19,9 +19,9 @@ export const facialRecognition = async (
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError && error.response?.status === 400) {
-      throw new Error(
-        'Las fotos no coinciden. Por favor, intenta de nuevo con otras fotos.'
-      );
+      console.log(error.response.data.detail.message);
+
+      throw new Error(error.response.data.detail.message);
     } else if (error instanceof AxiosError && error.response?.status === 404) {
       throw new Error(
         'No se encontraron rostros en las fotos. Por favor, intenta de nuevo con otras fotos.'

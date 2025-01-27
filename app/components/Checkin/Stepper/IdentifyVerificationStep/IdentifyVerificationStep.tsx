@@ -18,6 +18,7 @@ export const IdentifyVerificationStep = ({ validate }: StepProps) => {
   const [isMatch, setIsMatch] = useState<boolean | null>(null);
   const [idCardUploaded, setIdCardUploaded] = useState<boolean>(false);
   const [profilePicUploaded, setProfilePicUploaded] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const {
     register,
@@ -40,12 +41,12 @@ export const IdentifyVerificationStep = ({ validate }: StepProps) => {
   const onSubmit = async (data: FormData) => {
     setErrorMessage(null);
     setIsMatch(null);
+    setIsLoading(true);
 
     try {
       await facialRecognition(data.idCard[0], data.profilePic[0]);
 
       setErrorMessage('Validacion exitosa');
-
       setIsMatch(true);
       validate(true);
     } catch (error) {
@@ -54,6 +55,8 @@ export const IdentifyVerificationStep = ({ validate }: StepProps) => {
         setIsMatch(false);
       }
       validate(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -80,6 +83,10 @@ export const IdentifyVerificationStep = ({ validate }: StepProps) => {
           />
         </div>
 
+        {isLoading && (
+          <p className={styles.loadingMessage}>Procesando imágenes...</p>
+        )}
+
         {errorMessage && (
           <p
             className={
@@ -90,7 +97,11 @@ export const IdentifyVerificationStep = ({ validate }: StepProps) => {
           </p>
         )}
 
-        <button type='submit' className={styles.validateButton}>
+        <button
+          type='submit'
+          className={styles.validateButton}
+          disabled={isLoading}
+        >
           Comprobar y saltar al siguiente paso
         </button>
       </form>
