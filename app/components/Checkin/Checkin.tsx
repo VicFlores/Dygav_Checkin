@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import styles from './Checkin.module.css';
 import { CreateAccountStep } from './Stepper/CreateAccountStep/CreateAccountStep';
 import { CheckinStepper } from '@/interfaces/CheckinStepper';
@@ -99,9 +99,11 @@ export const Checkin: React.FC = () => {
         ))}
       </div>
 
-      <div className={`${styles.stepContent} ${styles.active}`}>
-        {steps[currentStep].content(validateStep)}
-      </div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <div className={`${styles.stepContent} ${styles.active}`}>
+          {steps[currentStep].content(validateStep)}
+        </div>
+      </Suspense>
     </section>
   );
 };
