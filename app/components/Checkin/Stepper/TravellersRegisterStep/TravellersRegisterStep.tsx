@@ -1,7 +1,7 @@
 'use client';
 
 import { StepProps } from '@/interfaces';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './TravellersRegisterStep.module.css';
 import { RiDeleteBinLine } from 'react-icons/ri';
@@ -13,8 +13,8 @@ import {
   findTravellersByGuestId,
   findReservationById,
 } from '@/utils/helpers';
-
 import checkinAPI from '@/utils/config/axiosConfig';
+import { ModalAlert } from '@/app/components/shared';
 
 interface FormData {
   ageRange: string;
@@ -48,14 +48,13 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
   const searchParams = useSearchParams();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [travellersByGuest, setTravellersByGuest] = useState<Traveller[]>([]);
+  const [showModal, setShowModal] = useState(true);
   const [reservationInfo, setReservationInfo] = useState({
     id: 0,
     numberOfguests: 0,
     number_travellers_register: 0,
   });
-  const [guestInfo, setGuestInfo] = useState<GuestInfo>({
-    guest_id: 0,
-  });
+  const [guestInfo, setGuestInfo] = useState<GuestInfo>({ guest_id: 0 });
   const {
     register,
     handleSubmit,
@@ -71,29 +70,23 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
     if (searchParams.has('reservationCode')) {
       const fetchGuestByReservation = async () => {
         try {
-          const getGuestByReservation = await findGuestByReservation(
-            searchParams.get('reservationCode') as string
-          );
-
-          const getReservationById = await findReservationById(
-            searchParams.get('reservationCode') as string
-          );
+          const reservationCode = searchParams.get('reservationCode') as string;
+          const [guest, reservation] = await Promise.all([
+            findGuestByReservation(reservationCode),
+            findReservationById(reservationCode),
+          ]);
 
           setReservationInfo({
-            ...getReservationById,
-            number_travellers_register:
-              getGuestByReservation.number_travellers_register,
+            ...reservation,
+            number_travellers_register: guest.number_travellers_register,
           });
 
-          setGuestInfo(getGuestByReservation);
+          setGuestInfo(guest);
 
-          const travellers = await findTravellersByGuestId(
-            getGuestByReservation.guest_id
-          );
-
+          const travellers = await findTravellersByGuestId(guest.guest_id);
           setTravellersByGuest(travellers);
         } catch (error) {
-          console.log('Error fetching guest by reservation:', error);
+          console.error('Error fetching guest by reservation:', error);
         }
       };
 
@@ -105,7 +98,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
     try {
       await insertTraveller({
         address: data.address,
-        age_range: data.ageRange,
+        age_range: data.ageRange.toUpperCase(),
         birthdate: data.birthDate,
         country: data.country,
         document_number: data.documentNumber || null,
@@ -125,56 +118,99 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
       const travellers = await findTravellersByGuestId(
         String(guestInfo.guest_id)
       );
-
       setTravellersByGuest(travellers);
-
       reset();
     } catch (error) {
-      console.log('Error inserting traveller:', error);
+      console.error('Error inserting traveller:', error);
     }
   };
 
-  const handleValidation = () => {
+  const handleValidation = useCallback(() => {
     validate(true);
-  };
+  }, [validate]);
 
-  const updateTravellersCount = async (newCount: number) => {
-    try {
-      await checkinAPI.put(`/guests?reservation_id=${reservationInfo.id}`, {
-        number_travellers_register: newCount,
-      });
+  const updateTravellersCount = useCallback(
+    async (newCount: number) => {
+      try {
+        await checkinAPI.put(`/guests?reservation_id=${reservationInfo.id}`, {
+          number_travellers_register: newCount,
+        });
 
-      setReservationInfo((prev) => ({
-        ...prev,
-        number_travellers_register: newCount,
-      }));
-    } catch (error) {
-      console.log('Error updating travellers count:', error);
-    }
-  };
+        setReservationInfo((prev) => ({
+          ...prev,
+          number_travellers_register: newCount,
+        }));
+      } catch (error) {
+        console.error('Error updating travellers count:', error);
+      }
+    },
+    [reservationInfo.id]
+  );
 
-  const handleAddTraveller = () => {
+  const handleAddTraveller = useCallback(() => {
     if (
       reservationInfo.number_travellers_register <
       reservationInfo.numberOfguests
     ) {
       updateTravellersCount(reservationInfo.number_travellers_register + 1);
-      setErrorMessage(null); // Clear any previous error message
+      setErrorMessage(null);
     } else {
       setErrorMessage(
         'No puedes agregar más huéspedes. Has alcanzado el límite.'
       );
     }
-  };
+  }, [reservationInfo, updateTravellersCount]);
 
-  const handleRemoveTraveller = () => {
+  const handleRemoveTraveller = useCallback(() => {
     if (reservationInfo.number_travellers_register > 0) {
       updateTravellersCount(reservationInfo.number_travellers_register - 1);
     }
+  }, [reservationInfo, updateTravellersCount]);
+
+  const renderTravellers = useMemo(() => {
+    return travellersByGuest.length > 0 ? (
+      travellersByGuest.map((traveller) => (
+        <div key={traveller.traveller_id} className={styles.stepUserRegister}>
+          <div>
+            <i className={styles.iconAddPerson}>
+              <IoPersonAddOutline />
+            </i>
+            <p className={styles.userName}>
+              {traveller.names} {traveller.lastnames}
+            </p>
+          </div>
+          <div>
+            <button className={styles.iconButton}>
+              <RiDeleteBinLine />
+            </button>
+          </div>
+        </div>
+      ))
+    ) : (
+      <div className={styles.stepUserRegister}>
+        <div>
+          <i className={styles.iconAddPerson}>
+            <IoPersonAddOutline />
+          </i>
+          <p className={styles.userName}>No hay viajeros registrados</p>
+        </div>
+      </div>
+    );
+  }, [travellersByGuest]);
+
+  const handleAcceptModal = () => {
+    setShowModal(false);
   };
 
   return (
     <section className={styles.stepContainer}>
+      {showModal && (
+        <ModalAlert
+          message='Recuerda: Si algun huesped ya no pudo acompañarte, debes eliminarlo del conteo de huespedes a registrar'
+          onAccept={handleAcceptModal}
+        />
+      )}
+
       <form
         className={styles.stepFormContainer}
         onSubmit={handleSubmit(onSubmit)}
@@ -194,7 +230,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
               <input
                 type='radio'
                 id='adult'
-                value='ADULT'
+                value='adult'
                 {...register('ageRange', { required: 'Selecciona una opción' })}
               />
               <label htmlFor='adult'>Adulto mayor de 18 años</label>
@@ -204,7 +240,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
               <input
                 type='radio'
                 id='teen'
-                value='TEEN'
+                value='teen'
                 {...register('ageRange', { required: 'Selecciona una opción' })}
               />
               <label htmlFor='teen'>Niño entre 18 y 14 años</label>
@@ -214,7 +250,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
               <input
                 type='radio'
                 id='child'
-                value='CHILD'
+                value='child'
                 {...register('ageRange', { required: 'Selecciona una opción' })}
               />
               <label htmlFor='child'>Niño menor de 14 años</label>
@@ -269,7 +305,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
                 id='documentType'
                 {...register('documentType', {
                   required:
-                    ageRange === 'child'
+                    ageRange === 'CHILD'
                       ? false
                       : 'Tipo de documento es requerido',
                 })}
@@ -508,7 +544,6 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
       </button>
 
       <h2 className={styles.stepTitle}>Viajeros registrados</h2>
-
       <p className={styles.stepDescription}>
         Listado de todos los viajeros registrados
       </p>
@@ -519,7 +554,6 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
             Si algun huesped ya no pudo acompañarte, debes eliminarlo del conteo
             de huespedes a registrar
           </p>
-
           <button className={styles.iconButton} onClick={handleRemoveTraveller}>
             <RiDeleteBinLine />
           </button>
@@ -530,7 +564,6 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
             Si has eliminado a un huesped por error, puedes volver a agregarlo
             para el conteo de huespedes a registrar
           </p>
-
           <button className={styles.iconButton} onClick={handleAddTraveller}>
             <IoPersonAddOutline />
           </button>
@@ -545,40 +578,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
           {reservationInfo.number_travellers_register}
         </h2>
 
-        {travellersByGuest.length > 0 ? (
-          travellersByGuest.map((traveller) => (
-            <div
-              key={traveller.traveller_id}
-              className={styles.stepUserRegister}
-            >
-              <div>
-                <i className={styles.iconAddPerson}>
-                  <IoPersonAddOutline />
-                </i>
-
-                <p className={styles.userName}>
-                  {traveller.names} {traveller.lastnames}
-                </p>
-              </div>
-
-              <div>
-                <button className={styles.iconButton}>
-                  <RiDeleteBinLine />
-                </button>
-              </div>
-            </div>
-          ))
-        ) : (
-          <div className={styles.stepUserRegister}>
-            <div>
-              <i className={styles.iconAddPerson}>
-                <IoPersonAddOutline />
-              </i>
-
-              <p className={styles.userName}>No hay viajeros registrados</p>
-            </div>
-          </div>
-        )}
+        {renderTravellers}
       </div>
     </section>
   );
