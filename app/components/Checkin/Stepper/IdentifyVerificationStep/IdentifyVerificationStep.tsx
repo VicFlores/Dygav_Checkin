@@ -79,7 +79,6 @@ export const IdentifyVerificationStep = ({ validate }: StepProps) => {
             imageAlt='Profile Pic'
             registerProps={register('profilePic', { required: true })}
             uploaded={profilePicUploaded}
-            error={!!errors.profilePic}
           />
         </div>
 

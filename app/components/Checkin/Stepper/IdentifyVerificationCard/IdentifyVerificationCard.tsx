@@ -14,7 +14,7 @@ interface IdentifyVerificationCardProps {
   imageAlt: string;
   registerProps: ReturnType<UseFormRegister<FormData>>;
   uploaded: boolean;
-  error: boolean;
+  error?: boolean;
 }
 
 export const IdentifyVerificationCard: FC<IdentifyVerificationCardProps> = ({
