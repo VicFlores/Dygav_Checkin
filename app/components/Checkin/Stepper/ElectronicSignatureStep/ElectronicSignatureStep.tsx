@@ -9,7 +9,11 @@ import {
   findGuestByReservation,
   findTravellersByGuestId,
 } from '@/utils/helpers';
-import { ModalSignature, SignatureCards } from '@/app/components/shared';
+import {
+  ModalSignature,
+  SignatureCards,
+  ModalAlert,
+} from '@/app/components/shared';
 import { QRCodeSVG } from 'qrcode.react';
 
 type Inputs = {
@@ -32,6 +36,7 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
     qrCodeUrl: '',
   });
   const [copied, setCopied] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const searchParams = useSearchParams();
   const { setValue } = useForm<Inputs & { ageRange: string }>();
 
@@ -64,7 +69,7 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
 
   const handleSaveSignature = (dataURL: string) => {
     if (!selectedTraveller) {
-      alert('Please select a traveler first.');
+      setShowAlert(true);
       return;
     }
 
@@ -80,7 +85,7 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
 
   const handleButtonClick = (type: string) => {
     if (!selectedTraveller) {
-      alert('Please select a traveler first.');
+      setShowAlert(true);
       return;
     }
 
@@ -110,6 +115,10 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
       (t) => t.traveller_id === parseInt(e.target.value)
     );
     setSelectedTraveller(traveller || null);
+  };
+
+  const handleCloseAlert = () => {
+    setShowAlert(false);
   };
 
   return (
@@ -185,6 +194,13 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
       <button className={styles.nextStepButton} onClick={handleValidation}>
         Continuar
       </button>
+
+      {showAlert && (
+        <ModalAlert
+          message='Por favor, selecciona un viajero para continuar.'
+          onAccept={handleCloseAlert}
+        />
+      )}
     </div>
   );
 };
