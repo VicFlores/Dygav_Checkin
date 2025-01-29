@@ -86,7 +86,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
           const travellers = await findTravellersByGuestId(guest.guest_id);
           setTravellersByGuest(travellers);
         } catch (error) {
-          console.error('Error fetching guest by reservation:', error);
+          console.log('Error fetching guest by reservation:', error);
         }
       };
 
