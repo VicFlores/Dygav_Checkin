@@ -217,6 +217,16 @@
   margin: 2rem 0 4rem 0;
 }
 
+.nextStepButton:hover {
+  background-color: #e53611;
+}
+
+.nextStepButton:disabled {
+  background-color: #e0e0e0;
+  color: #a0a0a0;
+  cursor: not-allowed;
+}
+
 .userToRegister {
   display: flex;
   flex-direction: column;

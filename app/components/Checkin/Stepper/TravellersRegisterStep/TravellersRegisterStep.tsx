@@ -441,6 +441,9 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
         type='submit'
         onClick={handleValidation}
         className={styles.nextStepButton}
+        disabled={
+          travellersByGuest.length < reservationInfo.number_travellers_register
+        }
       >
         Siguiente paso
       </button>
