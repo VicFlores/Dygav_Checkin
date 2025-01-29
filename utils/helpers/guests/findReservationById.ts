@@ -1,4 +1,4 @@
-import checkinAPI from '../config/axiosConfig';
+import checkinAPI from '@/utils/config/axiosConfig';
 
 export const findReservationById = async (id: string) => {
   try {

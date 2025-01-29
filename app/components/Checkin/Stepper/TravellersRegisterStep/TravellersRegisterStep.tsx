@@ -126,8 +126,12 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
   };
 
   const handleValidation = useCallback(() => {
-    validate(true);
-  }, [validate]);
+    if (travellersByGuest.length >= reservationInfo.numberOfguests) {
+      validate(true);
+    } else {
+      validate(false);
+    }
+  }, [travellersByGuest, reservationInfo.numberOfguests, validate]);
 
   const updateTravellersCount = useCallback(
     async (newCount: number) => {

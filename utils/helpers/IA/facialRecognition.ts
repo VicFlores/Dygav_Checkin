@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import checkinAPI from '../config/axiosConfig';
+import checkinAPI from '@/utils/config/axiosConfig';
 
 export const facialRecognition = async (
   source_image: File,

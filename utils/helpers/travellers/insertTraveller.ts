@@ -1,4 +1,4 @@
-import checkinAPI from '../config/axiosConfig';
+import checkinAPI from '@/utils/config/axiosConfig';
 
 interface TravellerData {
   address: string;
