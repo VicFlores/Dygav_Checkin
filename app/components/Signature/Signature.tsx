@@ -20,7 +20,6 @@ export const Signature = () => {
 
   const handleSaveSignature = (dataURL: string) => {
     console.log(dataURL);
-
     setModalState({ ...modalState, showSignatureModal: false });
   };
 

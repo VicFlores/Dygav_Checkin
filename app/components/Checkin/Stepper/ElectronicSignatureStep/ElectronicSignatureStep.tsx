@@ -68,11 +68,6 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
   };
 
   const handleSaveSignature = (dataURL: string) => {
-    if (!selectedTraveller) {
-      setShowAlert(true);
-      return;
-    }
-
     setValue('signature', dataURL);
 
     console.log('Traveller Info:', selectedTraveller);
@@ -83,22 +78,24 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
     // uploadSignature(dataURL, selectedTraveller);
   };
 
+  const generateUrl = (travellerId: number) => {
+    return `http://localhost:3000/checkin/signature?travelerId=${travellerId}`;
+  };
+
   const handleButtonClick = (type: string) => {
     if (!selectedTraveller) {
       setShowAlert(true);
       return;
     }
 
+    const url = generateUrl(selectedTraveller.traveller_id);
+
     if (type === 'signature') {
       setModalState({ ...modalState, showSignatureModal: true });
     } else if (type === 'qrCode') {
-      const url = `https://dygav-checkin.vercel.app/checkin/signature?travelerId=${selectedTraveller.traveller_id}`;
-
       console.log('QR Code URL:', url);
-
       setModalState({ ...modalState, qrCodeUrl: url });
     } else if (type === 'shareLink') {
-      const url = `https://dygav-checkin.vercel.app/checkin/signature?travelerId=${selectedTraveller.traveller_id}`;
       navigator.clipboard.writeText(url).then(() => {
         setCopied(true);
         setTimeout(() => setCopied(false), 4000);
@@ -126,12 +123,14 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
       <form>
         <fieldset className={styles.stepFieldset}>
           <legend className={styles.stepLegendTitle}>Firma del viajero</legend>
+
           <p className={styles.stepDescription}>
             Cada uno de los viajeros debe ingresar su firma electronica
           </p>
 
           <div className={styles.travellerList}>
             <h3>Selecciona un viajero:</h3>
+
             <select
               className={styles.travellerSelect}
               onChange={handleTravellerChange}
