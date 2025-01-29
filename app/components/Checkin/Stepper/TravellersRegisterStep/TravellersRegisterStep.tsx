@@ -1,19 +1,12 @@
 'use client';
 
 import { StepProps } from '@/interfaces';
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './TravellersRegisterStep.module.css';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { IoPersonAddOutline } from 'react-icons/io5';
-import { useSearchParams } from 'next/navigation';
-import {
-  findGuestByReservation,
-  insertTraveller,
-  findTravellersByGuestId,
-  findReservationById,
-} from '@/utils/helpers';
-import checkinAPI from '@/utils/config/axiosConfig';
+import { useTravellersRegister } from '@/hooks/useTravellersRegister';
 import { ModalAlert } from '@/app/components/shared';
 
 interface FormData {
@@ -34,27 +27,18 @@ interface FormData {
   country: string;
 }
 
-interface GuestInfo {
-  guest_id: number;
-}
-
-interface Traveller {
-  traveller_id: number;
-  names: string;
-  lastnames: string;
-}
-
 export const TravellersRegisterStep = ({ validate }: StepProps) => {
-  const searchParams = useSearchParams();
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [travellersByGuest, setTravellersByGuest] = useState<Traveller[]>([]);
   const [showModal, setShowModal] = useState(true);
-  const [reservationInfo, setReservationInfo] = useState({
-    id: 0,
-    numberOfguests: 0,
-    number_travellers_register: 0,
-  });
-  const [guestInfo, setGuestInfo] = useState<GuestInfo>({ guest_id: 0 });
+
+  const {
+    errorMessage,
+    travellersByGuest,
+    reservationInfo,
+    addTraveller,
+    handleAddTraveller,
+    handleRemoveTraveller,
+  } = useTravellersRegister();
+
   const {
     register,
     handleSubmit,
@@ -66,110 +50,20 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
   const ageRange = watch('ageRange');
   const documentType = watch('documentType');
 
-  useEffect(() => {
-    if (searchParams.has('reservationCode')) {
-      const fetchGuestByReservation = async () => {
-        try {
-          const reservationCode = searchParams.get('reservationCode') as string;
-          const [guest, reservation] = await Promise.all([
-            findGuestByReservation(reservationCode),
-            findReservationById(reservationCode),
-          ]);
-
-          setReservationInfo({
-            ...reservation,
-            number_travellers_register: guest.number_travellers_register,
-          });
-
-          setGuestInfo(guest);
-
-          const travellers = await findTravellersByGuestId(guest.guest_id);
-          setTravellersByGuest(travellers);
-        } catch (error) {
-          console.log('Error fetching guest by reservation:', error);
-        }
-      };
-
-      fetchGuestByReservation();
-    }
-  }, [searchParams]);
-
   const onSubmit = async (data: FormData) => {
-    try {
-      await insertTraveller({
-        address: data.address,
-        age_range: data.ageRange.toUpperCase(),
-        birthdate: data.birthDate,
-        country: data.country,
-        document_number: data.documentNumber || null,
-        document_number_support: data.documentSupport || null,
-        document_type: data.documentType || null,
-        guest_id: guestInfo.guest_id,
-        kinship: data.kinship || null,
-        lastnames: data.lastName,
-        municipality: data.city,
-        municipality_code: data.cityCode,
-        names: data.firstName,
-        phone: data.phone,
-        email: data.email,
-        zip_code: data.postalCode,
-      });
-
-      const travellers = await findTravellersByGuestId(
-        String(guestInfo.guest_id)
-      );
-      setTravellersByGuest(travellers);
-      reset();
-    } catch (error) {
-      console.error('Error inserting traveller:', error);
-    }
+    await addTraveller(data);
+    reset();
   };
 
   const handleValidation = useCallback(() => {
-    if (travellersByGuest.length >= reservationInfo.numberOfguests) {
+    if (
+      travellersByGuest.length >= reservationInfo.number_travellers_register
+    ) {
       validate(true);
     } else {
       validate(false);
     }
-  }, [travellersByGuest, reservationInfo.numberOfguests, validate]);
-
-  const updateTravellersCount = useCallback(
-    async (newCount: number) => {
-      try {
-        await checkinAPI.put(`/guests?reservation_id=${reservationInfo.id}`, {
-          number_travellers_register: newCount,
-        });
-
-        setReservationInfo((prev) => ({
-          ...prev,
-          number_travellers_register: newCount,
-        }));
-      } catch (error) {
-        console.error('Error updating travellers count:', error);
-      }
-    },
-    [reservationInfo.id]
-  );
-
-  const handleAddTraveller = useCallback(() => {
-    if (
-      reservationInfo.number_travellers_register <
-      reservationInfo.numberOfguests
-    ) {
-      updateTravellersCount(reservationInfo.number_travellers_register + 1);
-      setErrorMessage(null);
-    } else {
-      setErrorMessage(
-        'No puedes agregar más huéspedes. Has alcanzado el límite.'
-      );
-    }
-  }, [reservationInfo, updateTravellersCount]);
-
-  const handleRemoveTraveller = useCallback(() => {
-    if (reservationInfo.number_travellers_register > 0) {
-      updateTravellersCount(reservationInfo.number_travellers_register - 1);
-    }
-  }, [reservationInfo, updateTravellersCount]);
+  }, [travellersByGuest, reservationInfo.number_travellers_register, validate]);
 
   const renderTravellers = useMemo(() => {
     return travellersByGuest.length > 0 ? (
