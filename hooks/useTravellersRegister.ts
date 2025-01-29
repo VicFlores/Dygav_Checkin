@@ -5,6 +5,7 @@ import {
   insertTraveller,
   findTravellersByGuestId,
   findReservationById,
+  deleteTravellerById,
 } from '@/utils/helpers';
 import checkinAPI from '@/utils/config/axiosConfig';
 
@@ -147,6 +148,19 @@ export const useTravellersRegister = () => {
     }
   }, [reservationInfo, updateTravellersCount]);
 
+  const deleteTraveller = useCallback(async (travellerId: number) => {
+    try {
+      await deleteTravellerById(travellerId);
+      setTravellersByGuest((prevTravellers) =>
+        prevTravellers.filter(
+          (traveller) => traveller.traveller_id !== travellerId
+        )
+      );
+    } catch (error) {
+      console.log('Error deleting traveller:', error);
+    }
+  }, []);
+
   return {
     errorMessage,
     travellersByGuest,
@@ -154,5 +168,6 @@ export const useTravellersRegister = () => {
     addTraveller,
     handleAddTraveller,
     handleRemoveTraveller,
+    deleteTraveller,
   };
 };

@@ -37,6 +37,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
     addTraveller,
     handleAddTraveller,
     handleRemoveTraveller,
+    deleteTraveller,
   } = useTravellersRegister();
 
   const {
@@ -78,7 +79,10 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
             </p>
           </div>
           <div>
-            <button className={styles.iconButton}>
+            <button
+              className={styles.iconButton}
+              onClick={() => deleteTraveller(traveller.traveller_id)}
+            >
               <RiDeleteBinLine />
             </button>
           </div>
@@ -94,7 +98,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
         </div>
       </div>
     );
-  }, [travellersByGuest]);
+  }, [travellersByGuest, deleteTraveller]);
 
   const handleAcceptModal = () => {
     setShowModal(false);
@@ -442,6 +446,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
       </button>
 
       <h2 className={styles.stepTitle}>Viajeros registrados</h2>
+
       <p className={styles.stepDescription}>
         Listado de todos los viajeros registrados
       </p>
@@ -452,6 +457,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
             Si algun huesped ya no pudo acompañarte, debes eliminarlo del conteo
             de huespedes a registrar
           </p>
+
           <button className={styles.iconButton} onClick={handleRemoveTraveller}>
             <RiDeleteBinLine />
           </button>
@@ -462,6 +468,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
             Si has eliminado a un huesped por error, puedes volver a agregarlo
             para el conteo de huespedes a registrar
           </p>
+
           <button className={styles.iconButton} onClick={handleAddTraveller}>
             <IoPersonAddOutline />
           </button>
