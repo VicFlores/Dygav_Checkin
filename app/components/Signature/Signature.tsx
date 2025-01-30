@@ -3,12 +3,15 @@
 import React, { useState } from 'react';
 import styles from './Signature.module.css';
 import { ModalSignature, SignatureCards } from '../shared';
+import { useSearchParams } from 'next/navigation';
 
 export const Signature = () => {
   const [modalState, setModalState] = useState({
     showSignatureModal: false,
     qrCodeUrl: '',
   });
+
+  const searchParams = useSearchParams();
 
   const handleButtonClick = () => {
     setModalState({ ...modalState, showSignatureModal: true });
@@ -22,6 +25,8 @@ export const Signature = () => {
     console.log(dataURL);
     setModalState({ ...modalState, showSignatureModal: false });
   };
+
+  console.log(searchParams.get('travelerId'));
 
   return (
     <section className={styles.container}>

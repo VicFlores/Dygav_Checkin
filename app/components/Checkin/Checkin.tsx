@@ -5,7 +5,6 @@ import styles from './Checkin.module.css';
 import { CreateAccountStep } from './Stepper/CreateAccountStep/CreateAccountStep';
 import { CheckinStepper } from '@/interfaces/CheckinStepper';
 import { PiUserCheck } from 'react-icons/pi';
-import { ContractStep } from './Stepper/ContractStep/ContractStep';
 import { ElectronicSignatureStep } from './Stepper/ElectronicSignatureStep/ElectronicSignatureStep';
 import { TravellersRegisterStep } from './Stepper/TravellersRegisterStep/TravellersRegisterStep';
 import { IdentifyVerificationStep } from './Stepper/IdentifyVerificationStep/IdentifyVerificationStep';
@@ -33,12 +32,6 @@ const steps: CheckinStepper[] = [
     title: 'Paso 4',
     subtitle: 'Firma electronica',
     content: (validate) => <ElectronicSignatureStep validate={validate} />,
-    completed: false,
-  },
-  {
-    title: 'Paso 5',
-    subtitle: 'Contrato',
-    content: (validate) => <ContractStep validate={validate} />,
     completed: false,
   },
 ];

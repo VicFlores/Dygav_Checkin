@@ -98,6 +98,33 @@
   animation: fadeInOut 4s forwards;
 }
 
+.travellersWithSignature {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.travellersWithSignature h3 {
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+.travellersWithSignature ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.travellersWithSignature li {
+  font-size: 1rem;
+  margin: 1rem 0;
+}
+
+.checkIcon {
+  color: green;
+  margin-left: 0.5rem;
+}
+
 @keyframes fadeInOut {
   0% {
     opacity: 0;
