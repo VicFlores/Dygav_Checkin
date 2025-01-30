@@ -7,7 +7,7 @@ import { FaRegCheckCircle } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import styles from './CreateAccountStep.module.css';
 import { useSearchParams } from 'next/navigation';
-import { insertGuest } from '@/utils/helpers';
+import { findGuestByReservation, insertGuest } from '@/utils/helpers';
 
 interface FormInputs {
   firstName: string;
@@ -28,8 +28,16 @@ export const CreateAccountStep = ({ validate }: StepProps) => {
 
   const handleContinueWithoutAccount = async () => {
     try {
-      await insertGuest(searchParams.get('reservationCode') as string);
+      const reservationCode = searchParams.get('reservationCode') as string;
+      const existingGuest = await findGuestByReservation(reservationCode);
 
+      if (existingGuest) {
+        setErrorMessage('Guest already exists');
+        validate(true);
+        return;
+      }
+
+      await insertGuest(reservationCode);
       setErrorMessage('Validacion exitosa');
       validate(true);
     } catch (error) {
