@@ -1,17 +1,44 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Signature.module.css';
 import { ModalSignature, SignatureCards } from '../shared';
 import { useSearchParams } from 'next/navigation';
+import { findTravellerById, updateTravellerSignature } from '@/utils/helpers';
+
+interface Traveller {
+  traveller_id: number;
+  names: string;
+  lastnames: string;
+}
 
 export const Signature = () => {
+  const [traveller, setTraveller] = useState<Traveller>();
   const [modalState, setModalState] = useState({
     showSignatureModal: false,
     qrCodeUrl: '',
   });
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.has('travelerId')) {
+      const fetchTraveller = async () => {
+        try {
+          const res = await findTravellerById(
+            Number(searchParams.get('travelerId'))
+          );
+
+          setTraveller(res);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      fetchTraveller();
+    }
+  }, [searchParams]);
 
   const handleButtonClick = () => {
     setModalState({ ...modalState, showSignatureModal: true });
@@ -21,12 +48,23 @@ export const Signature = () => {
     setModalState({ ...modalState, showSignatureModal: false });
   };
 
-  const handleSaveSignature = (dataURL: string) => {
+  const handleSaveSignature = async (dataURL: string) => {
     console.log(dataURL);
-    setModalState({ ...modalState, showSignatureModal: false });
-  };
 
-  console.log(searchParams.get('travelerId'));
+    if (traveller) {
+      await updateTravellerSignature(
+        traveller.traveller_id,
+        'http://example.com/signature.jpg'
+      );
+
+      setModalState({ ...modalState, showSignatureModal: false });
+      setSuccessMessage(
+        'Firma electronica guardada exitosamente. Puedes cerrar esta ventana.'
+      );
+    } else {
+      console.error('Traveller is undefined');
+    }
+  };
 
   return (
     <section className={styles.container}>
@@ -50,6 +88,10 @@ export const Signature = () => {
           onSave={handleSaveSignature}
         />
       </SignatureCards>
+
+      {successMessage && (
+        <div className={styles.successMessage}>{successMessage}</div>
+      )}
     </section>
   );
 };

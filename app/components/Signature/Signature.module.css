@@ -16,6 +16,16 @@
   margin-bottom: 3rem;
 }
 
+.successMessage {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #4caf50;
+  border-radius: 0.3rem;
+  background-color: #dff0d8;
+  color: #3c763d;
+  text-align: center;
+}
+
 @media (max-width: 768px) {
   .container {
     height: 100vh;
