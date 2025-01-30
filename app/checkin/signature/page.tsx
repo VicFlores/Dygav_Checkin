@@ -1,8 +1,12 @@
+import React, { Suspense } from 'react';
 import { Signature } from '@/app/components';
-import React from 'react';
 
 const SignaturePage = () => {
-  return <Signature />;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Signature />
+    </Suspense>
+  );
 };
 
 export default SignaturePage;
