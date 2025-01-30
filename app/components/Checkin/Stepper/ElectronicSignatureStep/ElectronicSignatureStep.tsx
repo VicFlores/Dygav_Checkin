@@ -112,7 +112,7 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
   };
 
   const generateUrl = (travellerId: number) => {
-    return `http://localhost:3000/checkin/signature?travelerId=${travellerId}`;
+    return `https://dygav-checkin.vercel.app/checkin/signature?travelerId=${travellerId}`;
   };
 
   const handleButtonClick = (type: string) => {
