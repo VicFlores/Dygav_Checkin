@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, Suspense } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import styles from './Checkin.module.css';
 import { CreateAccountStep } from './Stepper/CreateAccountStep/CreateAccountStep';
 import { CheckinStepper } from '@/interfaces/CheckinStepper';
@@ -8,6 +8,8 @@ import { PiUserCheck } from 'react-icons/pi';
 import { ElectronicSignatureStep } from './Stepper/ElectronicSignatureStep/ElectronicSignatureStep';
 import { TravellersRegisterStep } from './Stepper/TravellersRegisterStep/TravellersRegisterStep';
 import { IdentifyVerificationStep } from './Stepper/IdentifyVerificationStep/IdentifyVerificationStep';
+import { useSearchParams } from 'next/navigation';
+import { fetchGuest, fetchSteps, validateStep } from '@/utils/checkinUtils';
 
 const steps: CheckinStepper[] = [
   {
@@ -38,16 +40,18 @@ const steps: CheckinStepper[] = [
 
 export const Checkin: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<number>(0);
+  const [guestId, setGuestId] = useState<string | null>(null);
+  const [loadedSteps, setLoadedSteps] = useState<CheckinStepper[]>(steps);
+  const searchParams = useSearchParams();
+  const reservationCode = searchParams.get('reservationCode');
 
-  const validateStep = (isValid: boolean): void => {
-    if (isValid) {
-      steps[currentStep].completed = true; // Mark the current step as completed
+  useEffect(() => {
+    fetchGuest(reservationCode, setGuestId);
+  }, [reservationCode]);
 
-      if (currentStep < steps.length - 1) {
-        setCurrentStep(currentStep + 1); // Move to the next step
-      }
-    }
-  };
+  useEffect(() => {
+    fetchSteps(guestId, setLoadedSteps, setCurrentStep, steps);
+  }, [guestId]);
 
   return (
     <section className={styles.checkinContainer}>
@@ -64,7 +68,7 @@ export const Checkin: React.FC = () => {
       </p>
 
       <div className={styles.stepContainer}>
-        {steps.map((step, index) => (
+        {loadedSteps.map((step, index) => (
           <div
             key={index}
             className={`${styles.card} ${
@@ -94,7 +98,17 @@ export const Checkin: React.FC = () => {
 
       <Suspense fallback={<div>Loading...</div>}>
         <div className={`${styles.stepContent} ${styles.active}`}>
-          {steps[currentStep].content(validateStep)}
+          {loadedSteps[currentStep].content((isValid) =>
+            validateStep(
+              isValid,
+              guestId,
+              currentStep,
+              setLoadedSteps,
+              setCurrentStep,
+              loadedSteps,
+              steps
+            )
+          )}
         </div>
       </Suspense>
     </section>
