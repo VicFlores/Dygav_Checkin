@@ -34,8 +34,9 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
     Traveller[]
   >([]);
   const [travellersByGuest, setTravellersByGuest] = useState<Traveller[]>([]);
-  const [selectedTraveller, setSelectedTraveller] =
-    useState<Traveller | null>();
+  const [selectedTraveller, setSelectedTraveller] = useState<Traveller | null>(
+    null
+  );
   const [modalState, setModalState] = useState({
     showSignatureModal: false,
     qrCodeUrl: '',
@@ -64,7 +65,7 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
               getGuestByReservation.guest_id
             );
 
-          setTravellersWithSignature(travellerWithSignatureRes);
+          setTravellersWithSignature(travellerWithSignatureRes || []);
         } catch (error) {
           console.log('Error fetching guest by reservation:', error);
         }
@@ -83,31 +84,30 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
     setValue('signature', dataURL);
 
     if (selectedTraveller) {
-      // Integrate your service to upload the signature image here
-      // Example:
-      // uploadSignature(dataURL, selectedTraveller);
-
       await updateTravellerSignature(
         selectedTraveller.traveller_id,
         'http://example.com/signature.jpg'
       );
 
-      // Update the travellersWithSignature state
       setTravellersWithSignature((prev) => {
-        // Check if the traveller already exists in the array
         const exists = prev.some(
           (traveller) =>
             traveller.traveller_id === selectedTraveller.traveller_id
         );
 
-        // If the traveller does not exist, add them to the array
         if (!exists) {
           return [...prev, selectedTraveller];
         }
 
-        // If the traveller exists, return the previous state
-        return prev;
+        return prev.map((traveller) =>
+          traveller.traveller_id === selectedTraveller.traveller_id
+            ? { ...traveller, signature: dataURL }
+            : traveller
+        );
       });
+
+      // Update the selected traveller to null after saving the signature
+      setSelectedTraveller(null);
     }
   };
 
@@ -140,11 +140,14 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
     setModalState({ ...modalState, showSignatureModal: false });
   };
 
-  const handleTravellerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const traveller = travellersByGuest.find(
-      (t) => t.traveller_id === parseInt(e.target.value)
-    );
-    setSelectedTraveller(traveller || null);
+  const handleTravellerClick = (traveller: Traveller) => {
+    if (
+      !travellersWithSignature.some(
+        (t) => t.traveller_id === traveller.traveller_id
+      )
+    ) {
+      setSelectedTraveller(traveller);
+    }
   };
 
   const handleCloseAlert = () => {
@@ -164,33 +167,29 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
           <div className={styles.travellerList}>
             <h3>Selecciona un viajero:</h3>
 
-            <select
-              className={styles.travellerSelect}
-              onChange={handleTravellerChange}
-            >
-              <option value=''>Seleccione un viajero</option>
-              {travellersByGuest.map((traveller) => (
-                <option
-                  key={traveller.traveller_id}
-                  value={traveller.traveller_id}
-                >
-                  {traveller.names} {traveller.lastnames}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className={styles.travellersWithSignature}>
-            <h3>Viajeros con firma electronica registrada:</h3>
-
-            <ul>
-              {travellersWithSignature.map((traveller) => (
-                <li key={traveller.traveller_id}>
-                  {traveller.names} {traveller.lastnames}{' '}
-                  <FaCheck className={styles.checkIcon} />
-                </li>
-              ))}
-            </ul>
+            <div className={styles.travellerBoxes}>
+              {travellersByGuest.map((traveller) => {
+                const hasSigned = travellersWithSignature.some(
+                  (t) => t.traveller_id === traveller.traveller_id
+                );
+                const isSelected =
+                  selectedTraveller?.traveller_id === traveller.traveller_id;
+                return (
+                  <div
+                    key={traveller.traveller_id}
+                    className={`${styles.travellerBox} ${
+                      hasSigned
+                        ? styles.travellerBox_signed
+                        : styles.travellerBox_pending
+                    } ${isSelected ? styles.travellerBox_selected : ''}`}
+                    onClick={() => handleTravellerClick(traveller)}
+                  >
+                    {traveller.names} {traveller.lastnames}
+                    {hasSigned && <FaCheck className={styles.checkIcon} />}
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
           <div className={styles.stepCards}>
