@@ -1,8 +1,12 @@
 import { Checkin } from '@/app/components';
-import React from 'react';
+import React, { Suspense } from 'react';
 
 const CheckinPage = () => {
-  return <Checkin />;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Checkin />
+    </Suspense>
+  );
 };
 
 export default CheckinPage;
