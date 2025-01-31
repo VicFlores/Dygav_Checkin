@@ -113,6 +113,47 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
         />
       )}
 
+      <h2 className={styles.stepTitle}>Viajeros registrados</h2>
+
+      <p className={styles.stepDescription}>
+        Listado de todos los viajeros registrados
+      </p>
+
+      <div className={styles.userToRegister}>
+        <div>
+          <p>
+            Si algun huesped ya no pudo acompañarte, debes eliminarlo del conteo
+            de huespedes a registrar
+          </p>
+
+          <button className={styles.iconButton} onClick={handleRemoveTraveller}>
+            <RiDeleteBinLine />
+          </button>
+        </div>
+
+        <div>
+          <p>
+            Si has eliminado a un huesped por error, puedes volver a agregarlo
+            para el conteo de huespedes a registrar
+          </p>
+
+          <button className={styles.iconButton} onClick={handleAddTraveller}>
+            <IoPersonAddOutline />
+          </button>
+        </div>
+
+        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+      </div>
+
+      <div className={styles.stepUsersContainer}>
+        <h2>
+          Cantidad de huespedes a registrar:{' '}
+          {reservationInfo.number_travellers_register}
+        </h2>
+
+        {renderTravellers}
+      </div>
+
       <form
         className={styles.stepFormContainer}
         onSubmit={handleSubmit(onSubmit)}
@@ -447,47 +488,6 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
       >
         Siguiente paso
       </button>
-
-      <h2 className={styles.stepTitle}>Viajeros registrados</h2>
-
-      <p className={styles.stepDescription}>
-        Listado de todos los viajeros registrados
-      </p>
-
-      <div className={styles.userToRegister}>
-        <div>
-          <p>
-            Si algun huesped ya no pudo acompañarte, debes eliminarlo del conteo
-            de huespedes a registrar
-          </p>
-
-          <button className={styles.iconButton} onClick={handleRemoveTraveller}>
-            <RiDeleteBinLine />
-          </button>
-        </div>
-
-        <div>
-          <p>
-            Si has eliminado a un huesped por error, puedes volver a agregarlo
-            para el conteo de huespedes a registrar
-          </p>
-
-          <button className={styles.iconButton} onClick={handleAddTraveller}>
-            <IoPersonAddOutline />
-          </button>
-        </div>
-
-        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
-      </div>
-
-      <div className={styles.stepUsersContainer}>
-        <h2>
-          Cantidad de huespedes a registrar:{' '}
-          {reservationInfo.number_travellers_register}
-        </h2>
-
-        {renderTravellers}
-      </div>
     </section>
   );
 };
