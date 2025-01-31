@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, Suspense, FC } from 'react';
 import styles from './Checkin.module.css';
 import { CreateAccountStep } from './Stepper/CreateAccountStep/CreateAccountStep';
 import { CheckinStepper } from '@/interfaces/CheckinStepper';
@@ -38,7 +38,7 @@ const steps: CheckinStepper[] = [
   },
 ];
 
-export const Checkin: React.FC = () => {
+export const Checkin: FC = () => {
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [guestId, setGuestId] = useState<string | null>(null);
   const [loadedSteps, setLoadedSteps] = useState<CheckinStepper[]>(steps);

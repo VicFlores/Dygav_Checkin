@@ -13,8 +13,6 @@ export const fetchGuest = async (
       const guest = await findGuestByReservation(reservationCode);
       if (guest) {
         setGuestId(guest.guest_id);
-      } else {
-        console.error('Guest not found');
       }
     } catch (error) {
       console.error('Error fetching guest:', error);
@@ -86,6 +84,9 @@ export const validateStep = async (
   loadedSteps: CheckinStepper[],
   steps: CheckinStepper[]
 ) => {
+  console.log('validateStep: isValid', isValid);
+  console.log('validateStep: guestId', guestId);
+
   if (isValid && guestId !== null) {
     const stepNumber = currentStep + 1;
     const isRepeated = stepNumber !== 2;

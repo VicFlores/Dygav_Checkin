@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { StepProps } from '@/interfaces';
 import { FaRegCheckCircle } from 'react-icons/fa';
@@ -16,13 +16,12 @@ interface FormInputs {
   password: string;
 }
 
-export const CreateAccountStep = ({ validate }: StepProps) => {
+export const CreateAccountStep: FC<StepProps> = ({ validate }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormInputs>();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const searchParams = useSearchParams();
 
@@ -201,6 +200,8 @@ export const CreateAccountStep = ({ validate }: StepProps) => {
           Iniciar Sesion y continuar
         </button>
       </div>
+
+      {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
     </section>
   );
 };

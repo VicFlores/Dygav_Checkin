@@ -9,4 +9,5 @@ export interface CheckinStepper {
 
 export interface StepProps {
   validate: (isValid: boolean) => void;
+  setGuestId?: React.Dispatch<React.SetStateAction<string | null>>;
 }
