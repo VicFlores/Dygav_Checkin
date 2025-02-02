@@ -45,12 +45,11 @@ export const CreateAccountStep: FC<StepProps> = ({ validate }) => {
       await Promise.all(trackingPromises);
 
       setErrorMessage(null);
-      console.log('reservationCode', reservationCode);
-      console.log('guestId in CreateAccountStep', guestId); // Add this line
+
       validate(true, guestId); // Pass guestId to validate function
     } catch (error) {
       setErrorMessage('Error creating guest or tracking');
-      console.error(error);
+      console.log(error);
     }
   };
 
