@@ -60,10 +60,7 @@ export const useElectronicSignature = () => {
 
   const handleSaveSignature = async (dataURL: string) => {
     if (selectedTraveller) {
-      await updateTravellerSignature(
-        selectedTraveller.traveller_id,
-        'http://example.com/signature.jpg'
-      );
+      await updateTravellerSignature(selectedTraveller.traveller_id, dataURL);
 
       setTravellersWithSignature((prev) => {
         const exists = prev.some(
@@ -81,8 +78,6 @@ export const useElectronicSignature = () => {
             : traveller
         );
       });
-
-      console.log('Signature saved:', dataURL);
 
       setSelectedTraveller(null);
     }
