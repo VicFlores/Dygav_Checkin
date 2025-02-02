@@ -141,6 +141,25 @@
   color: #fff;
 }
 
+@keyframes loadingAnimation {
+  0% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+.loadingMessage {
+  color: #00b215;
+  font-size: 18px;
+  text-align: center;
+  animation: loadingAnimation 1.5s infinite;
+}
+
 @media screen and (max-width: 1288px) {
   .stepOneFormInputs div {
     display: flex;

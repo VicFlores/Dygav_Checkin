@@ -25,11 +25,13 @@ export const CreateAccountStep: FC<StepProps> = ({ validate }) => {
     formState: { errors },
   } = useForm<FormInputs>();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const searchParams = useSearchParams();
   const reservationCode = searchParams.get('reservationCode') as string;
 
   const handleContinueWithoutAccount = async () => {
     try {
+      setIsLoading(true);
       const response = await insertGuest(reservationCode);
       const guestId = response.guest_id;
 
@@ -49,7 +51,10 @@ export const CreateAccountStep: FC<StepProps> = ({ validate }) => {
       validate(true, guestId); // Pass guestId to validate function
     } catch (error) {
       setErrorMessage('Error creating guest or tracking');
+      setIsLoading(false);
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -179,6 +184,10 @@ export const CreateAccountStep: FC<StepProps> = ({ validate }) => {
           </button>
         </div>
       </form>
+
+      {isLoading && (
+        <p className={styles.loadingMessage}>Cargando, por favor espera...</p>
+      )}
 
       <h2 className={styles.stepOneTitle}>
         Si ya tienes cuenta de Dygav Inicia Sesion
