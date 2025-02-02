@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, Suspense } from 'react';
+import React, { useState, useEffect, Suspense, FC } from 'react';
 import styles from './Checkin.module.css';
 import { CreateAccountStep } from './Stepper/CreateAccountStep/CreateAccountStep';
 import { CheckinStepper } from '@/interfaces/CheckinStepper';
@@ -9,6 +9,15 @@ import { ElectronicSignatureStep } from './Stepper/ElectronicSignatureStep/Elect
 import { TravellersRegisterStep } from './Stepper/TravellersRegisterStep/TravellersRegisterStep';
 import { IdentifyVerificationStep } from './Stepper/IdentifyVerificationStep/IdentifyVerificationStep';
 import checkinAPI from '@/utils/config/axiosConfig';
+import { useSearchParams } from 'next/navigation';
+import { findGuestByReservation } from '@/utils/helpers/guests/findGuestByReservation';
+
+interface TrackingStep {
+  completed: boolean;
+  guest_id: number;
+  is_repeated: boolean;
+  step_number: number;
+}
 
 export const steps: CheckinStepper[] = [
   {
@@ -37,9 +46,43 @@ export const steps: CheckinStepper[] = [
   },
 ];
 
-export const Checkin: React.FC = () => {
+export const Checkin: FC = () => {
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [guestId, setGuestId] = useState<number | null>(null);
+  const searchParams = useSearchParams();
+  const reservationCode = searchParams.get('reservationCode') as string;
+
+  useEffect(() => {
+    const fetchGuestAndSteps = async () => {
+      try {
+        const guest = await findGuestByReservation(reservationCode);
+        if (guest) {
+          setGuestId(guest.guest_id);
+          const trackingResponse = await checkinAPI.get(
+            `/tracking?guest_id=${guest.guest_id}`
+          );
+          const trackingData = trackingResponse.data;
+
+          // Find the first incomplete step
+          const firstIncompleteStep = trackingData.findIndex(
+            (step: TrackingStep) => !step.completed
+          );
+          setCurrentStep(
+            firstIncompleteStep !== -1 ? firstIncompleteStep : steps.length - 1
+          );
+
+          // Update steps completion status
+          trackingData.forEach((step: TrackingStep) => {
+            steps[step.step_number - 1].completed = step.completed;
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching guest or tracking information:', error);
+      }
+    };
+
+    fetchGuestAndSteps();
+  }, [reservationCode]);
 
   const validateStep = async (
     isValid: boolean,
