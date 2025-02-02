@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, Suspense, FC } from 'react';
+import React, { useState, Suspense } from 'react';
 import styles from './Checkin.module.css';
 import { CreateAccountStep } from './Stepper/CreateAccountStep/CreateAccountStep';
 import { CheckinStepper } from '@/interfaces/CheckinStepper';
@@ -8,10 +8,9 @@ import { PiUserCheck } from 'react-icons/pi';
 import { ElectronicSignatureStep } from './Stepper/ElectronicSignatureStep/ElectronicSignatureStep';
 import { TravellersRegisterStep } from './Stepper/TravellersRegisterStep/TravellersRegisterStep';
 import { IdentifyVerificationStep } from './Stepper/IdentifyVerificationStep/IdentifyVerificationStep';
-import { useSearchParams } from 'next/navigation';
-import { fetchGuest, fetchSteps, validateStep } from '@/utils/checkinUtils';
+import checkinAPI from '@/utils/config/axiosConfig';
 
-const steps: CheckinStepper[] = [
+export const steps: CheckinStepper[] = [
   {
     title: 'Paso 1',
     subtitle: 'Crear cuenta Dygav',
@@ -38,20 +37,40 @@ const steps: CheckinStepper[] = [
   },
 ];
 
-export const Checkin: FC = () => {
+export const Checkin: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<number>(0);
-  const [guestId, setGuestId] = useState<string | null>(null);
-  const [loadedSteps, setLoadedSteps] = useState<CheckinStepper[]>(steps);
-  const searchParams = useSearchParams();
-  const reservationCode = searchParams.get('reservationCode');
+  const [guestId, setGuestId] = useState<number | null>(null);
 
-  useEffect(() => {
-    fetchGuest(reservationCode, setGuestId);
-  }, [reservationCode]);
+  const validateStep = async (
+    isValid: boolean,
+    newGuestId?: number
+  ): Promise<void> => {
+    if (isValid) {
+      steps[currentStep].completed = true; // Mark the current step as completed
 
-  useEffect(() => {
-    fetchSteps(guestId, setLoadedSteps, setCurrentStep, steps);
-  }, [guestId]);
+      if (newGuestId) {
+        setGuestId(newGuestId);
+      }
+
+      console.log('guestId in validateStep', newGuestId || guestId); // Add this line
+
+      if (newGuestId || guestId) {
+        await checkinAPI.put(
+          `/tracking?guest_id=${newGuestId || guestId}&step_number=${
+            currentStep + 1
+          }`,
+          {
+            completed: true,
+            is_repeated: false,
+          }
+        );
+      }
+
+      if (currentStep < steps.length - 1) {
+        setCurrentStep(currentStep + 1); // Move to the next step
+      }
+    }
+  };
 
   return (
     <section className={styles.checkinContainer}>
@@ -68,7 +87,7 @@ export const Checkin: FC = () => {
       </p>
 
       <div className={styles.stepContainer}>
-        {loadedSteps.map((step, index) => (
+        {steps.map((step, index) => (
           <div
             key={index}
             className={`${styles.card} ${
@@ -98,16 +117,8 @@ export const Checkin: FC = () => {
 
       <Suspense fallback={<div>Loading...</div>}>
         <div className={`${styles.stepContent} ${styles.active}`}>
-          {loadedSteps[currentStep].content((isValid) =>
-            validateStep(
-              isValid,
-              guestId,
-              currentStep,
-              setLoadedSteps,
-              setCurrentStep,
-              loadedSteps,
-              steps
-            )
+          {steps[currentStep].content((isValid, newGuestId) =>
+            validateStep(isValid, newGuestId)
           )}
         </div>
       </Suspense>

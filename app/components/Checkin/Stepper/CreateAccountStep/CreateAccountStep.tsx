@@ -3,11 +3,13 @@
 import React, { FC, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { StepProps } from '@/interfaces';
+import { useSearchParams } from 'next/navigation';
 import { FaRegCheckCircle } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import styles from './CreateAccountStep.module.css';
-import { useSearchParams } from 'next/navigation';
-import { findGuestByReservation, insertGuest } from '@/utils/helpers';
+import { insertGuest } from '@/utils/helpers';
+import checkinAPI from '@/utils/config/axiosConfig';
+import { steps } from '../../Checkin';
 
 interface FormInputs {
   firstName: string;
@@ -24,26 +26,31 @@ export const CreateAccountStep: FC<StepProps> = ({ validate }) => {
   } = useForm<FormInputs>();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const searchParams = useSearchParams();
+  const reservationCode = searchParams.get('reservationCode') as string;
 
   const handleContinueWithoutAccount = async () => {
     try {
-      const reservationCode = searchParams.get('reservationCode') as string;
-      const existingGuest = await findGuestByReservation(reservationCode);
+      const response = await insertGuest(reservationCode);
+      const guestId = response.guest_id;
 
-      if (existingGuest) {
-        setErrorMessage('Guest already exists');
-        validate(true);
-        return;
-      }
+      // Create tracking entries for all steps
+      const trackingPromises = steps.map((_, index) =>
+        checkinAPI.post('/tracking', {
+          completed: false,
+          guest_id: guestId,
+          is_repeated: false,
+          step_number: index + 1,
+        })
+      );
+      await Promise.all(trackingPromises);
 
-      await insertGuest(reservationCode);
-      setErrorMessage('Validacion exitosa');
-      validate(true);
+      setErrorMessage(null);
+      console.log('reservationCode', reservationCode);
+      console.log('guestId in CreateAccountStep', guestId); // Add this line
+      validate(true, guestId); // Pass guestId to validate function
     } catch (error) {
-      if (error instanceof Error) {
-        setErrorMessage(error.message);
-      }
-      validate(false);
+      setErrorMessage('Error creating guest or tracking');
+      console.error(error);
     }
   };
 
