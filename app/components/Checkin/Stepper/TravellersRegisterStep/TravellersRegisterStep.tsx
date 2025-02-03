@@ -283,6 +283,16 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
                           message: 'Formato de DNI no valido',
                         }
                       : undefined,
+                  minLength: {
+                    value: 5,
+                    message:
+                      'El numero de documento debe tener al menos 3 caracteres',
+                  },
+                  maxLength: {
+                    value: 18,
+                    message:
+                      'El numero de documento no puede tener mas de 8 caracteres',
+                  },
                 })}
                 disabled={ageRange === 'child'}
                 className={ageRange === 'child' ? styles.disabled : ''}
@@ -300,10 +310,24 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
                 id='documentSupport'
                 type='text'
                 placeholder='Número de soporte del documento'
-                {...register('documentSupport')}
+                {...register('documentSupport', {
+                  minLength: {
+                    value: 5,
+                    message:
+                      'El número de soporte debe tener al menos 5 caracteres',
+                  },
+                  maxLength: {
+                    value: 18,
+                    message:
+                      'El número de soporte no puede tener más de 18 caracteres',
+                  },
+                })}
                 disabled={ageRange === 'child'}
                 className={ageRange === 'child' ? styles.disabled : ''}
               />
+              {errors.documentSupport && (
+                <p className={styles.error}>{errors.documentSupport.message}</p>
+              )}
             </div>
 
             <div>
@@ -368,6 +392,15 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
                 {...register('kinship', {
                   required:
                     ageRange === 'adult' ? false : 'Parentesco es requerido',
+                  minLength: {
+                    value: 5,
+                    message: 'El parentesco debe tener al menos 5 caracteres',
+                  },
+                  maxLength: {
+                    value: 20,
+                    message:
+                      'El parentesco no puede tener más de 20 caracteres',
+                  },
                 })}
                 disabled={ageRange === 'adult'}
                 className={ageRange === 'adult' ? styles.disabled : ''}
@@ -395,7 +428,18 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
                 id='address'
                 type='text'
                 placeholder='Escribe tu dirección'
-                {...register('address', { required: 'Dirección es requerido' })}
+                {...register('address', {
+                  required: 'Dirección es requerido',
+                  minLength: {
+                    value: 5,
+                    message: 'La dirección debe tener al menos 5 caracteres',
+                  },
+                  maxLength: {
+                    value: 200,
+                    message:
+                      'La dirección no puede tener más de 200 caracteres',
+                  },
+                })}
               />
               {errors.address && (
                 <p className={styles.error}>{errors.address.message}</p>
@@ -410,6 +454,16 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
                 placeholder='Escribe tu código de municipio'
                 {...register('cityCode', {
                   required: 'Código de Municipio es requerido',
+                  minLength: {
+                    value: 3,
+                    message:
+                      'El código de municipio debe tener al menos 3 caracteres',
+                  },
+                  maxLength: {
+                    value: 8,
+                    message:
+                      'El código de municipio no puede tener más de 8 caracteres',
+                  },
                 })}
               />
               {errors.cityCode && (
@@ -423,7 +477,17 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
                 id='city'
                 type='text'
                 placeholder='Escribe tu Municipio'
-                {...register('city', { required: 'Municipio es requerido' })}
+                {...register('city', {
+                  required: 'Municipio es requerido',
+                  minLength: {
+                    value: 4,
+                    message: 'El municipio debe tener al menos 4 caracteres',
+                  },
+                  maxLength: {
+                    value: 50,
+                    message: 'El municipio no puede tener más de 50 caracteres',
+                  },
+                })}
               />
               {errors.city && (
                 <p className={styles.error}>{errors.city.message}</p>
@@ -438,6 +502,16 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
                 placeholder='Escribe tu código Postal'
                 {...register('postalCode', {
                   required: 'Código Postal es requerido',
+                  minLength: {
+                    value: 3,
+                    message:
+                      'El código postal debe tener al menos 3 caracteres',
+                  },
+                  maxLength: {
+                    value: 8,
+                    message:
+                      'El código postal no puede tener más de 8 caracteres',
+                  },
                 })}
               />
               {errors.postalCode && (
