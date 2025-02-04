@@ -98,7 +98,6 @@ export const useElectronicSignature = () => {
     if (type === 'signature') {
       setModalState({ ...modalState, showSignatureModal: true });
     } else if (type === 'qrCode') {
-      console.log('QR Code URL:', url);
       setModalState({ ...modalState, qrCodeUrl: url });
     } else if (type === 'shareLink') {
       navigator.clipboard.writeText(url).then(() => {
