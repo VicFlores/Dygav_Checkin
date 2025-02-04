@@ -41,7 +41,7 @@ export const CreateAccountStep: FC<StepProps> = ({ validate }) => {
           completed: false,
           guest_id: guestId,
           is_repeated: false,
-          step_number: index + 1,
+          step_id: index + 1,
         })
       );
       await Promise.all(trackingPromises);

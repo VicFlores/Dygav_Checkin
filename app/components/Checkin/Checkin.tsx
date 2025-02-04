@@ -53,11 +53,9 @@ export const Checkin: FC = () => {
         setGuestId(newGuestId);
       }
 
-      console.log('guestId in validateStep', newGuestId || guestId); // Add this line
-
       if (newGuestId || guestId) {
         await checkinAPI.put(
-          `/tracking?guest_id=${newGuestId || guestId}&step_number=${
+          `/tracking?guest_id=${newGuestId || guestId}&step_id=${
             currentStep + 1
           }`,
           {

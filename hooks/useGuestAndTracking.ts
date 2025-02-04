@@ -32,6 +32,7 @@ export const useGuestAndTracking = (steps: CheckinStepper[]) => {
           const firstIncompleteStep = trackingData.findIndex(
             (step: TrackingStep) => !step.completed
           );
+
           setCurrentStep(
             firstIncompleteStep !== -1 ? firstIncompleteStep : steps.length - 1
           );
