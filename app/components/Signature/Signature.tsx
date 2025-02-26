@@ -49,13 +49,8 @@ export const Signature = () => {
   };
 
   const handleSaveSignature = async (dataURL: string) => {
-    console.log(dataURL);
-
     if (traveller) {
-      await updateTravellerSignature(
-        traveller.traveller_id,
-        'http://example.com/signature.jpg'
-      );
+      await updateTravellerSignature(traveller.traveller_id, dataURL);
 
       setModalState({ ...modalState, showSignatureModal: false });
       setSuccessMessage(
