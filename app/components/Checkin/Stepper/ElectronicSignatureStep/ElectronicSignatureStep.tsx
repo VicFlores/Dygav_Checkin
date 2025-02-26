@@ -1,23 +1,25 @@
 'use client';
 
 import { StepProps } from '@/interfaces';
-import React from 'react';
+import React, { useState } from 'react';
 import { FaCheck } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import styles from './ElectronicSignatureStep.module.css';
 import { useElectronicSignature } from '@/hooks/useElectronicSignature';
 import {
+  ModalAlert,
   ModalSignature,
   SignatureCards,
-  ModalAlert,
 } from '@/app/components/shared';
 import { QRCodeSVG } from 'qrcode.react';
+import { useTravellersRegister } from '@/hooks';
 
 type Inputs = {
   signature: string;
 };
 
 export const ElectronicSignatureStep = ({ validate }: StepProps) => {
+  const [showCompleteModal, setShowCompleteModal] = useState(false);
   const {
     travellersWithSignature,
     travellersByGuest,
@@ -31,11 +33,30 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
     handleCloseSignaturePad,
     handleCloseAlert,
   } = useElectronicSignature();
+
+  const { reservationInfo } = useTravellersRegister();
+
   const { setValue } = useForm<Inputs & { ageRange: string }>();
 
   const handleValidation = () => {
-    const isValid = false; // Replace with actual validation logic
-    validate(isValid);
+    const isValid =
+      reservationInfo.number_travellers_register ===
+      travellersWithSignature.length;
+
+    if (isValid) {
+      setShowCompleteModal(true);
+    }
+  };
+
+  const handleFormSubmit = (data: { phone: string; email: string }) => {
+    const { email, phone } = data;
+
+    console.log('Email:', email);
+    console.log('Phone:', phone);
+
+    setShowCompleteModal(false);
+
+    validate(false);
   };
 
   return (
@@ -125,6 +146,15 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
       <button className={styles.nextStepButton} onClick={handleValidation}>
         Continuar
       </button>
+
+      {showCompleteModal && (
+        <ModalAlert
+          message='Ingresa un numero de telefono y correo electronico para recibir la confirmacion de tu registro.'
+          onAccept={() => setShowCompleteModal(false)}
+          isForm={true}
+          onSubmit={handleFormSubmit}
+        />
+      )}
 
       {showAlert && (
         <ModalAlert

@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react';
 import styles from './Signature.module.css';
 import { ModalSignature, SignatureCards } from '../shared';
 import { useSearchParams } from 'next/navigation';
-import { findTravellerById, updateTravellerSignature } from '@/utils/helpers';
+import { findTravellerById } from '@/utils/helpers';
+import { useElectronicSignature } from '@/hooks/useElectronicSignature';
 
 interface Traveller {
   traveller_id: number;
@@ -18,9 +19,10 @@ export const Signature = () => {
     showSignatureModal: false,
     qrCodeUrl: '',
   });
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const searchParams = useSearchParams();
+
+  const { handleSaveSignature, successMessage } = useElectronicSignature();
 
   useEffect(() => {
     if (searchParams.has('travelerId')) {
@@ -48,19 +50,6 @@ export const Signature = () => {
     setModalState({ ...modalState, showSignatureModal: false });
   };
 
-  const handleSaveSignature = async (dataURL: string) => {
-    if (traveller) {
-      await updateTravellerSignature(traveller.traveller_id, dataURL);
-
-      setModalState({ ...modalState, showSignatureModal: false });
-      setSuccessMessage(
-        'Firma electronica guardada exitosamente. Puedes cerrar esta ventana.'
-      );
-    } else {
-      console.error('Traveller is undefined');
-    }
-  };
-
   return (
     <section className={styles.container}>
       <h1 className={styles.title}>Firma electronica</h1>
@@ -80,7 +69,7 @@ export const Signature = () => {
         <ModalSignature
           show={modalState.showSignatureModal}
           onClose={handleCloseSignaturePad}
-          onSave={handleSaveSignature}
+          onSave={(dataURL) => handleSaveSignature(dataURL, traveller)}
         />
       </SignatureCards>
 

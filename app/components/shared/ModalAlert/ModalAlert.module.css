@@ -1,3 +1,20 @@
+.formGroup {
+  margin: 15px 0;
+}
+
+.formGroup input {
+  width: 80%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.formGroup input:focus {
+  outline: none;
+  border-color: #f4511e;
+}
+
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -32,4 +49,10 @@
 
 .acceptButton:hover {
   background-color: #e53611;
+}
+
+.message {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  text-wrap: balance;
 }
