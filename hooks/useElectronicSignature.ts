@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   findGuestByReservation,
   findTravellersByGuestId,
   findTravellersByGuestIdWithSignature,
   updateTravellerSignature,
-} from '@/utils/helpers';
+} from "@/utils/helpers";
 
 interface Traveller {
   traveller_id: number;
@@ -23,18 +23,18 @@ export const useElectronicSignature = () => {
   );
   const [modalState, setModalState] = useState({
     showSignatureModal: false,
-    qrCodeUrl: '',
+    qrCodeUrl: "",
   });
   const [copied, setCopied] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (searchParams.has('reservationCode')) {
+    if (searchParams.has("reservationCode")) {
       const fetchGuestByReservation = async () => {
         try {
           const getGuestByReservation = await findGuestByReservation(
-            searchParams.get('reservationCode') as string
+            searchParams.get("reservationCode") as string
           );
 
           const travellers = await findTravellersByGuestId(
@@ -50,7 +50,7 @@ export const useElectronicSignature = () => {
 
           setTravellersWithSignature(travellerWithSignatureRes || []);
         } catch (error) {
-          console.log('Error fetching guest by reservation:', error);
+          console.log("Error fetching guest by reservation:", error);
         }
       };
 
@@ -95,11 +95,11 @@ export const useElectronicSignature = () => {
 
     const url = generateUrl(selectedTraveller.traveller_id);
 
-    if (type === 'signature') {
+    if (type === "signature") {
       setModalState({ ...modalState, showSignatureModal: true });
-    } else if (type === 'qrCode') {
+    } else if (type === "qrCode") {
       setModalState({ ...modalState, qrCodeUrl: url });
-    } else if (type === 'shareLink') {
+    } else if (type === "shareLink") {
       navigator.clipboard.writeText(url).then(() => {
         setCopied(true);
         setTimeout(() => setCopied(false), 4000);
