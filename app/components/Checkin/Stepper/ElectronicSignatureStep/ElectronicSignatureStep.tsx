@@ -1,7 +1,7 @@
 'use client';
 
 import { StepProps } from '@/interfaces';
-import React, { useState } from 'react';
+import React from 'react';
 import { FaCheck } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import styles from './ElectronicSignatureStep.module.css';
@@ -19,7 +19,7 @@ type Inputs = {
 };
 
 export const ElectronicSignatureStep = ({ validate }: StepProps) => {
-  const [showCompleteModal, setShowCompleteModal] = useState(false);
+  // const [showCompleteModal, setShowCompleteModal] = useState(false);
   const {
     travellersWithSignature,
     travellersByGuest,
@@ -43,21 +43,23 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
       reservationInfo.number_travellers_register ===
       travellersWithSignature.length;
 
-    if (isValid) {
-      setShowCompleteModal(true);
-    }
+    // if (isValid) {
+    //   setShowCompleteModal(true);
+    // }
+
+    validate(isValid);
   };
 
-  const handleFormSubmit = (data: { phone: string; email: string }) => {
-    const { email, phone } = data;
+  // const handleFormSubmit = (data: { phone: string; email: string }) => {
+  //   const { email, phone } = data;
 
-    console.log('Email:', email);
-    console.log('Phone:', phone);
+  //   console.log('Email:', email);
+  //   console.log('Phone:', phone);
 
-    setShowCompleteModal(false);
+  //   setShowCompleteModal(false);
 
-    validate(false);
-  };
+  //   validate(false);
+  // };
 
   return (
     <div className={styles.container}>
@@ -147,14 +149,14 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
         Continuar
       </button>
 
-      {showCompleteModal && (
+      {/* {showCompleteModal && (
         <ModalAlert
           message='Ingresa un numero de telefono y correo electronico para recibir la confirmacion de tu registro.'
           onAccept={() => setShowCompleteModal(false)}
           isForm={true}
           onSubmit={handleFormSubmit}
         />
-      )}
+      )} */}
 
       {showAlert && (
         <ModalAlert
