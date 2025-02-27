@@ -77,3 +77,67 @@
   align-self: center;
   justify-self: center;
 }
+
+@media screen and (max-width: 768px) {
+  .stepContainer {
+    padding: 1rem 0;
+  }
+
+  .stepOneTitle {
+    font-size: 1.4rem;
+  }
+
+  .stepOneDescription {
+    font-size: 0.9rem;
+  }
+
+  .travellerCard {
+    min-width: 150px;
+  }
+
+  .title {
+    font-size: 1.2rem;
+  }
+
+  .subtitle {
+    font-size: 0.8rem;
+  }
+
+  .stepButton {
+    padding: 0.5rem 4rem;
+    font-size: 0.9rem;
+    margin: 2rem 0 4rem 0;
+  }
+
+  .travellerCard p {
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .travellerCard {
+    min-width: 120px;
+  }
+
+  .title {
+    font-size: 1rem;
+  }
+
+  .subtitle {
+    font-size: 0.7rem;
+  }
+
+  .stepOneDescription {
+    text-align: center;
+  }
+
+  .stepButton {
+    padding: 0.5rem 3rem;
+    font-size: 0.8rem;
+    margin: 2rem 0 4rem 0;
+  }
+
+  .travellerCard p {
+    font-size: 0.7rem;
+  }
+}
