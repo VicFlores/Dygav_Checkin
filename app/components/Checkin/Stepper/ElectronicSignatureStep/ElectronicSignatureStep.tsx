@@ -19,7 +19,6 @@ type Inputs = {
 };
 
 export const ElectronicSignatureStep = ({ validate }: StepProps) => {
-  // const [showCompleteModal, setShowCompleteModal] = useState(false);
   const {
     travellersWithSignature,
     travellersByGuest,
@@ -49,17 +48,6 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
 
     validate(isValid);
   };
-
-  // const handleFormSubmit = (data: { phone: string; email: string }) => {
-  //   const { email, phone } = data;
-
-  //   console.log('Email:', email);
-  //   console.log('Phone:', phone);
-
-  //   setShowCompleteModal(false);
-
-  //   validate(false);
-  // };
 
   return (
     <div className={styles.container}>
@@ -148,15 +136,6 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
       <button className={styles.nextStepButton} onClick={handleValidation}>
         Continuar
       </button>
-
-      {/* {showCompleteModal && (
-        <ModalAlert
-          message='Ingresa un numero de telefono y correo electronico para recibir la confirmacion de tu registro.'
-          onAccept={() => setShowCompleteModal(false)}
-          isForm={true}
-          onSubmit={handleFormSubmit}
-        />
-      )} */}
 
       {showAlert && (
         <ModalAlert

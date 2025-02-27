@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './ModalAlert.module.css';
 
 interface ModalProps {
@@ -7,6 +7,8 @@ interface ModalProps {
   onAccept: () => void;
   isForm?: boolean;
   onSubmit?: (data: { phone: string; email: string }) => void;
+  defaultPhone?: string;
+  defaultEmail?: string;
 }
 
 export const ModalAlert: React.FC<ModalProps> = ({
@@ -14,9 +16,16 @@ export const ModalAlert: React.FC<ModalProps> = ({
   onAccept,
   isForm = false,
   onSubmit,
+  defaultPhone = '',
+  defaultEmail = '',
 }) => {
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState(defaultPhone);
+  const [email, setEmail] = useState(defaultEmail);
+
+  useEffect(() => {
+    setPhone(defaultPhone);
+    setEmail(defaultEmail);
+  }, [defaultPhone, defaultEmail]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +42,11 @@ export const ModalAlert: React.FC<ModalProps> = ({
         {isForm ? (
           <form onSubmit={handleSubmit}>
             <div className={styles.formGroup}>
+              <label htmlFor='phone' className={styles.formLabel}>
+                Número de teléfono
+              </label>
               <input
+                id='phone'
                 type='tel'
                 placeholder='Número de teléfono'
                 value={phone}
@@ -42,7 +55,11 @@ export const ModalAlert: React.FC<ModalProps> = ({
               />
             </div>
             <div className={styles.formGroup}>
+              <label htmlFor='email' className={styles.formLabel}>
+                Correo electrónico
+              </label>
               <input
+                id='email'
                 type='email'
                 placeholder='Correo electrónico'
                 value={email}

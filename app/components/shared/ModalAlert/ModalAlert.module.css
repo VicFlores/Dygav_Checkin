@@ -1,5 +1,14 @@
 .formGroup {
-  margin: 15px 0;
+  margin-bottom: 1rem;
+}
+
+.formLabel {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  text-align: left;
+  padding-left: 3rem;
 }
 
 .formGroup input {

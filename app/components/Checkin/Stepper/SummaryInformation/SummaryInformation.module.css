@@ -1,0 +1,79 @@
+.stepContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  background-color: #f5f5f5;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 15px 0;
+}
+
+.stepOneTitle {
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin: 1rem 0 1rem 0;
+}
+
+.stepOneDescription {
+  font-size: 1rem;
+  font-weight: 300;
+  margin: 0 0 1rem 0;
+}
+
+.travellersContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.travellerCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  padding: 1.2rem;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  margin: 1rem 0 2rem 0;
+  gap: 1.2rem;
+  text-align: center;
+}
+
+.travellerCard span p:first-child {
+  margin: 0.6rem 0;
+}
+
+.travellerCard p {
+  margin: 0;
+  text-wrap: balance;
+}
+
+.title {
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin: 1rem 0 1rem 0;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  font-weight: 300;
+  margin: 0 0 1rem 0;
+}
+
+.stepButton {
+  background-color: #f4511e;
+  color: #fefefe;
+  border: none;
+  padding: 0.5rem 5rem;
+  border-radius: 0.3rem;
+  font-size: 1rem;
+  font-weight: 300;
+  cursor: pointer;
+  margin: 2rem 0 4rem 0;
+  align-self: center;
+  justify-self: center;
+}

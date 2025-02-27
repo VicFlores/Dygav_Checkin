@@ -10,6 +10,7 @@ import { TravellersRegisterStep } from './Stepper/TravellersRegisterStep/Travell
 import { IdentifyVerificationStep } from './Stepper/IdentifyVerificationStep/IdentifyVerificationStep';
 import { useGuestAndTracking } from '@/hooks';
 import checkinAPI from '@/utils/config/axiosConfig';
+import { SummaryInformation } from './Stepper/SummaryInformation/SummaryInformation';
 
 export const steps: CheckinStepper[] = [
   {
@@ -34,6 +35,12 @@ export const steps: CheckinStepper[] = [
     title: 'Paso 4',
     subtitle: 'Firma electronica',
     content: (validate) => <ElectronicSignatureStep validate={validate} />,
+    completed: false,
+  },
+  {
+    title: 'Paso 5',
+    subtitle: 'Resumen de informacion',
+    content: (validate) => <SummaryInformation validate={validate} />,
     completed: false,
   },
 ];
