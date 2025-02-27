@@ -1,7 +1,7 @@
 'use client';
 
-import React, { FC, useEffect, useState } from 'react';
-import { StepProps } from '@/interfaces';
+import React, { useEffect, useState } from 'react';
+
 import styles from './SummaryInformation.module.css';
 import {
   findGuestByReservation,
@@ -9,7 +9,6 @@ import {
 } from '@/utils/helpers';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
-import { ModalAlert } from '@/app/components/shared';
 
 interface Traveller {
   names: string;
@@ -27,8 +26,7 @@ interface MainGuest {
   email: string;
 }
 
-export const SummaryInformation: FC<StepProps> = ({ validate }) => {
-  const [showCompleteModal, setShowCompleteModal] = useState(false);
+export const SummaryInformation = () => {
   const [mainGuest, setMainGuest] = useState<MainGuest>();
   const [travellers, setTravellers] = useState<Traveller[]>([]);
   const searchParams = useSearchParams();
@@ -51,24 +49,24 @@ export const SummaryInformation: FC<StepProps> = ({ validate }) => {
     }
   }, [reservationCode, searchParams]);
 
-  const handleFormSubmit = (data: { phone: string; email: string }) => {
-    const { email, phone } = data;
-
-    console.log('Email:', email);
-    console.log('Phone:', phone);
-
-    setShowCompleteModal(false);
-
-    validate(false);
-  };
-
   return (
     <section className={styles.stepContainer}>
-      <h1 className={styles.stepOneTitle}>Resumen del proceso de check-in</h1>
+      <h1 className={styles.stepOneTitle}>
+        Felicidades, has completado el proceso check-in con éxito.
+      </h1>
 
       <p className={styles.stepOneDescription}>
-        A continuación, se muestra un resumen de la información del proceso de
-        check-in.
+        Te hemos enviado un mensaje por correo electrónico y WhatsApp con la
+        información de tu reservación.
+      </p>
+
+      <p className={styles.stepOneDescription}>
+        IMPORTANTE: Por favor si en unos minutos no te ha llegado llámanos al
+        +34 614 214 250
+      </p>
+
+      <p className={styles.stepOneDescription}>
+        A continuación, te presentamos un resumen de tu proceso de check-in:
       </p>
 
       <h2 className={styles.title}>Información del huésped principal</h2>
@@ -142,24 +140,6 @@ export const SummaryInformation: FC<StepProps> = ({ validate }) => {
           </div>
         ))}
       </div>
-
-      <button
-        className={styles.stepButton}
-        onClick={() => setShowCompleteModal(true)}
-      >
-        Completar registro
-      </button>
-
-      {showCompleteModal && (
-        <ModalAlert
-          message='Confirma o modifica el numero de teléfono y correo electrónico para recibir la confirmación de tu check-in.'
-          onAccept={() => setShowCompleteModal(false)}
-          isForm={true}
-          onSubmit={handleFormSubmit}
-          defaultPhone={mainGuest?.phone || ''}
-          defaultEmail={mainGuest?.email || ''}
-        />
-      )}
     </section>
   );
 };

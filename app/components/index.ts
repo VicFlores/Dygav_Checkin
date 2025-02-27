@@ -6,3 +6,4 @@ export * from './Checkin/Stepper/TravellersRegisterStep/TravellersRegisterStep';
 export * from './Checkin/Stepper/ElectronicSignatureStep/ElectronicSignatureStep';
 export * from './Checkin/Stepper/ContractStep/ContractStep';
 export * from './Signature/Signature';
+export * from './SummaryInformation/SummaryInformation';
