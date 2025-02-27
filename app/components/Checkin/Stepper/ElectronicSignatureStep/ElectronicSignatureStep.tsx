@@ -1,7 +1,7 @@
 'use client';
 
 import { StepProps } from '@/interfaces';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaCheck } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import styles from './ElectronicSignatureStep.module.css';
@@ -13,12 +13,24 @@ import {
 } from '@/app/components/shared';
 import { QRCodeSVG } from 'qrcode.react';
 import { useTravellersRegister } from '@/hooks';
+import { useSearchParams } from 'next/navigation';
+import { findGuestByReservation } from '@/utils/helpers';
 
 type Inputs = {
   signature: string;
 };
 
+interface MainGuest {
+  guest_id: string;
+  names: string;
+  lastnames: string;
+  phone: string;
+  email: string;
+}
+
 export const ElectronicSignatureStep = ({ validate }: StepProps) => {
+  const [mainGuest, setMainGuest] = useState<MainGuest>();
+  const [showCompleteModal, setShowCompleteModal] = useState(false);
   const {
     travellersWithSignature,
     travellersByGuest,
@@ -37,16 +49,40 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
 
   const { setValue } = useForm<Inputs & { ageRange: string }>();
 
+  const searchParams = useSearchParams();
+  const reservationCode = searchParams.get('reservationCode');
+
+  useEffect(() => {
+    if (searchParams.get('reservationCode') !== null) {
+      const getMainGuest = async () => {
+        const mainGuestRes = await findGuestByReservation(
+          reservationCode as string
+        );
+        setMainGuest(mainGuestRes);
+      };
+      getMainGuest();
+    }
+  }, [reservationCode, searchParams]);
+
   const handleValidation = () => {
     const isValid =
       reservationInfo.number_travellers_register ===
       travellersWithSignature.length;
 
-    // if (isValid) {
-    //   setShowCompleteModal(true);
-    // }
+    if (isValid) {
+      setShowCompleteModal(true);
+    }
+  };
 
-    validate(isValid);
+  const handleFormSubmit = (data: { phone: string; email: string }) => {
+    const { email, phone } = data;
+
+    console.log('Email:', email);
+    console.log('Phone:', phone);
+
+    setShowCompleteModal(false);
+
+    validate(false);
   };
 
   return (
@@ -134,8 +170,19 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
       </form>
 
       <button className={styles.nextStepButton} onClick={handleValidation}>
-        Continuar
+        Finalizar
       </button>
+
+      {showCompleteModal && (
+        <ModalAlert
+          message='Por favor, confirma o modifica el número de teléfono y correo electrónico para recibir la información de tu hospedaje.'
+          onAccept={() => setShowCompleteModal(false)}
+          isForm={true}
+          onSubmit={handleFormSubmit}
+          defaultPhone={mainGuest?.phone || ''}
+          defaultEmail={mainGuest?.email || ''}
+        />
+      )}
 
       {showAlert && (
         <ModalAlert
