@@ -50,96 +50,102 @@ export const SummaryInformation = () => {
   }, [reservationCode, searchParams]);
 
   return (
-    <section className={styles.stepContainer}>
-      <h1 className={styles.stepOneTitle}>
-        Felicidades, has completado el proceso check-in con éxito.
-      </h1>
+    <div className={styles.container}>
+      <section className={styles.stepContainer}>
+        <h1 className={styles.stepOneTitle}>
+          Felicidades, has completado el proceso check-in con éxito.
+        </h1>
 
-      <p className={styles.stepOneDescription}>
-        Te hemos enviado un mensaje por correo electrónico y WhatsApp con la
-        información de tu reservación.
-      </p>
+        <p className={styles.stepOneDescription}>
+          Te hemos enviado un mensaje por correo electrónico y WhatsApp con la
+          información de tu reservación.
+        </p>
 
-      <p className={styles.stepOneDescription}>
-        IMPORTANTE: Por favor si en unos minutos no te ha llegado llámanos al
-        +34 614 214 250
-      </p>
+        <p className={styles.stepOneDescription}>
+          IMPORTANTE: Por favor si en unos minutos no te ha llegado llámanos al
+          +34 614 214 250
+        </p>
 
-      <p className={styles.stepOneDescription}>
-        A continuación, te presentamos un resumen de tu proceso de check-in:
-      </p>
+        <figure>
+          <Image
+            src='https://dygav-storage.nyc3.cdn.digitaloceanspaces.com/dygav-checkin/images/Information%20tab-pana.svg'
+            alt='check-in success'
+            width={250}
+            height={250}
+          />
+        </figure>
 
-      <h2 className={styles.title}>Información del huésped principal</h2>
+        <p className={styles.stepOneTitle}>
+          A continuación, te presentamos un resumen de tu proceso de check-in:
+        </p>
 
-      <p className={styles.subtitle}>
-        Información del huesped que realizó la reservación:
-      </p>
+        <h2 className={styles.subtitle}>Información del huésped principal</h2>
 
-      <div className={styles.travellerCard}>
-        <Image
-          src='https://dygav-storage.nyc3.cdn.digitaloceanspaces.com/dygav-checkin/images/male_avatar.svg'
-          alt='user'
-          width={60}
-          height={60}
-        />
+        <div className={styles.travellerCard}>
+          <Image
+            src='https://dygav-storage.nyc3.cdn.digitaloceanspaces.com/dygav-checkin/images/male_avatar.svg'
+            alt='user'
+            width={60}
+            height={60}
+          />
 
-        <span>
+          <span>
+            <p>
+              <strong>Nombre:</strong>
+            </p>
+
+            <p>
+              {mainGuest?.names} {mainGuest?.lastnames}
+            </p>
+          </span>
+
           <p>
-            <strong>Nombre:</strong>
+            <strong>Teléfono:</strong> {mainGuest?.phone || 'No proporcionado'}
           </p>
 
           <p>
-            {mainGuest?.names} {mainGuest?.lastnames}
+            <strong>Email:</strong> {mainGuest?.email}
           </p>
-        </span>
+        </div>
 
-        <p>
-          <strong>Teléfono:</strong> {mainGuest?.phone || 'No proporcionado'}
-        </p>
+        <h2 className={styles.subtitle}>Huespedes registrados</h2>
 
-        <p>
-          <strong>Email:</strong> {mainGuest?.email}
-        </p>
-      </div>
+        <div className={styles.travellersContainer}>
+          {travellers.map((traveller, index) => (
+            <div key={index} className={styles.travellerCard}>
+              <Image
+                src='https://dygav-storage.nyc3.cdn.digitaloceanspaces.com/dygav-checkin/images/male_avatar.svg'
+                alt='user'
+                width={60}
+                height={60}
+              />
 
-      <h2 className={styles.title}>Huespedes registrados</h2>
+              <span>
+                <p>
+                  <strong>Nombre:</strong>
+                </p>
 
-      <p className={styles.subtitle}>
-        Estos son los huespedes registrados en la reservación:
-      </p>
-
-      <div className={styles.travellersContainer}>
-        {travellers.map((traveller, index) => (
-          <div key={index} className={styles.travellerCard}>
-            <Image
-              src='https://dygav-storage.nyc3.cdn.digitaloceanspaces.com/dygav-checkin/images/male_avatar.svg'
-              alt='user'
-              width={60}
-              height={60}
-            />
-
-            <span>
-              <p>
-                <strong>Nombre:</strong>
-              </p>
+                <p>
+                  {traveller.names} {traveller.lastnames}
+                </p>
+              </span>
 
               <p>
-                {traveller.names} {traveller.lastnames}
+                <strong>País:</strong> {traveller.country}
               </p>
-            </span>
-
-            <p>
-              <strong>País:</strong> {traveller.country}
-            </p>
-            <p>
-              <strong>Teléfono:</strong> {traveller.phone}
-            </p>
-            <p>
-              <strong>Email:</strong> {traveller.email}
-            </p>
-          </div>
-        ))}
-      </div>
-    </section>
+              <p>
+                <strong>Teléfono:</strong> {traveller.phone}
+              </p>
+              <p>
+                <strong>Email:</strong> {traveller.email}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+      <footer className={styles.footer}>
+        <p>&copy; 2025 Dygav Check-in. All rights reserved.</p>
+      </footer>
+    </div>
   );
 };
