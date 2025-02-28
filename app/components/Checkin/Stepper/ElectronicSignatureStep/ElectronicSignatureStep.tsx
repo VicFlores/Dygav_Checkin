@@ -13,8 +13,9 @@ import {
 } from '@/app/components/shared';
 import { QRCodeSVG } from 'qrcode.react';
 import { useTravellersRegister } from '@/hooks';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { findGuestByReservation } from '@/utils/helpers';
+import crmApi from '@/utils/config/crmApi';
 
 type Inputs = {
   signature: string;
@@ -51,6 +52,7 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
 
   const searchParams = useSearchParams();
   const reservationCode = searchParams.get('reservationCode');
+  const router = useRouter();
 
   useEffect(() => {
     if (searchParams.get('reservationCode') !== null) {
@@ -74,15 +76,24 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
     }
   };
 
-  const handleFormSubmit = (data: { phone: string; email: string }) => {
+  const handleFormSubmit = async (data: { phone: string; email: string }) => {
     const { email, phone } = data;
+    const { names, lastnames } = mainGuest as MainGuest;
 
-    console.log('Email:', email);
-    console.log('Phone:', phone);
+    console.log(phone);
+
+    await crmApi.post('/social/send-email', {
+      external_id: reservationCode,
+      name: names,
+      lastname: lastnames,
+      email,
+    });
 
     setShowCompleteModal(false);
 
     validate(false);
+
+    router.push(`/summary?reservationCode=${reservationCode}`);
   };
 
   return (
