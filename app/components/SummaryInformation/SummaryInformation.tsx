@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-
+import Confetti from 'react-confetti';
 import styles from './SummaryInformation.module.css';
 import {
   findGuestByReservation,
@@ -29,6 +29,11 @@ interface MainGuest {
 export const SummaryInformation = () => {
   const [mainGuest, setMainGuest] = useState<MainGuest>();
   const [travellers, setTravellers] = useState<Traveller[]>([]);
+  const [windowDimensions, setWindowDimensions] = useState<{
+    width: number;
+    height: number;
+  }>({ width: 0, height: 0 });
+  const [showConfetti, setShowConfetti] = useState(true);
   const searchParams = useSearchParams();
   const reservationCode = searchParams.get('reservationCode');
 
@@ -49,8 +54,38 @@ export const SummaryInformation = () => {
     }
   }, [reservationCode, searchParams]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowConfetti(false);
+    }, 5000); // 5 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className={styles.container}>
+      {showConfetti &&
+        windowDimensions.width > 0 &&
+        windowDimensions.height > 0 && (
+          <Confetti
+            width={windowDimensions.width}
+            height={windowDimensions.height}
+          />
+        )}
       <section className={styles.stepContainer}>
         <h1 className={styles.stepOneTitle}>
           Felicidades, has completado el proceso check-in con éxito.
