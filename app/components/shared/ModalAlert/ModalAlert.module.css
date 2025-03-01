@@ -33,8 +33,7 @@
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Align to the top */
-  padding-top: 10rem; /* Add some padding from the top */
+  align-items: center; /* Align to the top */
   z-index: 1000;
 }
 
