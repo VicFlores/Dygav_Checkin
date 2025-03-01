@@ -80,8 +80,6 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
     const { email, phone } = data;
     const { names, lastnames } = mainGuest as MainGuest;
 
-    console.log(phone);
-
     await crmApi.post('/social/send-email', {
       external_id: reservationCode,
       name: names,

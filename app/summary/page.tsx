@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { SummaryInformation } from '../components';
 
 const SummaryPage = () => {
-  return <SummaryInformation />;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SummaryInformation />
+    </Suspense>
+  );
 };
 
 export default SummaryPage;
