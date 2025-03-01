@@ -21,16 +21,22 @@ export const ModalAlert: React.FC<ModalProps> = ({
 }) => {
   const [phone, setPhone] = useState(defaultPhone);
   const [email, setEmail] = useState(defaultEmail);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     setPhone(defaultPhone);
     setEmail(defaultEmail);
   }, [defaultPhone, defaultEmail]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (onSubmit) {
-      onSubmit({ phone, email });
+      setIsSubmitting(true);
+      try {
+        await onSubmit({ phone, email });
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -52,6 +58,7 @@ export const ModalAlert: React.FC<ModalProps> = ({
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 required
+                disabled={isSubmitting}
               />
             </div>
             <div className={styles.formGroup}>
@@ -65,10 +72,15 @@ export const ModalAlert: React.FC<ModalProps> = ({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                disabled={isSubmitting}
               />
             </div>
-            <button type='submit' className={styles.acceptButton}>
-              Finalizar Proceso
+            <button
+              type='submit'
+              className={styles.acceptButton}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Enviando...' : 'Enviar'}
             </button>
           </form>
         ) : (

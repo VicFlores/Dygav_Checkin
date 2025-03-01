@@ -86,6 +86,7 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
       external_id: reservationCode,
       name: names,
       lastname: lastnames,
+      cellphone: phone,
       email,
     });
 
