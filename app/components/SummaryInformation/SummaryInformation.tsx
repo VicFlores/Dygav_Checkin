@@ -120,8 +120,7 @@ export const SummaryInformation = () => {
         <Image
           src='https://dygav-storage.nyc3.cdn.digitaloceanspaces.com/dygav-checkin/images/Information%20tab-pana.svg'
           alt='check-in success'
-          width={250}
-          height={250}
+          fill
         />
       </figure>
 
