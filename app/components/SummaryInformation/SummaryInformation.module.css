@@ -79,6 +79,55 @@
   padding: 1rem;
 }
 
+.navigationButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: #f4511e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-top: 1.5rem;
+}
+
+.navigationButton:hover {
+  background-color: #e64016;
+  transform: translateY(-2px);
+}
+
+.buttonIcon {
+  font-size: 1.1rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 0 1rem 0;
+}
+
+.pageIndicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.activePage {
+  background-color: #f4511e;
+}
+
+.successImage {
+  margin: 1.5rem 0;
+}
+
 @media screen and (max-width: 768px) {
   .stepContainer {
     padding: 1rem;
@@ -103,6 +152,11 @@
   .travellerCard p {
     font-size: 0.8rem;
   }
+
+  .navigationButton {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
 }
 
 @media screen and (max-width: 430px) {
@@ -120,5 +174,10 @@
 
   .travellerCard p {
     font-size: 0.7rem;
+  }
+
+  .navigationButton {
+    padding: 8px 12px;
+    font-size: 0.8rem;
   }
 }
