@@ -5,8 +5,6 @@ export const insertGuest = async (reservationCode: string) => {
   try {
     const reservationInfo = await findReservationById(reservationCode);
 
-    console.log('reservationInfo', reservationInfo);
-
     const guestData = {
       email: reservationInfo.travellerEmail,
       lastnames: reservationInfo.lastnames,
