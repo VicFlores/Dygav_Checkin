@@ -291,7 +291,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
                   maxLength: {
                     value: 18,
                     message:
-                      'El numero de documento no puede tener mas de 8 caracteres',
+                      'El numero de documento no puede tener mas de 18 caracteres',
                   },
                 })}
                 disabled={ageRange === 'child'}
