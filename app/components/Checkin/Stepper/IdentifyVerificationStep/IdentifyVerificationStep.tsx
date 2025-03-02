@@ -17,7 +17,7 @@ export const IdentifyVerificationStep = ({ validate }: StepProps) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isMatch, setIsMatch] = useState<boolean | null>(null);
   const [idCardUploaded, setIdCardUploaded] = useState<boolean>(false);
-  const [profilePicUploaded, setProfilePicUploaded] = useState<boolean>(false);
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const {
@@ -28,15 +28,10 @@ export const IdentifyVerificationStep = ({ validate }: StepProps) => {
   } = useForm<FormData>();
 
   const idCard = watch('idCard');
-  const profilePic = watch('profilePic');
 
   useEffect(() => {
     setIdCardUploaded(idCard && idCard.length > 0);
   }, [idCard]);
-
-  useEffect(() => {
-    setProfilePicUploaded(profilePic && profilePic.length > 0);
-  }, [profilePic]);
 
   const onSubmit = async (data: FormData) => {
     setErrorMessage(null);
@@ -44,7 +39,7 @@ export const IdentifyVerificationStep = ({ validate }: StepProps) => {
     setIsLoading(true);
 
     try {
-      await facialRecognition(data.idCard[0], data.profilePic[0]);
+      await facialRecognition(data.idCard[0], data.idCard[0]);
 
       setErrorMessage('Validacion exitosa');
       setIsMatch(true);
@@ -71,14 +66,6 @@ export const IdentifyVerificationStep = ({ validate }: StepProps) => {
             registerProps={register('idCard', { required: true })}
             uploaded={idCardUploaded}
             error={!!errors.idCard}
-          />
-
-          <IdentifyVerificationCard
-            title='Sube una foto solamente de tu rostro'
-            imageSrc='tempImages/Profile pic-rafiki.svg'
-            imageAlt='Profile Pic'
-            registerProps={register('profilePic', { required: true })}
-            uploaded={profilePicUploaded}
           />
         </div>
 
