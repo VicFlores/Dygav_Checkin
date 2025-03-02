@@ -104,6 +104,8 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
     setShowModal(false);
   };
 
+  console.log(ageRange);
+
   return (
     <section className={styles.stepContainer}>
       {showModal && (
@@ -248,7 +250,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
                 id='documentType'
                 {...register('documentType', {
                   required:
-                    ageRange === 'CHILD'
+                    ageRange === 'child'
                       ? false
                       : 'Tipo de documento es requerido',
                 })}
