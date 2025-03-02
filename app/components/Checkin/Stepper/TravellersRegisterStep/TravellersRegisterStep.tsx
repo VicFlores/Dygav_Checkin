@@ -261,6 +261,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
                 <option value='DNI'>DNI</option>
                 <option value='PASSPORT'>Pasaporte</option>
                 <option value='TIE'>TIE</option>
+                <option value='OTHER'>Otro</option>
               </select>
               {errors.documentType && (
                 <p className={styles.error}>{errors.documentType.message}</p>
@@ -395,7 +396,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
                   required:
                     ageRange === 'adult' ? false : 'Parentesco es requerido',
                   minLength: {
-                    value: 5,
+                    value: 4,
                     message: 'El parentesco debe tener al menos 5 caracteres',
                   },
                   maxLength: {
