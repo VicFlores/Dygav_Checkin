@@ -90,6 +90,10 @@
   .acceptButton {
     padding: 8px 16px;
   }
+
+  .errorMessage {
+    font-size: 0.9rem;
+  }
 }
 
 @media screen and (max-width: 430px) {
@@ -114,5 +118,9 @@
   .acceptButton {
     padding: 6px 12px;
     font-size: 0.9rem;
+  }
+
+  .errorMessage {
+    font-size: 0.8rem;
   }
 }
