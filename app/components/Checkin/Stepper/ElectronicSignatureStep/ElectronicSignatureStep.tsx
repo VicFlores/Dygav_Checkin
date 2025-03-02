@@ -12,7 +12,6 @@ import {
   SignatureCards,
 } from '@/app/components/shared';
 import { QRCodeSVG } from 'qrcode.react';
-import { useTravellersRegister } from '@/hooks';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { findGuestByReservation } from '@/utils/helpers';
 import crmApi from '@/utils/config/crmApi';
@@ -30,6 +29,7 @@ interface MainGuest {
 }
 
 export const ElectronicSignatureStep = ({ validate }: StepProps) => {
+  const [apiError, setApiError] = useState<string | null>(null);
   const [mainGuest, setMainGuest] = useState<MainGuest>();
   const [showCompleteModal, setShowCompleteModal] = useState(false);
   const {
@@ -45,8 +45,6 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
     handleCloseSignaturePad,
     handleCloseAlert,
   } = useElectronicSignature();
-
-  const { reservationInfo } = useTravellersRegister();
 
   const { setValue } = useForm<Inputs & { ageRange: string }>();
 
@@ -67,9 +65,7 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
   }, [reservationCode, searchParams]);
 
   const handleValidation = () => {
-    const isValid =
-      reservationInfo.number_travellers_register ===
-      travellersWithSignature.length;
+    const isValid = travellersByGuest.length === travellersWithSignature.length;
 
     if (isValid) {
       setShowCompleteModal(true);
@@ -80,19 +76,25 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
     const { email, phone } = data;
     const { names, lastnames } = mainGuest as MainGuest;
 
-    await crmApi.post('/social/send-email', {
-      external_id: reservationCode,
-      name: names,
-      lastname: lastnames,
-      cellphone: phone,
-      email,
-    });
+    setApiError(null);
 
-    setShowCompleteModal(false);
+    try {
+      await crmApi.post('/social/send-email', {
+        external_id: reservationCode,
+        name: names,
+        lastname: lastnames,
+        cellphone: phone,
+        email,
+      });
 
-    validate(false);
-
-    router.push(`/summary?reservationCode=${reservationCode}`);
+      setShowCompleteModal(false);
+      validate(false);
+      router.push(`/summary?reservationCode=${reservationCode}`);
+    } catch {
+      setApiError(
+        'Hubo un error al enviar la información. Por favor, inténtalo de nuevo.'
+      );
+    }
   };
 
   return (
@@ -191,6 +193,7 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
           onSubmit={handleFormSubmit}
           defaultPhone={mainGuest?.phone || ''}
           defaultEmail={mainGuest?.email || ''}
+          error={apiError}
         />
       )}
 

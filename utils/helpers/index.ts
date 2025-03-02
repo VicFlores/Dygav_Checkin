@@ -9,3 +9,4 @@ export * from './travellers/deleteTravellerById';
 export * from './travellers/updateTravellerSignature';
 export * from './travellers/findTravellersByGuestIdWithSignature';
 export * from './travellers/findTravellerById';
+export * from './travellers/findTravellersByGuestIdToSign';

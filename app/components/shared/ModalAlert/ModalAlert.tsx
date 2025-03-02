@@ -9,6 +9,7 @@ interface ModalProps {
   onSubmit?: (data: { phone: string; email: string }) => void;
   defaultPhone?: string;
   defaultEmail?: string;
+  error?: string | null;
 }
 
 export const ModalAlert: React.FC<ModalProps> = ({
@@ -18,6 +19,7 @@ export const ModalAlert: React.FC<ModalProps> = ({
   onSubmit,
   defaultPhone = '',
   defaultEmail = '',
+  error = null,
 }) => {
   const [phone, setPhone] = useState(defaultPhone);
   const [email, setEmail] = useState(defaultEmail);
@@ -47,6 +49,7 @@ export const ModalAlert: React.FC<ModalProps> = ({
         <p className={styles.message}>{message}</p>
         {isForm ? (
           <form onSubmit={handleSubmit}>
+            {error && <p className={styles.errorMessage}>{error}</p>}
             <div className={styles.formGroup}>
               <label htmlFor='phone' className={styles.formLabel}>
                 Número de teléfono

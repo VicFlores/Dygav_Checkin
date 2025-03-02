@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import {
   findGuestByReservation,
-  findTravellersByGuestId,
+  findTravellersByGuestIdToSign,
   findTravellersByGuestIdWithSignature,
   updateTravellerSignature,
 } from '@/utils/helpers';
@@ -38,7 +38,7 @@ export const useElectronicSignature = () => {
             searchParams.get('reservationCode') as string
           );
 
-          const travellers = await findTravellersByGuestId(
+          const travellers = await findTravellersByGuestIdToSign(
             getGuestByReservation.guest_id
           );
 

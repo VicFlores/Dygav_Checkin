@@ -65,6 +65,15 @@
   text-wrap: balance;
 }
 
+.errorMessage {
+  color: #e53935;
+  margin-bottom: 15px;
+  padding: 8px;
+  background-color: rgba(229, 57, 53, 0.1);
+  border-radius: 4px;
+  text-align: center;
+}
+
 @media screen and (max-width: 768px) {
   .formLabel {
     font-size: 0.8rem;
