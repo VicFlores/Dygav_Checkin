@@ -5,8 +5,9 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './IdentifyVerificationStep.module.css';
 
-import { facialRecognition } from '@/utils/helpers';
+import { facialRecognition, findGuestByReservation } from '@/utils/helpers';
 import { IdentifyVerificationCard } from '../IdentifyVerificationCard/IdentifyVerificationCard';
+import { useSearchParams } from 'next/navigation';
 
 interface FormData {
   idCard: FileList;
@@ -17,6 +18,8 @@ export const IdentifyVerificationStep = ({ validate }: StepProps) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isMatch, setIsMatch] = useState<boolean | null>(null);
   const [idCardUploaded, setIdCardUploaded] = useState<boolean>(false);
+  const searchParams = useSearchParams();
+  const reservationCode = searchParams.get('reservationCode') as string;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -39,7 +42,13 @@ export const IdentifyVerificationStep = ({ validate }: StepProps) => {
     setIsLoading(true);
 
     try {
-      await facialRecognition(data.idCard[0], data.idCard[0]);
+      const mainGuest = await findGuestByReservation(reservationCode);
+
+      await facialRecognition(
+        data.idCard[0],
+        data.idCard[0],
+        mainGuest.guest_id
+      );
 
       setErrorMessage('Validacion exitosa');
       setIsMatch(true);
