@@ -141,9 +141,10 @@
   background-color: #f6f6f6;
   max-width: 75rem;
   min-width: 30rem;
-
   width: 100%;
   margin-top: 1rem;
+  min-height: 10rem;
+  border-radius: 0.3rem;
 }
 
 .stepUserRegister {
@@ -333,6 +334,11 @@
     padding: 0.4rem 4rem;
     font-size: 0.9rem;
   }
+  .stepUsersContainer {
+    max-width: 100%;
+    min-width: 100%;
+    min-height: 9rem;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -424,6 +430,14 @@
   }
 
   .userName {
+    font-size: 0.8rem;
+  }
+
+  .stepUsersContainer {
+    min-height: 8rem;
+  }
+
+  .userToRegister div p {
     font-size: 0.8rem;
   }
 }

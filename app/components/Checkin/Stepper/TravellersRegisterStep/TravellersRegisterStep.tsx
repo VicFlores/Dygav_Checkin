@@ -89,14 +89,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
         </div>
       ))
     ) : (
-      <div className={styles.stepUserRegister}>
-        <div>
-          <i className={styles.iconAddPerson}>
-            <IoPersonAddOutline />
-          </i>
-          <p className={styles.userName}>No hay viajeros registrados</p>
-        </div>
-      </div>
+      <div />
     );
   }, [travellersByGuest, deleteTraveller]);
 
@@ -114,6 +107,11 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
       )}
 
       <div className={styles.userToRegister}>
+        <h2 className={styles.stepLegendTitle}>
+          Cantidad de huespedes a registrar:{' '}
+          {reservationInfo.number_travellers_register}
+        </h2>
+
         <div>
           <p>
             Si algun huesped ya no pudo acompañarte, debes eliminarlo del conteo
@@ -140,10 +138,11 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
       </div>
 
       <div className={styles.stepUsersContainer}>
-        <h2>
-          Cantidad de huespedes a registrar:{' '}
-          {reservationInfo.number_travellers_register}
-        </h2>
+        {travellersByGuest.length > 0 ? (
+          <h2>Viajeros registrados</h2>
+        ) : (
+          <h2>No hay viajeros registrados</h2>
+        )}
 
         {renderTravellers}
       </div>
