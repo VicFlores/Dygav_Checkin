@@ -7,7 +7,7 @@ import { useSearchParams } from 'next/navigation';
 import { FaRegCheckCircle } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import styles from './CreateAccountStep.module.css';
-import { insertGuest } from '@/utils/helpers';
+import { insertGuest, findGuestByReservation } from '@/utils/helpers';
 import checkinAPI from '@/utils/config/axiosConfig';
 import { steps } from '../../Checkin';
 
@@ -32,26 +32,36 @@ export const CreateAccountStep: FC<StepProps> = ({ validate }) => {
   const handleContinueWithoutAccount = async () => {
     try {
       setIsLoading(true);
-      const response = await insertGuest(reservationCode);
-      const guestId = response.guest_id;
 
-      // Create tracking entries for all steps
-      const trackingPromises = steps.map((_, index) =>
-        checkinAPI.post('/tracking', {
-          completed: false,
-          guest_id: guestId,
-          is_repeated: false,
-          step_id: index + 1,
-        })
-      );
-      await Promise.all(trackingPromises);
+      // First check if a guest already exists for this reservation
+      const existingGuest = await findGuestByReservation(reservationCode);
+
+      let guestId: number;
+
+      if (existingGuest) {
+        // Guest already exists, use the existing guest's ID
+        guestId = existingGuest[0].id;
+      } else {
+        // No existing guest found, create a new one
+        const response = await insertGuest(reservationCode);
+        guestId = response.guest_id;
+
+        // Create tracking entries for all steps only for new guests
+        const trackingPromises = steps.map((_, index) =>
+          checkinAPI.post('/tracking', {
+            completed: false,
+            guest_id: guestId,
+            is_repeated: false,
+            step_id: index + 1,
+          })
+        );
+        await Promise.all(trackingPromises);
+      }
 
       setErrorMessage(null);
-
       validate(true, guestId); // Pass guestId to validate function
     } catch (error) {
       setErrorMessage('Error creating guest or tracking');
-      setIsLoading(false);
       console.log(error);
     } finally {
       setIsLoading(false);
