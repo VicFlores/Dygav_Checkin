@@ -52,14 +52,15 @@ export const Home: React.FC = () => {
     <section className={styles.workspace}>
       <div className={styles.container}>
         <h1 className={styles.homeTitle}>
-          Bienvenido al check-In
-          <br />
-          electronico de Dygav
+          Bienvenido al registro de viajeros de Dygav
         </h1>
 
         <p className={styles.homeSubtitle}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Sabemos que registrarse no es lo más emocionante del viaje, pero el
+          Ministerio del Interior nos exige recoger los datos de todos los
+          huéspedes antes de su llegada. Hemos hecho todo lo posible para que
+          este proceso sea rápido, seguro y fácil. Solo tienes que introducir tu
+          identificador de reserva y en unos minutos estará listo.
         </p>
 
         <div className={styles.features}>
@@ -88,7 +89,7 @@ export const Home: React.FC = () => {
         <div className={styles.reservationCode}>
           <h2>Codigo unico de reserva</h2>
 
-          <p>Ingresa tu numero de reserva</p>
+          <p>Introduce el identificador de tu reserva</p>
 
           <form
             className={styles.reservationCodeForm}

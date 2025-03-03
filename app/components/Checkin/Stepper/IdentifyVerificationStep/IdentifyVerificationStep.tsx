@@ -60,7 +60,7 @@ export const IdentifyVerificationStep = ({ validate }: StepProps) => {
       <form className={styles.stepContainer} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.stepCards}>
           <IdentifyVerificationCard
-            title='Subir tu Documento unico de identidad'
+            title='Sube tu documento de identificación oficial'
             imageSrc='tempImages/ID Card-rafiki.svg'
             imageAlt='ID Card'
             registerProps={register('idCard', { required: true })}

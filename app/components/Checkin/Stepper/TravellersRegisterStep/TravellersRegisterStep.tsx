@@ -104,8 +104,6 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
     setShowModal(false);
   };
 
-  console.log(ageRange);
-
   return (
     <section className={styles.stepContainer}>
       {showModal && (
@@ -114,12 +112,6 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
           onAccept={handleAcceptModal}
         />
       )}
-
-      <h2 className={styles.stepTitle}>Viajeros registrados</h2>
-
-      <p className={styles.stepDescription}>
-        Listado de todos los viajeros registrados
-      </p>
 
       <div className={styles.userToRegister}>
         <div>
@@ -166,8 +158,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
           </legend>
 
           <p className={styles.stepDescription}>
-            Debes registrarte a ti mismo y a tus acompañantes para poder
-            disfrutar de esta gran aventura
+            Completa los siguientes campos con la informacion de los viajeros
           </p>
 
           <div className={styles.stepAgeRange}>
