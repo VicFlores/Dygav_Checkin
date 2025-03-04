@@ -187,7 +187,7 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
 
       {showCompleteModal && (
         <ModalAlert
-          message='Por favor, confirma o modifica el número de teléfono y correo electrónico para recibir la información de tu hospedaje.'
+          message='¡Ya casi terminamos! Solo queda un paso: confirma que tu teléfono y email son correctos. Recuerda que te enviaremos la información de acceso a estos datos de contacto'
           onAccept={() => setShowCompleteModal(false)}
           isForm={true}
           onSubmit={handleFormSubmit}
