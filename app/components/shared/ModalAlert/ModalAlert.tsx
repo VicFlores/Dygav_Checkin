@@ -52,7 +52,8 @@ export const ModalAlert: React.FC<ModalProps> = ({
             {error && <p className={styles.errorMessage}>{error}</p>}
             <div className={styles.formGroup}>
               <label htmlFor='phone' className={styles.formLabel}>
-                Número de teléfono
+                Número de teléfono (Asegúrate de escribir el codigo de pais,
+                ejem: +52)
               </label>
               <input
                 id='phone'
