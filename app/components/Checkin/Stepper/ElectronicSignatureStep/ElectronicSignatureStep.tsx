@@ -88,7 +88,7 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
       });
 
       setShowCompleteModal(false);
-      validate(false);
+      validate(true);
       router.push(`/summary?reservationCode=${reservationCode}`);
     } catch {
       setApiError(
