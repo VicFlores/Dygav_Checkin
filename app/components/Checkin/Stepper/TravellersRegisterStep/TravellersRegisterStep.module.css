@@ -254,6 +254,42 @@
   margin: 0.5rem 0;
 }
 
+.countrySelectContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.countrySearchInput {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.countrySelect {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Estilo para opciones en el select */
+.countrySelect option {
+  padding: 0.25rem 0.5rem;
+}
+
+.countrySelect option:hover {
+  background-color: #f3f3f3;
+}
+
+/* Mantén consistente con tus otros estilos de disabled */
+.disabled {
+  background-color: #f5f5f5;
+  color: #888;
+  cursor: not-allowed;
+}
+
 @media screen and (max-width: 1130px) {
   .stepCards {
     flex-direction: column;

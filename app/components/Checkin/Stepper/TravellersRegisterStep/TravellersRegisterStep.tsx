@@ -8,6 +8,7 @@ import { RiDeleteBinLine } from 'react-icons/ri';
 import { IoPersonAddOutline } from 'react-icons/io5';
 import { useTravellersRegister } from '@/hooks/useTravellersRegister';
 import { ModalAlert } from '@/app/components/shared';
+import { useCountries } from '@/hooks/useCountries';
 
 interface FormData {
   ageRange: string;
@@ -29,6 +30,11 @@ interface FormData {
 
 export const TravellersRegisterStep = ({ validate }: StepProps) => {
   const [showModal, setShowModal] = useState(true);
+  const {
+    countries,
+    loading: countriesLoading,
+    error: countriesError,
+  } = useCountries();
 
   const {
     errorMessage,
@@ -517,13 +523,33 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
               <select
                 id='countrySelect'
                 {...register('country', { required: 'País es requerido' })}
+                disabled={countriesLoading}
+                className={countriesLoading ? styles.disabled : ''}
               >
                 <option value=''>Selecciona tu País</option>
-                <option value='Spain'>España</option>
-                <option value='France'>Francia</option>
-                <option value='Italy'>Italia</option>
-                <option value='Germany'>Alemania</option>
+                {countriesError ? (
+                  <option value='' disabled>
+                    Error cargando países
+                  </option>
+                ) : countriesLoading ? (
+                  <option value='' disabled>
+                    Cargando países...
+                  </option>
+                ) : (
+                  countries.map((country) => {
+                    const countryName =
+                      country.translations?.spa?.common || country.name.common;
+                    return (
+                      <option key={country.cca2} value={countryName}>
+                        {countryName}
+                      </option>
+                    );
+                  })
+                )}
               </select>
+              {countriesError && !errors.country && (
+                <p className={styles.error}>{countriesError}</p>
+              )}
               {errors.country && (
                 <p className={styles.error}>{errors.country.message}</p>
               )}
