@@ -384,26 +384,38 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
 
             <div>
               <label htmlFor='kinship'>Parentesco</label>
-              <input
+              <select
                 id='kinship'
-                type='text'
-                placeholder='Parentesco'
                 {...register('kinship', {
                   required:
                     ageRange === 'adult' ? false : 'Parentesco es requerido',
-                  minLength: {
-                    value: 4,
-                    message: 'El parentesco debe tener al menos 5 caracteres',
-                  },
-                  maxLength: {
-                    value: 20,
-                    message:
-                      'El parentesco no puede tener más de 20 caracteres',
-                  },
                 })}
                 disabled={ageRange === 'adult'}
                 className={ageRange === 'adult' ? styles.disabled : ''}
-              />
+              >
+                <option value=''>Seleccionar parentesco</option>
+                <option value='Padre'>Padre</option>
+                <option value='Madre'>Madre</option>
+                <option value='Hijo'>Hijo</option>
+                <option value='Hija'>Hija</option>
+                <option value='Hermano'>Hermano</option>
+                <option value='Hermana'>Hermana</option>
+                <option value='Abuelo'>Abuelo</option>
+                <option value='Abuela'>Abuela</option>
+                <option value='Tío'>Tío</option>
+                <option value='Tía'>Tía</option>
+                <option value='Primo'>Primo</option>
+                <option value='Prima'>Prima</option>
+                <option value='Sobrino'>Sobrino</option>
+                <option value='Sobrina'>Sobrina</option>
+                <option value='Cónyuge'>Cónyuge</option>
+                <option value='Suegro'>Suegro</option>
+                <option value='Suegra'>Suegra</option>
+                <option value='Cuñado'>Cuñado</option>
+                <option value='Cuñada'>Cuñada</option>
+                <option value='Tutor Legal'>Tutor Legal</option>
+                <option value='Otro'>Otro</option>
+              </select>
               {errors.kinship && (
                 <p className={styles.error}>{errors.kinship.message}</p>
               )}
