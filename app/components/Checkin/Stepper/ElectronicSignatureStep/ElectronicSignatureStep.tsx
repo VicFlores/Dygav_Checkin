@@ -78,12 +78,14 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
 
     setApiError(null);
 
+    console.log(phone);
+
     try {
       await crmApi.post('/social/send-email', {
-        external_id: reservationCode,
+        booking_id: reservationCode,
         name: names,
         lastname: lastnames,
-        cellphone: phone,
+        language: 'ES',
         email,
       });
 
