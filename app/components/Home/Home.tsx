@@ -9,12 +9,15 @@ import styles from './Home.module.css';
 import { findReservationById } from '@/utils/helpers';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
+import { TranslationDictionary } from '@/interfaces';
 
 interface FormValues {
   reservationCode: string;
 }
 
-export const Home: FC = () => {
+export const Home: FC<{ dictionary: TranslationDictionary }> = ({
+  dictionary,
+}) => {
   const {
     register,
     handleSubmit,
@@ -31,7 +34,7 @@ export const Home: FC = () => {
     try {
       const res = await findReservationById(data.reservationCode);
 
-      setMessage('Reserva encontrada.');
+      setMessage(`${dictionary['bookingFound']}`);
 
       setTimeout(() => {
         setMessage('Redirigiendo a la pagina de check-in...');
@@ -51,45 +54,37 @@ export const Home: FC = () => {
   return (
     <section className={styles.workspace}>
       <div className={styles.container}>
-        <h1 className={styles.homeTitle}>
-          Bienvenido al registro de viajeros de Dygav
-        </h1>
+        <h1 className={styles.homeTitle}>{dictionary['welcome']}</h1>
 
-        <p className={styles.homeSubtitle}>
-          Sabemos que registrarse no es lo más emocionante del viaje, pero el
-          Ministerio del Interior nos exige recoger los datos de todos los
-          huéspedes antes de su llegada. Hemos hecho todo lo posible para que
-          este proceso sea rápido, seguro y fácil. Solo tienes que introducir tu
-          identificador de reserva y en unos minutos estará listo.
-        </p>
+        <p className={styles.homeSubtitle}>{dictionary['description']}</p>
 
         <div className={styles.features}>
           <div className={styles.feature}>
             <span>
               <PiUserCheck className={styles.icon} />
             </span>
-            <p>Facil</p>
+            <p>{dictionary['easyFeature']}</p>
           </div>
 
           <div className={styles.feature}>
             <span>
               <BsSpeedometer2 className={styles.icon} />
             </span>
-            <p>Rapido</p>
+            <p>{dictionary['fastFeature']}</p>
           </div>
 
           <div className={styles.feature}>
             <span>
               <TbLockOpen2 className={styles.icon} />
             </span>
-            <p>Seguro</p>
+            <p>{dictionary['secureFeature']}</p>
           </div>
         </div>
 
         <div className={styles.reservationCode}>
-          <h2>Codigo unico de reserva</h2>
+          <h2>{dictionary['uniqueCode']}</h2>
 
-          <p>Introduce el identificador de tu reserva</p>
+          <p>{dictionary['bookingId']}</p>
 
           <form
             className={styles.reservationCodeForm}
@@ -97,9 +92,9 @@ export const Home: FC = () => {
           >
             <input
               type='text'
-              placeholder='Ingresa tu codigo unico de reserva'
+              placeholder={dictionary['bookingIdPlaceholder']}
               {...register('reservationCode', {
-                required: 'Reservation code is required',
+                required: `${dictionary['bookingIdRequired']}`,
               })}
             />
 
@@ -108,7 +103,9 @@ export const Home: FC = () => {
             )}
 
             <button type='submit' disabled={loading}>
-              {loading ? 'Buscando...' : 'Buscar Reserva'}
+              {loading
+                ? `${dictionary['loadingSubmit']}`
+                : `${dictionary['searchSubmit']}`}
             </button>
           </form>
 

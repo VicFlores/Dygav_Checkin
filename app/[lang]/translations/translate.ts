@@ -1,5 +1,3 @@
-'use server';
-
 import { SupportedLanguage, TranslationDictionary } from '@/interfaces';
 
 const dictionaries = {
@@ -15,10 +13,5 @@ const dictionaries = {
 
 export async function getTranslations(lang: SupportedLanguage) {
   const dictionary = await dictionaries[lang]();
-
-  function t(key: string, defaultValue = ''): string {
-    return dictionary[key] || defaultValue;
-  }
-
-  return { t };
+  return { dictionary };
 }

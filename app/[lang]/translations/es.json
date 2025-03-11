@@ -1,3 +1,14 @@
 {
-  "hello": "Hola, Mundo!"
+  "welcome": "Bienvenido al registro de viajeros de Dygav",
+  "description": "Sabemos que registrarse no es lo más emocionante del viaje, pero el Ministerio del Interior nos exige recoger los datos de todos los huéspedes antes de su llegada. Hemos hecho todo lo posible para que este proceso sea rápido, seguro y fácil. Solo tienes que introducir tu identificador de reserva y en unos minutos estará listo.",
+  "easyFeature": "Fácil",
+  "fastFeature": "Rápido",
+  "secureFeature": "Seguro",
+  "uniqueCode": "Codigo unico de reserva",
+  "bookingId": "Introduce el identificador de tu reserva",
+  "bookingIdPlaceholder": "Introduce el identificador de tu reserva",
+  "bookingIdRequired": "Se requiere el código de reserva",
+  "loadingSubmit": "Cargando...",
+  "searchSubmit": "Buscar Reserva",
+  "bookingFound": "Reserva encontrada"
 }

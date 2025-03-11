@@ -1,3 +1,14 @@
 {
-  "hello": "Hello, World!"
+  "welcome": "Welcome to Dygav's traveler registry",
+  "description": "We know that registering isn’t the most exciting part of your trip, but the Ministry of the Interior requires us to collect the data of all guests before their arrival. We’ve done everything possible to make this process quick, secure, and easy. You just need to enter your booking ID, and it’ll be ready in a few minutes.",
+  "easyFeature": "Easy",
+  "fastFeature": "Fast",
+  "secureFeature": "Secure",
+  "uniqueCode": "Unique booking code",
+  "bookingId": "Enter your booking ID",
+  "bookingIdPlaceholder": "Enter your booking ID",
+  "bookingIdRequired": "Booking code is required",
+  "loadingSubmit": "Loading...",
+  "searchSubmit": "Search Booking",
+  "bookingFound": "Booking found"
 }

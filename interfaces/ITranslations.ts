@@ -8,3 +8,7 @@ export enum SupportedLanguage {
 export interface TranslationDictionary {
   [key: string]: string;
 }
+
+export interface TranslationResult {
+  t: (key: string, defaultValue?: string) => Promise<string>;
+}

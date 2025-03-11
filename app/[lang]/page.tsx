@@ -15,11 +15,9 @@ const HomePage = async ({
   params: Promise<{ lang: SupportedLanguage }>;
 }) => {
   const { lang } = await params;
-  const { t } = await getTranslations(lang);
+  const { dictionary } = await getTranslations(lang);
 
-  console.log(t('hello'));
-
-  return <Home />;
+  return <Home dictionary={dictionary} />;
 };
 
 export default HomePage;
