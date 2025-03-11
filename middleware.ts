@@ -38,13 +38,15 @@ export async function middleware(request: NextRequest) {
   //    e.j.: /i18n/es
   const hasLocal = hasPathnameLocale(pathname);
   if (hasLocal) return;
-
   // 4. Si no hay local, agregar el local a la URL
   //    e.j.: / -> /es
   const locale = getLocale({
     'accept-language': request.headers.get('Accept-Language') || '',
   });
-  request.nextUrl.pathname = `${pathname}/${locale}`;
+
+  // Fix the pathname construction
+  request.nextUrl.pathname =
+    pathname === '/' ? `/${locale}` : `${pathname}/${locale}`;
 
   return NextResponse.redirect(request.nextUrl);
 }
