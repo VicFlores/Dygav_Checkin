@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { PiUserCheck } from 'react-icons/pi';
 import { BsSpeedometer2 } from 'react-icons/bs';
@@ -14,7 +14,7 @@ interface FormValues {
   reservationCode: string;
 }
 
-export const Home: React.FC = () => {
+export const Home: FC = () => {
   const {
     register,
     handleSubmit,

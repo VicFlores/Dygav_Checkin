@@ -2,14 +2,12 @@ import React from 'react';
 import { Home } from '../components';
 import { Metadata } from 'next';
 import { getTranslations } from './translations/translate';
+import { SupportedLanguage } from '@/interfaces';
 
 export const metadata: Metadata = {
   title: 'Checkin - Home',
   description: 'Checkin - Home',
 };
-
-// Define a type for the supported languages
-type SupportedLanguage = 'es' | 'en';
 
 const HomePage = async ({
   params,

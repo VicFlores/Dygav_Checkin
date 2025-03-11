@@ -1,12 +1,6 @@
 'use server';
 
-// Define a type for the supported languages
-type SupportedLanguage = 'es' | 'en';
-
-// Define the structure of your translations
-type TranslationDictionary = {
-  [key: string]: string;
-};
+import { SupportedLanguage, TranslationDictionary } from '@/interfaces';
 
 const dictionaries = {
   es: () =>
