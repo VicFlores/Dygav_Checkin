@@ -14,7 +14,10 @@ interface FormData {
   profilePic: FileList;
 }
 
-export const IdentifyVerificationStep = ({ validate }: StepProps) => {
+export const IdentifyVerificationStep = ({
+  validate,
+  dictionary,
+}: StepProps) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isMatch, setIsMatch] = useState<boolean | null>(null);
   const [idCardUploaded, setIdCardUploaded] = useState<boolean>(false);
@@ -69,7 +72,8 @@ export const IdentifyVerificationStep = ({ validate }: StepProps) => {
       <form className={styles.stepContainer} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.stepCards}>
           <IdentifyVerificationCard
-            title='Sube tu documento de identificación oficial'
+            title={dictionary['verificationCardTitle']}
+            label={dictionary['verificationCardInputLabel']}
             imageSrc='tempImages/ID Card-rafiki.svg'
             imageAlt='ID Card'
             registerProps={register('idCard', { required: true })}
@@ -97,7 +101,7 @@ export const IdentifyVerificationStep = ({ validate }: StepProps) => {
           className={styles.validateButton}
           disabled={isLoading}
         >
-          Comprobar y saltar al siguiente paso
+          {dictionary['verificationCardUploadButton']}
         </button>
       </form>
     </section>

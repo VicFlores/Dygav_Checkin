@@ -10,6 +10,7 @@ interface FormData {
 
 interface IdentifyVerificationCardProps {
   title: string;
+  label: string;
   imageSrc: string;
   imageAlt: string;
   registerProps: ReturnType<UseFormRegister<FormData>>;
@@ -19,6 +20,7 @@ interface IdentifyVerificationCardProps {
 
 export const IdentifyVerificationCard: FC<IdentifyVerificationCardProps> = ({
   title,
+  label,
   imageSrc,
   imageAlt,
   registerProps,
@@ -38,7 +40,7 @@ export const IdentifyVerificationCard: FC<IdentifyVerificationCardProps> = ({
       <h3>{title}</h3>
 
       <label className={styles.customFileUpload}>
-        Subir foto
+        {label}
         <input type='file' {...registerProps} />
       </label>
 

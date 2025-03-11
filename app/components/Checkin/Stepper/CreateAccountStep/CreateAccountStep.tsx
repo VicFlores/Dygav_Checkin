@@ -18,7 +18,7 @@ interface FormInputs {
   password: string;
 }
 
-export const CreateAccountStep: FC<StepProps> = ({ validate }) => {
+export const CreateAccountStep: FC<StepProps> = ({ validate, dictionary }) => {
   const {
     register,
     handleSubmit,
@@ -86,11 +86,11 @@ export const CreateAccountStep: FC<StepProps> = ({ validate }) => {
   return (
     <section className={styles.stepContainer}>
       <h2 className={styles.stepOneTitle}>
-        ¿Deseas crear una cuenta de Dygav?
+        {dictionary['createAccountTitle']}
       </h2>
 
       <p className={styles.stepOneDescription}>
-        Si creas una cuenta de Dygav obtendras los siguientes beneficios
+        {dictionary['createAccountSubtitle']}
       </p>
 
       <div className={styles.stepOneFeatures}>
@@ -99,7 +99,7 @@ export const CreateAccountStep: FC<StepProps> = ({ validate }) => {
             <FaRegCheckCircle className={styles.stepOneIcon} />
           </span>
 
-          <p>Seguimiento de tu reserva</p>
+          <p>{dictionary['createAccountTrackingBookingFeature']}</p>
         </div>
 
         <div>
@@ -107,7 +107,7 @@ export const CreateAccountStep: FC<StepProps> = ({ validate }) => {
             <FaRegCheckCircle className={styles.stepOneIcon} />
           </span>
 
-          <p>Panel de control de detalles</p>
+          <p>{dictionary['createAccountControlPanelFeature']}</p>
         </div>
 
         <div>
@@ -115,57 +115,63 @@ export const CreateAccountStep: FC<StepProps> = ({ validate }) => {
             <FaRegCheckCircle className={styles.stepOneIcon} />
           </span>
 
-          <p>Acceso a tu llave electronica</p>
+          <p>{dictionary['createAccountAccessElectronicKey']}</p>
         </div>
         <div>
           <span>
             <FaRegCheckCircle className={styles.stepOneIcon} />
           </span>
 
-          <p>Atencion personalizada</p>
+          <p>{dictionary['createAccountPersonalizedAttention']}</p>
         </div>
       </div>
 
       <form className={styles.stepOneForm} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.stepOneFormInputs}>
           <div>
-            <label>Nombres</label>
+            <label>{dictionary['namesLabel']}</label>
             <input
               type='text'
-              placeholder='Escribe tus nombres'
-              {...register('firstName', { required: 'Nombres es requerido' })}
+              placeholder={dictionary['namesPlaceholder']}
+              {...register('firstName', {
+                required: `${dictionary['namesRequired']}}`,
+              })}
             />
             {errors.firstName && <span>{errors.firstName.message}</span>}
           </div>
 
           <div>
-            <label>Apellidos</label>
+            <label>{dictionary['lastNamesLabel']}</label>
             <input
               type='text'
-              placeholder='Escribe tus apellidos'
-              {...register('lastName', { required: 'Apellidos es requerido' })}
+              placeholder={dictionary['lastNamesPlaceholder']}
+              {...register('lastName', {
+                required: `${dictionary['lastNamesRequired']}`,
+              })}
             />
             {errors.lastName && <span>{errors.lastName.message}</span>}
           </div>
 
           <div>
-            <label>Correo electronico</label>
+            <label>{dictionary['emailLabel']}</label>
             <input
               type='email'
-              placeholder='Escribe tu correo electronico'
+              placeholder={dictionary['emailPlaceholder']}
               {...register('email', {
-                required: 'Correo electronico es requerido',
+                required: `${dictionary['emailRequired']}`,
               })}
             />
             {errors.email && <span>{errors.email.message}</span>}
           </div>
 
           <div>
-            <label>Contraseña</label>
+            <label>{dictionary['passwordLabel']}</label>
             <input
               type='password'
-              placeholder='Escribe tu contraseña'
-              {...register('password', { required: 'Contraseña es requerido' })}
+              placeholder={dictionary['passwordPlaceholder']}
+              {...register('password', {
+                required: `${dictionary['passwordRequired']}`,
+              })}
             />
             {errors.password && <span>{errors.password.message}</span>}
           </div>
@@ -177,7 +183,7 @@ export const CreateAccountStep: FC<StepProps> = ({ validate }) => {
             className={styles.withoutLoginButton}
             onClick={handleContinueWithoutAccount}
           >
-            Continuar sin cuenta
+            {dictionary['createAccountContinueWithoutAccountButton']}
           </button>
 
           <button
@@ -185,26 +191,28 @@ export const CreateAccountStep: FC<StepProps> = ({ validate }) => {
             className={styles.googleLoginButton}
             onClick={handleGoogleLogin}
           >
-            <FcGoogle className={styles.googleButtonIcon} /> Continuar y
-            registrar con google
+            <FcGoogle className={styles.googleButtonIcon} />
+            {dictionary['createAccountRegisterWithGoogleButton']}
           </button>
 
           <button type='submit' className={styles.createAccountButton}>
-            Crear cuenta y continuar
+            {dictionary['createAccountCreateAccountAndContinueButton']}
           </button>
         </div>
       </form>
 
       {isLoading && (
-        <p className={styles.loadingMessage}>Cargando, por favor espera...</p>
+        <p className={styles.loadingMessage}>
+          {dictionary['createAccountLoadingMessage']}
+        </p>
       )}
 
       <h2 className={styles.stepOneTitle}>
-        Si ya tienes cuenta de Dygav Inicia Sesion
+        {dictionary['createAccountAlreadyHaveAnAccount']}
       </h2>
 
       <p className={styles.stepOneDescription}>
-        Recuerda siempre iniciar sesion en tu cuenta de Dygav
+        {dictionary['createAccountRememberLogin']}
       </p>
 
       <div className={styles.stepOneFormButtons}>
@@ -213,8 +221,8 @@ export const CreateAccountStep: FC<StepProps> = ({ validate }) => {
           className={styles.googleLoginButton}
           onClick={handleGoogleLogin}
         >
-          <FcGoogle className={styles.googleButtonIcon} /> Continuar e iniciar
-          sesion con google
+          <FcGoogle className={styles.googleButtonIcon} />
+          {dictionary['createAccountContinueAndLoginWithGoogle']}
         </button>
 
         <button
@@ -222,7 +230,7 @@ export const CreateAccountStep: FC<StepProps> = ({ validate }) => {
           onClick={handleLoginWithDygav}
           className={styles.createAccountButton}
         >
-          Iniciar Sesion y continuar
+          {dictionary['createAccountLoginAndContinueButton']}
         </button>
       </div>
 

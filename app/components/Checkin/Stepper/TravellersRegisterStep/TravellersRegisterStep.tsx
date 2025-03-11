@@ -28,7 +28,7 @@ interface FormData {
   country: string;
 }
 
-export const TravellersRegisterStep = ({ validate }: StepProps) => {
+export const TravellersRegisterStep = ({ validate, dictionary }: StepProps) => {
   const [showModal, setShowModal] = useState(true);
   const {
     countries,
@@ -107,22 +107,19 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
     <section className={styles.stepContainer}>
       {showModal && (
         <ModalAlert
-          message='Recuerda: Si algun huesped ya no pudo acompañarte, debes eliminarlo del conteo de huespedes a registrar'
+          message={`${dictionary['travelerRegisterModalTitle']}`}
           onAccept={handleAcceptModal}
         />
       )}
 
       <div className={styles.userToRegister}>
         <h2 className={styles.stepLegendTitle}>
-          Cantidad de huespedes a registrar:{' '}
+          {dictionary['travelerRegisterNumberGuestsToRegister']}{' '}
           {reservationInfo.number_travellers_register}
         </h2>
 
         <div>
-          <p>
-            Si algun huesped ya no pudo acompañarte, debes eliminarlo del conteo
-            de huespedes a registrar
-          </p>
+          <p>{dictionary['travelerRegisterRemoveMissingGuests']} </p>
 
           <button className={styles.iconButton} onClick={handleRemoveTraveller}>
             <RiDeleteBinLine />
@@ -130,10 +127,7 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
         </div>
 
         <div>
-          <p>
-            Si has eliminado a un huesped por error, puedes volver a agregarlo
-            para el conteo de huespedes a registrar
-          </p>
+          <p>{dictionary['travelerRegisterAddMissingGuests']}</p>
 
           <button className={styles.iconButton} onClick={handleAddTraveller}>
             <IoPersonAddOutline />
@@ -145,9 +139,9 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
 
       <div className={styles.stepUsersContainer}>
         {travellersByGuest.length > 0 ? (
-          <h2>Viajeros registrados</h2>
+          <h2>{dictionary['travelerRegisterRegisterGuests']}</h2>
         ) : (
-          <h2>No hay viajeros registrados</h2>
+          <h2>{dictionary['travelerRegisterNoGuests']}</h2>
         )}
 
         {renderTravellers}
@@ -159,11 +153,11 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
       >
         <fieldset>
           <legend className={styles.stepLegendTitle}>
-            Registro de huespedes
+            {dictionary['travelerRegisterGuestRegistration']}
           </legend>
 
           <p className={styles.stepDescription}>
-            Completa los siguientes campos con la informacion de los viajeros
+            {dictionary['travelerRegisterCompleteRegistration']}
           </p>
 
           <div className={styles.stepAgeRange}>
@@ -172,9 +166,13 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
                 type='radio'
                 id='adult'
                 value='adult'
-                {...register('ageRange', { required: 'Selecciona una opción' })}
+                {...register('ageRange', {
+                  required: `${dictionary['travelerRegisterAgeRangeRequired']}}`,
+                })}
               />
-              <label htmlFor='adult'>Adulto mayor de 18 años</label>
+              <label htmlFor='adult'>
+                {dictionary['travelerRegisterAdults']}
+              </label>
             </div>
 
             <div>
@@ -184,7 +182,9 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
                 value='teen'
                 {...register('ageRange', { required: 'Selecciona una opción' })}
               />
-              <label htmlFor='teen'>Niño entre 18 y 14 años</label>
+              <label htmlFor='teen'>
+                {dictionary['travelerRegisterChildren']}
+              </label>
             </div>
 
             <div>
@@ -194,7 +194,9 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
                 value='child'
                 {...register('ageRange', { required: 'Selecciona una opción' })}
               />
-              <label htmlFor='child'>Niño menor de 14 años</label>
+              <label htmlFor='child'>
+                {dictionary['travelerRegisterTeens']}
+              </label>
             </div>
           </div>
           {errors.ageRange && (
@@ -204,21 +206,23 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
 
         <fieldset>
           <legend className={styles.stepLegendTitle}>
-            Informacion personal del viajero
+            {dictionary['travelerRegisterPersonalInformation']}
           </legend>
 
           <p className={styles.stepDescription}>
-            Debes ingresar la informacion personal que se te solicita
+            {dictionary['travelerRegisterPersonalInformationDescription']}
           </p>
 
           <div className={styles.stepFormInputs}>
             <div>
-              <label htmlFor='firstName'>Nombres</label>
+              <label htmlFor='firstName'>{dictionary['namesLabel']}</label>
               <input
                 id='firstName'
                 type='text'
-                placeholder='Escribe tus nombres'
-                {...register('firstName', { required: 'Nombres es requerido' })}
+                placeholder={dictionary['namesPlaceholder']}
+                {...register('firstName', {
+                  required: `${dictionary['namesRequired']}`,
+                })}
               />
               {errors.firstName && (
                 <p className={styles.error}>{errors.firstName.message}</p>
@@ -226,13 +230,13 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
             </div>
 
             <div>
-              <label htmlFor='lastName'>Apellidos</label>
+              <label htmlFor='lastName'>{dictionary['lastNamesLabel']}</label>
               <input
                 id='lastName'
                 type='text'
-                placeholder='Escribe tus apellidos'
+                placeholder={dictionary['lastNamesPlaceholder']}
                 {...register('lastName', {
-                  required: 'Apellidos es requerido',
+                  required: `${dictionary['lastNamesRequired']}`,
                 })}
               />
               {errors.lastName && (
@@ -241,23 +245,27 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
             </div>
 
             <div>
-              <label htmlFor='documentType'>Tipo de documento</label>
+              <label htmlFor='documentType'>
+                {dictionary['typeOfDocumentLabel']}
+              </label>
               <select
                 id='documentType'
                 {...register('documentType', {
                   required:
                     ageRange === 'child'
                       ? false
-                      : 'Tipo de documento es requerido',
+                      : `${dictionary['typeOfDocumentRequired']}`,
                 })}
                 disabled={ageRange === 'child'}
                 className={ageRange === 'child' ? styles.disabled : ''}
               >
-                <option value=''>Selecciona una opción</option>
-                <option value='DNI'>DNI</option>
-                <option value='PASSPORT'>Pasaporte</option>
+                <option value=''>
+                  {dictionary['typeOfDocumentPlaceholder']}
+                </option>
+                <option value='DNI'>{dictionary['dniOption']}</option>
+                <option value='PASSPORT'>{dictionary['passportOption']}</option>
                 <option value='TIE'>TIE</option>
-                <option value='OTHER'>Otro</option>
+                <option value='OTHER'>{dictionary['otherOption']}</option>
               </select>
               {errors.documentType && (
                 <p className={styles.error}>{errors.documentType.message}</p>
@@ -265,32 +273,32 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
             </div>
 
             <div>
-              <label htmlFor='documentNumber'>Numero de documento</label>
+              <label htmlFor='documentNumber'>
+                {dictionary['documentNumberLabel']}
+              </label>
               <input
                 id='documentNumber'
                 type='text'
-                placeholder='Escribe el numero de documento'
+                placeholder={dictionary['documentNumberPlaceholder']}
                 {...register('documentNumber', {
                   required:
                     ageRange === 'child'
                       ? false
-                      : 'Numero de documento es requerido',
+                      : `${dictionary['documentNumberRequired']}`,
                   pattern:
                     documentType === 'DNI'
                       ? {
                           value: /^[0-9]{8}[A-Z]$/,
-                          message: 'Formato de DNI no valido',
+                          message: `${dictionary['documentNumberFormat']}`,
                         }
                       : undefined,
                   minLength: {
                     value: 5,
-                    message:
-                      'El numero de documento debe tener al menos 3 caracteres',
+                    message: `${dictionary['documentNumberMinLength']}`,
                   },
                   maxLength: {
                     value: 18,
-                    message:
-                      'El numero de documento no puede tener mas de 18 caracteres',
+                    message: `${dictionary['documentNumberMaxLength']}`,
                   },
                 })}
                 disabled={ageRange === 'child'}
@@ -303,26 +311,33 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
 
             <div>
               <label htmlFor='documentSupport'>
-                Número de soporte del documento (solo para DNI español)
+                {dictionary['documentSupportLabel']}
               </label>
               <input
                 id='documentSupport'
                 type='text'
-                placeholder='Número de soporte del documento'
+                placeholder={dictionary['documentSupportPlaceholder']}
                 {...register('documentSupport', {
+                  required:
+                    documentType === 'DNI'
+                      ? `${dictionary['documentSupportRequired']}`
+                      : false,
+
                   minLength: {
                     value: 5,
-                    message:
-                      'El número de soporte debe tener al menos 5 caracteres',
+                    message: `${dictionary['documentSupportMinLength']}`,
                   },
                   maxLength: {
                     value: 18,
-                    message:
-                      'El número de soporte no puede tener más de 18 caracteres',
+                    message: `${dictionary['documentSupportMaxLength']}`,
                   },
                 })}
-                disabled={ageRange === 'child'}
-                className={ageRange === 'child' ? styles.disabled : ''}
+                disabled={ageRange === 'child' || documentType !== 'DNI'}
+                className={
+                  ageRange === 'child' || documentType !== 'DNI'
+                    ? styles.disabled
+                    : ''
+                }
               />
               {errors.documentSupport && (
                 <p className={styles.error}>{errors.documentSupport.message}</p>
@@ -330,13 +345,13 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
             </div>
 
             <div>
-              <label htmlFor='birthDate'>Fecha de nacimiento</label>
+              <label htmlFor='birthDate'>{dictionary['birthDateLabel']}</label>
               <input
                 id='birthDate'
                 type='date'
-                placeholder='Fecha de nacimiento'
+                placeholder={dictionary['birthDatePlaceholder']}
                 {...register('birthDate', {
-                  required: 'Fecha de nacimiento es requerido',
+                  required: `${dictionary['birthDateRequired']}`,
                 })}
               />
               {errors.birthDate && (
@@ -345,13 +360,13 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
             </div>
 
             <div>
-              <label htmlFor='email'>Correo Electronico</label>
+              <label htmlFor='email'>{dictionary['emailLabel']}</label>
               <input
                 id='email'
                 type='email'
-                placeholder='Escribe tu correo electronico'
+                placeholder={dictionary['emailPlaceholder']}
                 {...register('email', {
-                  required: 'Correo Electronico es requerido',
+                  required: `${dictionary['emailRequired']}`,
                   pattern: {
                     value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                     message: 'Formato de correo electronico no valido',
@@ -364,16 +379,16 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
             </div>
 
             <div>
-              <label htmlFor='phone'>Telefono</label>
+              <label htmlFor='phone'>{dictionary['phoneLabel']}</label>
               <input
                 id='phone'
                 type='text'
-                placeholder='Escribe tu telefono'
+                placeholder={dictionary['phonePlaceholder']}
                 {...register('phone', {
-                  required: 'Telefono es requerido',
+                  required: `${dictionary['phoneRequired']}`,
                   pattern: {
                     value: /^[0-9]+$/,
-                    message: 'Solo se permiten números',
+                    message: `${dictionary['phoneFormat']}`,
                   },
                 })}
               />
@@ -383,17 +398,19 @@ export const TravellersRegisterStep = ({ validate }: StepProps) => {
             </div>
 
             <div>
-              <label htmlFor='kinship'>Parentesco</label>
+              <label htmlFor='kinship'>{dictionary['kinshipLabel']}</label>
               <select
                 id='kinship'
                 {...register('kinship', {
                   required:
-                    ageRange === 'adult' ? false : 'Parentesco es requerido',
+                    ageRange === 'adult'
+                      ? false
+                      : `${dictionary['kinshipRequired']}`,
                 })}
                 disabled={ageRange === 'adult'}
                 className={ageRange === 'adult' ? styles.disabled : ''}
               >
-                <option value=''>Seleccionar parentesco</option>
+                <option value=''>{dictionary['kinshipPlaceholder']}</option>
                 <option value='Padre'>Padre</option>
                 <option value='Madre'>Madre</option>
                 <option value='Hijo'>Hijo</option>

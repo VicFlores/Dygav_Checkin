@@ -10,35 +10,46 @@ import { TravellersRegisterStep } from './Stepper/TravellersRegisterStep/Travell
 import { IdentifyVerificationStep } from './Stepper/IdentifyVerificationStep/IdentifyVerificationStep';
 import { useGuestAndTracking } from '@/hooks';
 import checkinAPI from '@/utils/config/axiosConfig';
+import { TranslationDictionary } from '@/interfaces';
 
 export const steps: CheckinStepper[] = [
   {
     title: 'Paso 1',
     subtitle: 'Crear cuenta Dygav',
-    content: (validate) => <CreateAccountStep validate={validate} />,
+    content: (validate, dictionary) => (
+      <CreateAccountStep validate={validate} dictionary={dictionary} />
+    ),
     completed: false,
   },
   {
     title: 'Paso 2',
     subtitle: 'Verificacion de identidad',
-    content: (validate) => <IdentifyVerificationStep validate={validate} />,
+    content: (validate, dictionary) => (
+      <IdentifyVerificationStep validate={validate} dictionary={dictionary} />
+    ),
     completed: false,
   },
   {
     title: 'Paso 3',
     subtitle: 'Registro de viajeros',
-    content: (validate) => <TravellersRegisterStep validate={validate} />,
+    content: (validate, dictionary) => (
+      <TravellersRegisterStep validate={validate} dictionary={dictionary} />
+    ),
     completed: false,
   },
   {
     title: 'Paso 4',
     subtitle: 'Firma electronica',
-    content: (validate) => <ElectronicSignatureStep validate={validate} />,
+    content: (validate, dictionary) => (
+      <ElectronicSignatureStep validate={validate} dictionary={dictionary} />
+    ),
     completed: false,
   },
 ];
 
-export const Checkin: FC = () => {
+export const Checkin: FC<{ dictionary: TranslationDictionary }> = ({
+  dictionary,
+}) => {
   const { currentStep, setCurrentStep, guestId, setGuestId } =
     useGuestAndTracking(steps);
 
@@ -111,8 +122,9 @@ export const Checkin: FC = () => {
 
       <Suspense fallback={<div>Loading...</div>}>
         <div className={`${styles.stepContent} ${styles.active}`}>
-          {steps[currentStep].content((isValid, newGuestId) =>
-            validateStep(isValid, newGuestId)
+          {steps[currentStep].content(
+            (isValid, newGuestId) => validateStep(isValid, newGuestId),
+            dictionary
           )}
         </div>
       </Suspense>
