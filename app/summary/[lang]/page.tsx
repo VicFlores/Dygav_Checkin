@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
-import { SummaryInformation } from '../components';
+
 import { Metadata } from 'next';
+import { SummaryInformation } from '@/app/components';
 
 export const metadata: Metadata = {
   title: 'Resumen',

@@ -74,19 +74,20 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
 
   const handleFormSubmit = async (data: { phone: string; email: string }) => {
     const { email, phone } = data;
-    const { names, lastnames } = mainGuest as MainGuest;
 
     setApiError(null);
-
-    console.log(phone);
 
     try {
       await crmApi.post('/social/send-email', {
         booking_id: reservationCode,
-        name: names,
-        lastname: lastnames,
-        language: 'ES',
+        language: 'EN',
         email,
+      });
+
+      await crmApi.post('/social/send-whatsapp', {
+        booking_id: reservationCode,
+        language: 'EN',
+        phone,
       });
 
       setShowCompleteModal(false);
@@ -139,7 +140,7 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
 
           <div className={styles.stepCards}>
             <SignatureCards
-              imageSrc='tempImages/Signing a contract-amico.svg'
+              imageSrc='https://dygav-storage.nyc3.cdn.digitaloceanspaces.com/dygav-checkin/images/Signing%20a%20contract-amico.svg'
               title='Abrir lienzo para firma digital'
               description='Si tienes una pantalla tactil te recomendamos abrir un lienzo para que puedas hacer tu firma electronica.'
               buttonText='Abrir lienzo'
@@ -156,7 +157,7 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
             </SignatureCards>
 
             <SignatureCards
-              imageSrc='tempImages/QR Code-amico.svg'
+              imageSrc='https://dygav-storage.nyc3.cdn.digitaloceanspaces.com/dygav-checkin/images/QR%20Code-amico.svg'
               title='Generar codigo QR'
               description='Si no tienes una pantalla tactil genera un QR para que puedas escaearlo con tu dispositivo y asi poder hacer tu forma electronica.'
               buttonText='Generar codigo QR'
@@ -171,7 +172,7 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
             </SignatureCards>
 
             <SignatureCards
-              imageSrc='tempImages/Share link-rafiki.svg'
+              imageSrc='https://dygav-storage.nyc3.cdn.digitaloceanspaces.com/dygav-checkin/images/Share%20link-rafiki.svg'
               title='Compartir link'
               description='Si el viajero que se ha registrado se encuentra en una ubicacion diferente genera un link y comparteselo para que pueda realizar su firma electronica'
               buttonText='Compartir link unico'

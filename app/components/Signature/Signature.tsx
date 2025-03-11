@@ -60,7 +60,7 @@ export const Signature = () => {
       </p>
 
       <SignatureCards
-        imageSrc='/tempImages/Signing a contract-amico.svg'
+        imageSrc='https://dygav-storage.nyc3.cdn.digitaloceanspaces.com/dygav-checkin/images/Signing%20a%20contract-amico.svg'
         title='Abrir lienzo para firma digital'
         description='Utilizando tu dispositivo tactil, puedes abrir un lienzo para hacer tu firma electronica.'
         buttonText='Abrir lienzo'
