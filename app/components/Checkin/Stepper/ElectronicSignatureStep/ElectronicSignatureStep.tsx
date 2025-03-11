@@ -80,13 +80,13 @@ export const ElectronicSignatureStep = ({ validate }: StepProps) => {
     try {
       await crmApi.post('/social/send-email', {
         booking_id: reservationCode,
-        language: 'EN',
+        language: 'ES',
         email,
       });
 
       await crmApi.post('/social/send-whatsapp', {
         booking_id: reservationCode,
-        language: 'EN',
+        language: 'ES',
         phone,
       });
 
