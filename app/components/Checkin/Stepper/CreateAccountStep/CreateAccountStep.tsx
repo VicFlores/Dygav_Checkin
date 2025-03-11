@@ -190,12 +190,13 @@ export const CreateAccountStep: FC<StepProps> = ({ validate, dictionary }) => {
             type='button'
             className={styles.googleLoginButton}
             onClick={handleGoogleLogin}
+            disabled
           >
             <FcGoogle className={styles.googleButtonIcon} />
             {dictionary['createAccountRegisterWithGoogleButton']}
           </button>
 
-          <button type='submit' className={styles.createAccountButton}>
+          <button disabled type='submit' className={styles.createAccountButton}>
             {dictionary['createAccountCreateAccountAndContinueButton']}
           </button>
         </div>
@@ -220,6 +221,7 @@ export const CreateAccountStep: FC<StepProps> = ({ validate, dictionary }) => {
           type='button'
           className={styles.googleLoginButton}
           onClick={handleGoogleLogin}
+          disabled
         >
           <FcGoogle className={styles.googleButtonIcon} />
           {dictionary['createAccountContinueAndLoginWithGoogle']}
@@ -229,6 +231,7 @@ export const CreateAccountStep: FC<StepProps> = ({ validate, dictionary }) => {
           type='button'
           onClick={handleLoginWithDygav}
           className={styles.createAccountButton}
+          disabled
         >
           {dictionary['createAccountLoginAndContinueButton']}
         </button>

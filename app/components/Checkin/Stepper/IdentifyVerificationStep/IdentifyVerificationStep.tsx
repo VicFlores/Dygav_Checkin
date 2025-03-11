@@ -74,7 +74,7 @@ export const IdentifyVerificationStep = ({
           <IdentifyVerificationCard
             title={dictionary['verificationCardTitle']}
             label={dictionary['verificationCardInputLabel']}
-            imageSrc='tempImages/ID Card-rafiki.svg'
+            imageSrc='https://dygav-storage.nyc3.cdn.digitaloceanspaces.com/dygav-checkin/images/IDCard-rafiki.svg'
             imageAlt='ID Card'
             registerProps={register('idCard', { required: true })}
             uploaded={idCardUploaded}

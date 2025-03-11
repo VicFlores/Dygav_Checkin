@@ -160,6 +160,57 @@
   animation: loadingAnimation 1.5s infinite;
 }
 
+.stepOneFormButtons button:disabled {
+  background-color: #e0e0e0;
+  color: #a0a0a0;
+  border-color: #c0c0c0;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.stepOneFormButtons .withoutLoginButton:disabled {
+  background-color: #fefefe;
+  border: 1px solid #e0e0e0;
+  color: #a0a0a0;
+}
+
+.stepOneFormButtons .googleLoginButton:disabled {
+  background-color: #fefefe;
+  border: 0.3px solid #e0e0e0;
+  color: #a0a0a0;
+}
+
+.stepOneFormButtons .createAccountButton:disabled {
+  background-color: #f8a490;
+  color: #fefefe;
+}
+
+/* Override hover effects for disabled buttons */
+.stepOneFormButtons button:disabled:hover {
+  background-color: #e0e0e0;
+  color: #a0a0a0;
+  border-color: #c0c0c0;
+  cursor: not-allowed;
+}
+
+.stepOneFormButtons .withoutLoginButton:disabled:hover {
+  background-color: #fefefe;
+  color: #a0a0a0;
+  border-color: #e0e0e0;
+}
+
+.stepOneFormButtons .googleLoginButton:disabled:hover {
+  background-color: #fefefe;
+  color: #a0a0a0;
+  border-color: #e0e0e0;
+}
+
+.stepOneFormButtons .createAccountButton:disabled:hover {
+  background-color: #f8a490;
+  color: #fefefe;
+}
+/* ...existing code... */
+
 @media screen and (max-width: 1288px) {
   .stepOneFormInputs div {
     display: flex;
